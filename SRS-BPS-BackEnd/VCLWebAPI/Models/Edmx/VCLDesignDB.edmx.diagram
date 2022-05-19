@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="53a8bdc4a31f4855853513162ad0781e" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="VCLDesignDBModel.AccessRole" Width="1.5" PointX="0.75" PointY="16" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.AcousticReport" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Address" Width="1.5" PointX="5.25" PointY="13.875" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.ADSArticle" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Article" Width="1.5" PointX="20" PointY="3.125" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.ArticleSectionalProperty" Width="1.5" PointX="17.75" PointY="20.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.ArticleType" Width="1.5" PointX="17.75" PointY="4.375" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.AspNetRoles" Width="1.5" PointX="3" PointY="1.5" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.AspNetUserClaims" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.AspNetUserLogins" Width="1.5" PointX="3" PointY="6.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.AspNetUsers" Width="1.5" PointX="0.75" PointY="2.25" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.BpsBoundaryCondition" Width="1.5" PointX="15" PointY="10.875" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.BpsProblem" Width="1.5" PointX="12.75" PointY="10.25" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.BpsProject" Width="1.5" PointX="7.5" PointY="14.125" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.BpsUnifiedProblem" Width="1.5" PointX="18" PointY="12" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.CustomArticle" Width="1.5" PointX="22.25" PointY="4" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Dealer" Width="1.5" PointX="9.75" PointY="16" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.DoorHandleHinge" Width="1.5" PointX="9.75" PointY="3.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.ExternalClient" Width="1.5" PointX="9.75" PointY="6.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Fabricator" Width="1.5" PointX="7.5" PointY="18.875" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.FacadeArticle" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.FacadeArticleSectionalProperty" Width="1.5" PointX="19.75" PointY="20.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.FacadeInsertUnit" Width="1.5" PointX="7.75" PointY="10.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.FacadeProfile" Width="1.5" PointX="11.75" PointY="5.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.FacadeSpacer" Width="1.5" PointX="9.75" PointY="21.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Feature" Width="1.5" PointX="3" PointY="20.5" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Financial" Width="1.5" PointX="15" PointY="21.625" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.GlassBPS" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.GlassSRS" Width="1.5" PointX="20.75" PointY="10.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.InsulatingBar" Width="1.5" PointX="21.75" PointY="20.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Order" Width="1.5" PointX="15" PointY="14.25" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Order_Status" Width="1.5" PointX="17.25" PointY="16.125" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.OrderDetails" Width="1.5" PointX="20.25" PointY="15.375" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Permission" Width="1.5" PointX="3" PointY="9.875" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Permission_Role" Width="1.5" PointX="5.25" PointY="1.25" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.Product" Width="1.5" PointX="22.25" PointY="1.25" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.ProductType" Width="1.5" PointX="10.5" PointY="12.875" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.SLU_Status" Width="1.5" PointX="15" PointY="7.25" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.StateTax" Width="1.5" PointX="22.75" PointY="10.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.ThermalBtoBBlockData" Width="1.5" PointX="15.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.ThermalBtoBDirectData" Width="1.5" PointX="11.75" PointY="22.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.ThermalBtoBStandardData" Width="1.5" PointX="22.75" PointY="15.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.UDCArticle" Width="1.5" PointX="17.75" PointY="8.75" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.User" Width="1.5" PointX="3" PointY="14.25" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.WindZoneGermany" Width="1.5" PointX="0.75" PointY="23.75" />
+        <AssociationConnector Association="VCLDesignDBModel.Address_CreatedBy" />
+        <AssociationConnector Association="VCLDesignDBModel.Address_ModifiedBy" />
+        <AssociationConnector Association="VCLDesignDBModel.BpsProject_AddressId" />
+        <AssociationConnector Association="VCLDesignDBModel.Dealer_Address" />
+        <AssociationConnector Association="VCLDesignDBModel.Fabricator_Address" />
+        <AssociationConnector Association="VCLDesignDBModel.Order_ShippingAddress" />
+        <AssociationConnector Association="VCLDesignDBModel.Article_ArticleTypeId" />
+        <AssociationConnector Association="VCLDesignDBModel.CustomArticle_ArticleId" />
+        <AssociationConnector Association="VCLDesignDBModel.UserRoleId" />
+        <AssociationConnector Association="VCLDesignDBModel.ApplicationUser_Claims" />
+        <AssociationConnector Association="VCLDesignDBModel.ApplicationUser_Logins" />
+        <AssociationConnector Association="VCLDesignDBModel.FK_BpsBoundaryCondition" />
+        <AssociationConnector Association="VCLDesignDBModel.BpsProblem_ProductTypeId" />
+        <AssociationConnector Association="VCLDesignDBModel.BpsProblem_ProjectId" />
+        <AssociationConnector Association="VCLDesignDBModel.BpsProject_UserId" />
+        <AssociationConnector Association="VCLDesignDBModel.Order_Project" />
+        <AssociationConnector Association="VCLDesignDBModel.OrderDetails_Product" />
+        <AssociationConnector Association="VCLDesignDBModel.Dealer_ADSFabricator" />
+        <AssociationConnector Association="VCLDesignDBModel.Dealer_ASSFabricator" />
+        <AssociationConnector Association="VCLDesignDBModel.Dealer_AWSFabricator" />
+        <AssociationConnector Association="VCLDesignDBModel.Financial_Dealer" />
+        <AssociationConnector Association="VCLDesignDBModel.Order_Dealer" />
+        <AssociationConnector Association="VCLDesignDBModel.ParentId" />
+        <AssociationConnector Association="VCLDesignDBModel.Financial_CreatedBy" />
+        <AssociationConnector Association="VCLDesignDBModel.Financial_ModifiedBy" />
+        <AssociationConnector Association="VCLDesignDBModel.Order_CreatedBy" />
+        <AssociationConnector Association="VCLDesignDBModel.Order_ModifiedBy" />
+        <AssociationConnector Association="VCLDesignDBModel.Order_ParentOrder" />
+        <AssociationConnector Association="VCLDesignDBModel.Order_Status_Order" />
+        <AssociationConnector Association="VCLDesignDBModel.OrderDetails_OrderId" />
+        <AssociationConnector Association="VCLDesignDBModel.Order_Status_ModifiedBy" />
+        <AssociationConnector Association="VCLDesignDBModel.Order_Status_Status" />
+        <AssociationConnector Association="VCLDesignDBModel.PermissionId" />
+        <AssociationConnector Association="VCLDesignDBModel.AspNetUserRoles" />
+        <AssociationConnector Association="VCLDesignDBModel.Dealer_User" />
+        <AssociationConnector Association="VCLDesignDBModel.Fabricator_User" />
+        <AssociationConnector Association="VCLDesignDBModel.Feature_Permission_Role" />
+        <AssociationConnector Association="VCLDesignDBModel.ProductArticle" />
+        <AssociationConnector Association="VCLDesignDBModel.UserAccess" />
+        <EntityTypeShape EntityType="VCLDesignDBModel.ASEArticle" Width="1.5" PointX="3.375" PointY="23.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

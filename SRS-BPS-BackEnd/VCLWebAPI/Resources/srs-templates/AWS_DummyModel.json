@@ -1,0 +1,1310 @@
+{
+    "UserSetting": {
+        "Language": "en-US",
+        "UserName": "Team Four",
+        "ApplicationType": "SRS"
+    },
+    "ProblemSetting": {
+        "UserGuid": "486922e0-9b97-48dd-89a2-46e33264aaad",
+        "ProjectGuid": "06c9789a-9359-4ca9-b15f-a7a9ebb84e0d",
+        "ProblemGuid": "3d7a1560-0c3d-48f6-b0ac-c1ed8af8a9b5",
+        "EnableAcoustic": false,
+        "EnableStructural": false,
+        "EnableThermal": false,
+        "ProductType": "Window",
+        "FacadeType": null,
+        "ProjectName": "NB Test",
+        "Location": "333 E 181st St, Bronx, NY 10457, USA",
+        "ConfigurationName": "Product 1",
+        "UserNotes": "",
+        "Client": null,
+        "ProjectNumber": null,
+        "LastModifiedDate": null,
+        "DrawingNames": null
+    },
+    "SRSProblemSetting": {
+        "isOrderPlaced": false,
+        "OrderNumber": "2039-3472",
+        "SubTotal": 3494,
+        "Quantity": 0,
+        "Client": null,
+        "ProjectNumber": null,
+        "LastModifiedDate": null,
+        "DrawingNames": null,
+        "QuickCheckPassed": true
+    },
+    "UnifiedModelVersion": "V2",
+    "ModelInput": {
+        "FrameSystem": {
+            "SystemType": "AWS 75.SI+",
+            "UvalueType": "AIF",
+            "InsulationType": "Polyamide Anodized After",
+            "InsulatingBarDataNote": null,
+            "InsulationMaterial": "8",
+            "Alloys": "6060-T66 (150MPa)",
+            "xNumberOfPanels": 0,
+            "yNumberOfPanels": 0,
+            "MajorMullionTopRecess": 0,
+            "MajorMullionBottomRecess": 0,
+            "VerticalJointWidth": 0,
+            "HorizontalJointWidth": 0,
+            "AluminumFinish": "Anodized",
+            "AluminumColor": "Traffic white - RAL 9016",
+            "InsulationZone": null
+        },
+        "Geometry": {
+            "Points": [
+                {
+                    "PointID": 1,
+                    "X": 0,
+                    "Y": 0
+                },
+                {
+                    "PointID": 2,
+                    "X": 0,
+                    "Y": 2000
+                },
+                {
+                    "PointID": 3,
+                    "X": 1230,
+                    "Y": 0
+                },
+                {
+                    "PointID": 4,
+                    "X": 1230,
+                    "Y": 2000
+                },
+                {
+                    "PointID": 5,
+                    "X": 0,
+                    "Y": 1000
+                },
+                {
+                    "PointID": 6,
+                    "X": 1230,
+                    "Y": 1000
+                },
+                {
+                    "PointID": 7,
+                    "X": 615,
+                    "Y": 1000
+                },
+                {
+                    "PointID": 8,
+                    "X": 615,
+                    "Y": 2000
+                }
+            ],
+            "Members": [
+                {
+                    "MemberID": 1,
+                    "PointA": 1,
+                    "PointB": 2,
+                    "SectionID": 1,
+                    "MemberType": 1,
+                    "Length_cm": 0,
+                    "TributaryArea": 0,
+                    "TributaryAreaFactor": 0,
+                    "Cp": 0
+                },
+                {
+                    "MemberID": 2,
+                    "PointA": 3,
+                    "PointB": 4,
+                    "SectionID": 1,
+                    "MemberType": 1,
+                    "Length_cm": 0,
+                    "TributaryArea": 0,
+                    "TributaryAreaFactor": 0,
+                    "Cp": 0
+                },
+                {
+                    "MemberID": 3,
+                    "PointA": 1,
+                    "PointB": 3,
+                    "SectionID": 1,
+                    "MemberType": 1,
+                    "Length_cm": 0,
+                    "TributaryArea": 0,
+                    "TributaryAreaFactor": 0,
+                    "Cp": 0
+                },
+                {
+                    "MemberID": 4,
+                    "PointA": 2,
+                    "PointB": 4,
+                    "SectionID": 1,
+                    "MemberType": 1,
+                    "Length_cm": 0,
+                    "TributaryArea": 0,
+                    "TributaryAreaFactor": 0,
+                    "Cp": 0
+                },
+                {
+                    "MemberID": 5,
+                    "PointA": 5,
+                    "PointB": 6,
+                    "SectionID": 3,
+                    "MemberType": 3,
+                    "Length_cm": 0,
+                    "TributaryArea": 0,
+                    "TributaryAreaFactor": 0,
+                    "Cp": 0
+                },
+                {
+                    "MemberID": 6,
+                    "PointA": 7,
+                    "PointB": 8,
+                    "SectionID": 2,
+                    "MemberType": 2,
+                    "Length_cm": 0,
+                    "TributaryArea": 0,
+                    "TributaryAreaFactor": 0,
+                    "Cp": 0
+                }
+            ],
+            "Infills": [
+                {
+                    "InfillID": 1,
+                    "BoundingMembers": [ 1, 5, 2, 3 ],
+                    "GlazingSystemID": 1,
+                    "PanelSystemID": -1,
+                    "OperabilitySystemID": -1,
+                    "BlockDistance": 0,
+                    "VentWeight": 0,
+                    "LockingPointOption": 0,
+                    "HandlePosition": 0,
+                    "InsertOuterFrameDepth": -75,
+                    "InsertWindowSystem": null,
+                    "InsertWindowSystemType": null,
+                    "GlazingBeadProfileArticleName": "184090",
+                    "GlazingGasketArticleName": "284835",
+                    "GlazingRebateGasketArticleName": "284321",
+                    "GlazingRebateInsulationArticleName": "288429"
+                },
+                {
+                    "InfillID": 2,
+                    "BoundingMembers": [ 1, 4, 6, 5 ],
+                    "GlazingSystemID": 1,
+                    "PanelSystemID": -1,
+                    "OperabilitySystemID": 1,
+                    "BlockDistance": 0,
+                    "VentWeight": 18.895880000000002,
+                    "LockingPointOption": 1,
+                    "HandlePosition": 450,
+                    "InsertOuterFrameDepth": -75,
+                    "InsertWindowSystem": null,
+                    "InsertWindowSystemType": "",
+                    "GlazingBeadProfileArticleName": "184090",
+                    "GlazingGasketArticleName": "284835",
+                    "GlazingRebateGasketArticleName": "284321",
+                    "GlazingRebateInsulationArticleName": "288429"
+                },
+                {
+                    "InfillID": 3,
+                    "BoundingMembers": [ 6, 4, 2, 5 ],
+                    "GlazingSystemID": 1,
+                    "PanelSystemID": -1,
+                    "OperabilitySystemID": 2,
+                    "BlockDistance": 0,
+                    "VentWeight": 18.895880000000002,
+                    "LockingPointOption": 1,
+                    "HandlePosition": 450,
+                    "InsertOuterFrameDepth": -75,
+                    "InsertWindowSystem": null,
+                    "InsertWindowSystemType": "",
+                    "GlazingBeadProfileArticleName": "184090",
+                    "GlazingGasketArticleName": "284835",
+                    "GlazingRebateGasketArticleName": "284321",
+                    "GlazingRebateInsulationArticleName": "288429"
+                }
+            ],
+            "GlazingSystems": [
+                {
+                    "Manufacturer": "Vitro Architectural Glass",
+                    "BrandName": null,
+                    "GlazingSystemID": 1,
+                    "Color": null,
+                    "Rw": 35,
+                    "RwC": -1,
+                    "RwCtr": -4,
+                    "STC": 35,
+                    "OITC": 30,
+                    "UValue": 1.358,
+                    "SHGC": 0.39,
+                    "VT": 0.7023,
+                    "SpacerType": 1,
+                    "Description": "1/4 Clear SB 60+1/2 ARGON+1/4 Clear (1 in)",
+                    "Plates": [
+                        {
+                            "Material": "glass",
+                            "H": 6,
+                            "InterMaterial": null,
+                            "InterH": 0
+                        },
+                        {
+                            "Material": "glass",
+                            "H": 6,
+                            "InterMaterial": null,
+                            "InterH": 0
+                        }
+                    ],
+                    "Cavities": [
+                        {
+                            "CavityType": "Argon",
+                            "Lz": 12
+                        }
+                    ],
+                    "Category": null,
+                    "PSIValue": 0,
+                    "Thickness": 0
+                }
+            ],
+            "PanelSystems": [],
+            "OperabilitySystems": [
+                {
+                    "OperabilitySystemID": 1,
+                    "DoorSystemID": -1,
+                    "VentArticleName": "466470",
+                    "VentInsideW": 56,
+                    "VentOutsideW": 41,
+                    "VentDistBetweenIsoBars": 23,
+                    "JunctionType": 0,
+                    "InsertedWindowType": null,
+                    "InsertOuterFrameArticleName": "486890",
+                    "InsertOuterFrameInsideW": 34,
+                    "InsertOuterFrameOutsideW": 59,
+                    "InsertOuterFrameDistBetweenIsoBars": 28.8,
+                    "InsertUvalueType": "AIF",
+                    "InsertInsulationType": "PA",
+                    "VentOpeningDirection": "Inward",
+                    "VentOperableType": "Turn-Tilt-Right",
+                    "RebateGasketArticleName": null,
+                    "CenterGasketInsulationArticleName": null,
+                    "InsideHandleArticleName": "247001",
+                    "InsideHandleColor": "Silver Grey - RAL 7001",
+                    "InsertOuterFrameDepth": 0,
+                    "InsertWindowSystem": null
+                },
+                {
+                    "OperabilitySystemID": 2,
+                    "DoorSystemID": -1,
+                    "VentArticleName": "466470",
+                    "VentInsideW": 56,
+                    "VentOutsideW": 41,
+                    "VentDistBetweenIsoBars": 23,
+                    "JunctionType": 0,
+                    "InsertedWindowType": null,
+                    "InsertOuterFrameArticleName": "486890",
+                    "InsertOuterFrameInsideW": 34,
+                    "InsertOuterFrameOutsideW": 59,
+                    "InsertOuterFrameDistBetweenIsoBars": 28.8,
+                    "InsertUvalueType": "AIF",
+                    "InsertInsulationType": "PA",
+                    "VentOpeningDirection": "Inward",
+                    "VentOperableType": "Turn-Tilt-Left",
+                    "RebateGasketArticleName": null,
+                    "CenterGasketInsulationArticleName": null,
+                    "InsideHandleArticleName": "247002",
+                    "InsideHandleColor": "Jet Black - RAL 9005",
+                    "InsertOuterFrameDepth": 0,
+                    "InsertWindowSystem": null
+                }
+            ],
+            "DoorSystems": null,
+            "SlabAnchors": null,
+            "SpliceJoints": null,
+            "Reinforcements": null,
+            "Sections": [
+                {
+                    "SectionID": 1,
+                    "SectionType": 1,
+                    "ArticleName": "486890",
+                    "isCustomProfile": false,
+                    "InsideW": 34,
+                    "OutsideW": 59,
+                    "LeftRebate": 0,
+                    "RightRebate": 0,
+                    "DistBetweenIsoBars": 28.8,
+                    "d": 75,
+                    "Weight": 15.84747224,
+                    "Ao": 214.6663122,
+                    "Au": 218.2712129,
+                    "Io": 15103.37261,
+                    "Iu": 6418.035723,
+                    "Ioyy": 25876.45661,
+                    "Iuyy": 60231.18857,
+                    "Zoo": 11.67623604,
+                    "Zou": 12.12363759,
+                    "Zol": 16.7357,
+                    "Zor": 17.26429894,
+                    "Zuo": 10.38844972,
+                    "Zuu": 5.911445785,
+                    "Zul": 23.00493904,
+                    "Zur": 35.99505953,
+                    "RSn20": 0,
+                    "RSp80": 0,
+                    "RTn20": 0,
+                    "RTp80": 0,
+                    "Cn20": 0,
+                    "Cp20": 0,
+                    "Cp80": 0,
+                    "beta": 0,
+                    "A2": 1.2,
+                    "E": 70000,
+                    "alpha": 0.000023,
+                    "Woyp": 1293.513814,
+                    "Woyn": 1245.778958,
+                    "Wozp": 1498.842015,
+                    "Wozn": 1546.183107,
+                    "Wuyp": 617.8049559,
+                    "Wuyn": 1085.696453,
+                    "Wuzp": 1673.31821,
+                    "Wuzn": 2618.185098,
+                    "gammaM": 0,
+                    "Depth": -75
+                },
+                {
+                    "SectionID": 2,
+                    "SectionType": 2,
+                    "ArticleName": "382280",
+                    "isCustomProfile": false,
+                    "InsideW": 34,
+                    "OutsideW": 84,
+                    "LeftRebate": -1,
+                    "RightRebate": -1,
+                    "DistBetweenIsoBars": 24,
+                    "d": 75,
+                    "Weight": 17.10160941,
+                    "Ao": 215.3799774,
+                    "Au": 255.2988655,
+                    "Io": 15181.81504,
+                    "Iu": 6890.268878,
+                    "Ioyy": 24813.5801,
+                    "Iuyy": 115770.6495,
+                    "Zoo": 11.62253948,
+                    "Zou": 12.1759648,
+                    "Zol": 17.00016408,
+                    "Zor": 16.99986537,
+                    "Zuo": 11.44058636,
+                    "Zuu": 4.859309144,
+                    "Zul": 41.99999065,
+                    "Zur": 41.99999409,
+                    "RSn20": 87.3,
+                    "RSp80": 51.3,
+                    "RTn20": 64.4,
+                    "RTp80": 51,
+                    "Cn20": 78,
+                    "Cp20": 29,
+                    "Cp80": 46,
+                    "beta": 150,
+                    "A2": 1.2,
+                    "E": 70000,
+                    "alpha": 0.000023,
+                    "Woyp": 1306.23906,
+                    "Woyn": 1246.86752,
+                    "Wozp": 1459.633919,
+                    "Wozn": 1459.608271,
+                    "Wuyp": 602.2653611,
+                    "Wuyn": 1417.952362,
+                    "Wuzp": 2756.444424,
+                    "Wuzn": 2756.44465,
+                    "gammaM": 0,
+                    "Depth": -75
+                },
+                {
+                    "SectionID": 3,
+                    "SectionType": 3,
+                    "ArticleName": "382280",
+                    "isCustomProfile": false,
+                    "InsideW": 34,
+                    "OutsideW": 84,
+                    "LeftRebate": -1,
+                    "RightRebate": -1,
+                    "DistBetweenIsoBars": 24,
+                    "d": 75,
+                    "Weight": 17.10160941,
+                    "Ao": 215.3799774,
+                    "Au": 255.2988655,
+                    "Io": 15181.81504,
+                    "Iu": 6890.268878,
+                    "Ioyy": 24813.5801,
+                    "Iuyy": 115770.6495,
+                    "Zoo": 11.62253948,
+                    "Zou": 12.1759648,
+                    "Zol": 17.00016408,
+                    "Zor": 16.99986537,
+                    "Zuo": 11.44058636,
+                    "Zuu": 4.859309144,
+                    "Zul": 41.99999065,
+                    "Zur": 41.99999409,
+                    "RSn20": 87.3,
+                    "RSp80": 51.3,
+                    "RTn20": 64.4,
+                    "RTp80": 51,
+                    "Cn20": 78,
+                    "Cp20": 29,
+                    "Cp80": 46,
+                    "beta": 150,
+                    "A2": 1.2,
+                    "E": 70000,
+                    "alpha": 0.000023,
+                    "Woyp": 1306.23906,
+                    "Woyn": 1246.86752,
+                    "Wozp": 1459.633919,
+                    "Wozn": 1459.608271,
+                    "Wuyp": 602.2653611,
+                    "Wuyn": 1417.952362,
+                    "Wuzp": 2756.444424,
+                    "Wuzn": 2756.44465,
+                    "gammaM": 0,
+                    "Depth": -75
+                }
+            ],
+            "FacadeSections": null,
+            "CustomGlass": null
+        },
+        "Acoustic": null,
+        "Structural": {
+            "DispIndexType": 6,
+            "DispHorizontalIndex": 0,
+            "DispVerticalIndex": 0,
+            "WindLoadInputType": 1,
+            "dinWindLoadInput": null,
+            "WindLoad": 1.68,
+            "Cpp": 1,
+            "Cpn": -1,
+            "HorizontalLiveLoad": 0.5,
+            "HorizontalLiveLoadHeight": 900,
+            "LoadFactor": {
+                "DeadLoadFactor": 1.35,
+                "WindLoadFactor": 1.85,
+                "HorizontalLiveLoadFactor": 1.85,
+                "TemperatureLoadFactor": 1.3
+            },
+            "SeasonFactor": {
+                "SummerFactor": 0.5,
+                "WinterFactor": 1
+            },
+            "TemperatureChange": {
+                "Summer": 35,
+                "Winter": 25
+            },
+            "ShowBoundaryCondition": false,
+            "ShowWindPressure": false,
+            "PositiveWindPressure": null,
+            "NegativeWindPressure": null
+        },
+        "Thermal": null,
+        "SRSExtendedData": {
+            "Hardwares": [
+                {
+                    "HardwareID": 1,
+                    "HardwareAlloy": "7075-T6",
+                    "HardwareFy": 180,
+                    "HardwareFu": 29,
+                    "HardwareFinishes": "Silver"
+                }
+            ],
+            "MachiningInfo": {
+                "GlueHoleOffsetsfromLeftTopCorner": 22,
+                "NailHoleOffsetsfromLeftTopCorner": 44
+            }
+        }
+    },
+    "AnalysisResult": {
+        "AcousticResult": {
+            "AcousticUIOutput": {
+                "classification": {
+                    "STC": 35,
+                    "OITC": 30,
+                    "Rw": 35,
+                    "C": -1,
+                    "Ctr": -3,
+                    "NC": [ 19, 22, 25, 28, 31, 34, 35, 36, 37, 38, 39, 39, 39, 39, 39, 39 ],
+                    "Deficiencies": [ 0, 0, 3, 4, 4, 4, 2, 0, 0, 0, 0, 0, 7, 5, 0, 0 ]
+                },
+                "LossDistributions": [
+                    [
+                        {
+                            "Frequency": 50,
+                            "Tau": 0.0008057823173984192,
+                            "STL": 30.937822672784343
+                        },
+                        {
+                            "Frequency": 63,
+                            "Tau": 0.0008717032465571817,
+                            "STL": 30.596313365321237
+                        },
+                        {
+                            "Frequency": 80,
+                            "Tau": 0.0009636942657033348,
+                            "STL": 30.16060725202901
+                        },
+                        {
+                            "Frequency": 100,
+                            "Tau": 0.001046409692198661,
+                            "STL": 29.802982464195576
+                        },
+                        {
+                            "Frequency": 125,
+                            "Tau": 0.0009449482642304815,
+                            "STL": 30.2459196839474
+                        },
+                        {
+                            "Frequency": 160,
+                            "Tau": 0.003127453708886069,
+                            "STL": 25.048091098117208
+                        },
+                        {
+                            "Frequency": 200,
+                            "Tau": 0.006981259731892581,
+                            "STL": 21.560662041323585
+                        },
+                        {
+                            "Frequency": 250,
+                            "Tau": 0.0038281748021704505,
+                            "STL": 24.170082396818202
+                        },
+                        {
+                            "Frequency": 315,
+                            "Tau": 0.0019874267137618066,
+                            "STL": 27.017088769586188
+                        },
+                        {
+                            "Frequency": 400,
+                            "Tau": 0.0009571003449845322,
+                            "STL": 30.190425272299436
+                        },
+                        {
+                            "Frequency": 500,
+                            "Tau": 0.0005138616595504082,
+                            "STL": 32.89153784857857
+                        },
+                        {
+                            "Frequency": 630,
+                            "Tau": 0.00027675592548159024,
+                            "STL": 35.57903071889499
+                        },
+                        {
+                            "Frequency": 800,
+                            "Tau": 0.00013609119245446919,
+                            "STL": 38.66169980543879
+                        },
+                        {
+                            "Frequency": 1000,
+                            "Tau": 0.00007260580857379825,
+                            "STL": 41.390286336988254
+                        },
+                        {
+                            "Frequency": 1250,
+                            "Tau": 0.00005698123327270884,
+                            "STL": 42.442681553468766
+                        },
+                        {
+                            "Frequency": 1600,
+                            "Tau": 0.0001404026535755885,
+                            "STL": 38.52624684069853
+                        },
+                        {
+                            "Frequency": 2000,
+                            "Tau": 0.0006190348831019908,
+                            "STL": 32.082848774550776
+                        },
+                        {
+                            "Frequency": 2500,
+                            "Tau": 0.0004262815530829606,
+                            "STL": 33.70303460614933
+                        },
+                        {
+                            "Frequency": 3150,
+                            "Tau": 0.00014008955429285153,
+                            "STL": 38.53594246456562
+                        },
+                        {
+                            "Frequency": 4000,
+                            "Tau": 0.00004396377431015977,
+                            "STL": 43.569050302678384
+                        },
+                        {
+                            "Frequency": 5000,
+                            "Tau": 0.000014799326444446192,
+                            "STL": 48.29758050018345
+                        }
+                    ],
+                    [
+                        {
+                            "Frequency": 50,
+                            "Tau": 0.010797724494224432,
+                            "STL": 19.666677578209256
+                        },
+                        {
+                            "Frequency": 63,
+                            "Tau": 0.010862986214091616,
+                            "STL": 19.640507716138128
+                        },
+                        {
+                            "Frequency": 80,
+                            "Tau": 0.010954057323046305,
+                            "STL": 19.60424990719854
+                        },
+                        {
+                            "Frequency": 100,
+                            "Tau": 0.011035945595276679,
+                            "STL": 19.57190449161443
+                        },
+                        {
+                            "Frequency": 125,
+                            "Tau": 0.01093549878158818,
+                            "STL": 19.61161403467566
+                        },
+                        {
+                            "Frequency": 160,
+                            "Tau": 0.013096179171797197,
+                            "STL": 18.828553918741736
+                        },
+                        {
+                            "Frequency": 200,
+                            "Tau": 0.016911447134573643,
+                            "STL": 17.718192276672433
+                        },
+                        {
+                            "Frequency": 250,
+                            "Tau": 0.013789893054148742,
+                            "STL": 18.604391019295285
+                        },
+                        {
+                            "Frequency": 315,
+                            "Tau": 0.011967552446624192,
+                            "STL": 19.21994660588895
+                        },
+                        {
+                            "Frequency": 400,
+                            "Tau": 0.010947529341534685,
+                            "STL": 19.60683882139534
+                        },
+                        {
+                            "Frequency": 500,
+                            "Tau": 0.010508723042954908,
+                            "STL": 19.78450053628398
+                        },
+                        {
+                            "Frequency": 630,
+                            "Tau": 0.010273988366226774,
+                            "STL": 19.88260930385711
+                        },
+                        {
+                            "Frequency": 800,
+                            "Tau": 0.010134730280529915,
+                            "STL": 19.941878048630514
+                        },
+                        {
+                            "Frequency": 1000,
+                            "Tau": 0.010071879750488058,
+                            "STL": 19.968894679688237
+                        },
+                        {
+                            "Frequency": 1250,
+                            "Tau": 0.010056411420939982,
+                            "STL": 19.975569674035473
+                        },
+                        {
+                            "Frequency": 1600,
+                            "Tau": 0.010138998627039838,
+                            "STL": 19.940049357547636
+                        },
+                        {
+                            "Frequency": 2000,
+                            "Tau": 0.010612844534270967,
+                            "STL": 19.741681976286593
+                        },
+                        {
+                            "Frequency": 2500,
+                            "Tau": 0.01042201873755213,
+                            "STL": 19.820481503586475
+                        },
+                        {
+                            "Frequency": 3150,
+                            "Tau": 0.010138688658749924,
+                            "STL": 19.940182131582453
+                        },
+                        {
+                            "Frequency": 4000,
+                            "Tau": 0.010043524136567061,
+                            "STL": 19.981138723986703
+                        },
+                        {
+                            "Frequency": 5000,
+                            "Tau": 0.010014651333180002,
+                            "STL": 19.993641663616064
+                        }
+                    ],
+                    [
+                        {
+                            "Frequency": 50,
+                            "Tau": 0.020789666671050453,
+                            "STL": 16.821524738279326
+                        },
+                        {
+                            "Frequency": 63,
+                            "Tau": 0.020854269181626053,
+                            "STL": 16.808050249957255
+                        },
+                        {
+                            "Frequency": 80,
+                            "Tau": 0.02094442038038928,
+                            "STL": 16.78931653879112
+                        },
+                        {
+                            "Frequency": 100,
+                            "Tau": 0.021025481498354693,
+                            "STL": 16.772540497662423
+                        },
+                        {
+                            "Frequency": 125,
+                            "Tau": 0.02092604929894587,
+                            "STL": 16.793127558763214
+                        },
+                        {
+                            "Frequency": 160,
+                            "Tau": 0.02306490463470833,
+                            "STL": 16.370483367073753
+                        },
+                        {
+                            "Frequency": 200,
+                            "Tau": 0.026841634537254733,
+                            "STL": 15.71191041077719
+                        },
+                        {
+                            "Frequency": 250,
+                            "Tau": 0.023751611306127046,
+                            "STL": 16.2430692256027
+                        },
+                        {
+                            "Frequency": 315,
+                            "Tau": 0.021947678179486556,
+                            "STL": 16.586114165230622
+                        },
+                        {
+                            "Frequency": 400,
+                            "Tau": 0.020937958338084855,
+                            "STL": 16.790656686806958
+                        },
+                        {
+                            "Frequency": 500,
+                            "Tau": 0.020503584426359394,
+                            "STL": 16.88170209163256
+                        },
+                        {
+                            "Frequency": 630,
+                            "Tau": 0.02027122080697196,
+                            "STL": 16.93120095719123
+                        },
+                        {
+                            "Frequency": 800,
+                            "Tau": 0.020133369368605384,
+                            "STL": 16.960835387853287
+                        },
+                        {
+                            "Frequency": 1000,
+                            "Tau": 0.020071153692402328,
+                            "STL": 16.974276634943838
+                        },
+                        {
+                            "Frequency": 1250,
+                            "Tau": 0.020055841608607246,
+                            "STL": 16.977591088852748
+                        },
+                        {
+                            "Frequency": 1600,
+                            "Tau": 0.020137594600504082,
+                            "STL": 16.9599240638003
+                        },
+                        {
+                            "Frequency": 2000,
+                            "Tau": 0.020606654185439957,
+                            "STL": 16.859925170397492
+                        },
+                        {
+                            "Frequency": 2500,
+                            "Tau": 0.020417755922021306,
+                            "STL": 16.899919921334806
+                        },
+                        {
+                            "Frequency": 3150,
+                            "Tau": 0.020137287763206984,
+                            "STL": 16.959990237920323
+                        },
+                        {
+                            "Frequency": 4000,
+                            "Tau": 0.02004308449882395,
+                            "STL": 16.98035442598352
+                        },
+                        {
+                            "Frequency": 5000,
+                            "Tau": 0.020014503339915574,
+                            "STL": 16.986551824467245
+                        }
+                    ],
+                    [
+                        {
+                            "Frequency": 50,
+                            "Tau": 0.05076549320152852,
+                            "STL": 12.944313901621683
+                        },
+                        {
+                            "Frequency": 63,
+                            "Tau": 0.05082811808422931,
+                            "STL": 12.93895969792965
+                        },
+                        {
+                            "Frequency": 80,
+                            "Tau": 0.050915509552418164,
+                            "STL": 12.931499055407816
+                        },
+                        {
+                            "Frequency": 100,
+                            "Tau": 0.050994089207588716,
+                            "STL": 12.92480160633353
+                        },
+                        {
+                            "Frequency": 125,
+                            "Tau": 0.050897700851018975,
+                            "STL": 12.933018351537612
+                        },
+                        {
+                            "Frequency": 160,
+                            "Tau": 0.052971081023441766,
+                            "STL": 12.759611639772778
+                        },
+                        {
+                            "Frequency": 200,
+                            "Tau": 0.056632196745297965,
+                            "STL": 12.469365918988554
+                        },
+                        {
+                            "Frequency": 250,
+                            "Tau": 0.053636766062061934,
+                            "STL": 12.705374150810815
+                        },
+                        {
+                            "Frequency": 315,
+                            "Tau": 0.05188805537807372,
+                            "STL": 12.849326051654941
+                        },
+                        {
+                            "Frequency": 400,
+                            "Tau": 0.05090924532773532,
+                            "STL": 12.932033408418494
+                        },
+                        {
+                            "Frequency": 500,
+                            "Tau": 0.050488168576572894,
+                            "STL": 12.968103827510205
+                        },
+                        {
+                            "Frequency": 630,
+                            "Tau": 0.05026291812920751,
+                            "STL": 12.987523010474064
+                        },
+                        {
+                            "Frequency": 800,
+                            "Tau": 0.05012928663283175,
+                            "STL": 12.999084755909982
+                        },
+                        {
+                            "Frequency": 1000,
+                            "Tau": 0.050068975518145105,
+                            "STL": 13.00431294787795
+                        },
+                        {
+                            "Frequency": 1250,
+                            "Tau": 0.050054132171609075,
+                            "STL": 13.005600639338901
+                        },
+                        {
+                            "Frequency": 1600,
+                            "Tau": 0.05013338252089681,
+                            "STL": 12.998729923627707
+                        },
+                        {
+                            "Frequency": 2000,
+                            "Tau": 0.0505880831389469,
+                            "STL": 12.959517763722147
+                        },
+                        {
+                            "Frequency": 2500,
+                            "Tau": 0.050404967475428816,
+                            "STL": 12.97526661156468
+                        },
+                        {
+                            "Frequency": 3150,
+                            "Tau": 0.05013308507657822,
+                            "STL": 12.998755690652184
+                        },
+                        {
+                            "Frequency": 4000,
+                            "Tau": 0.050041765585594644,
+                            "STL": 13.006673758260598
+                        },
+                        {
+                            "Frequency": 5000,
+                            "Tau": 0.05001405936012222,
+                            "STL": 13.009078947793764
+                        }
+                    ],
+                    [
+                        {
+                            "Frequency": 50,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 63,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 80,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 100,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 125,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 160,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 200,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 250,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 315,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 400,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 500,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 630,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 800,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 1000,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 1250,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 1600,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 2000,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 2500,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 3150,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 4000,
+                            "Tau": 1,
+                            "STL": 0
+                        },
+                        {
+                            "Frequency": 5000,
+                            "Tau": 1,
+                            "STL": 0
+                        }
+                    ]
+                ],
+                "TotalRw": 37
+            },
+            "reportFileUrl": null
+        },
+        "StructuralResult": {
+            "MemberResults": [
+                {
+                    "memberID": 5,
+                    "deflectionRatio": 0.5145957694918306,
+                    "verticalDeflectionRatio": 0.3012142382124202,
+                    "stressRatio": 0.673688122410338,
+                    "shearRatio": 0.4508227083492187,
+                    "windLoadCapacity": 2.493735519618862
+                },
+                {
+                    "memberID": 6,
+                    "deflectionRatio": 0.22452607876183642,
+                    "verticalDeflectionRatio": 0,
+                    "stressRatio": 0.227759463021779,
+                    "shearRatio": 0.22342754800631953,
+                    "windLoadCapacity": 7.376202848877255
+                }
+            ],
+            "reportFileUrl": null,
+            "summaryFileUrl": null,
+            "errorMessage": null,
+            "windLoadCapacity": 2.493735519618862
+        },
+        "FacadeStructuralResult": null,
+        "UDCStructuralResult": null,
+        "ThermalResult": {
+            "ThermalUIResult": {
+                "ThermalFrames": [
+                    {
+                        "FrameSegs": [
+                            {
+                                "FrameSegID": 1,
+                                "PointA": {
+                                    "PointID": 1,
+                                    "X": 0,
+                                    "Y": 0
+                                },
+                                "PointB": {
+                                    "PointID": 3,
+                                    "X": 1.23,
+                                    "Y": 0
+                                },
+                                "ArticleCombo": "486890"
+                            },
+                            {
+                                "FrameSegID": 1,
+                                "PointA": {
+                                    "PointID": 1,
+                                    "X": 0,
+                                    "Y": 0
+                                },
+                                "PointB": {
+                                    "PointID": 5,
+                                    "X": 0,
+                                    "Y": 1
+                                },
+                                "ArticleCombo": "486890"
+                            },
+                            {
+                                "FrameSegID": 1,
+                                "PointA": {
+                                    "PointID": 3,
+                                    "X": 1.23,
+                                    "Y": 0
+                                },
+                                "PointB": {
+                                    "PointID": 6,
+                                    "X": 1.23,
+                                    "Y": 1
+                                },
+                                "ArticleCombo": "486890"
+                            }
+                        ],
+                        "Area": 0.18112999999999999,
+                        "Uf": 1.3440745762711863,
+                        "UfNote": null,
+                        "ThermalFrameID": 1
+                    },
+                    {
+                        "FrameSegs": [
+                            {
+                                "FrameSegID": 2,
+                                "PointA": {
+                                    "PointID": 2,
+                                    "X": 0,
+                                    "Y": 2
+                                },
+                                "PointB": {
+                                    "PointID": 5,
+                                    "X": 0,
+                                    "Y": 1
+                                },
+                                "ArticleCombo": "486890/466470"
+                            },
+                            {
+                                "FrameSegID": 2,
+                                "PointA": {
+                                    "PointID": 2,
+                                    "X": 0,
+                                    "Y": 2
+                                },
+                                "PointB": {
+                                    "PointID": 8,
+                                    "X": 0.615,
+                                    "Y": 2
+                                },
+                                "ArticleCombo": "486890/466470"
+                            },
+                            {
+                                "FrameSegID": 2,
+                                "PointA": {
+                                    "PointID": 4,
+                                    "X": 1.23,
+                                    "Y": 2
+                                },
+                                "PointB": {
+                                    "PointID": 6,
+                                    "X": 1.23,
+                                    "Y": 1
+                                },
+                                "ArticleCombo": "486890/466470"
+                            },
+                            {
+                                "FrameSegID": 2,
+                                "PointA": {
+                                    "PointID": 4,
+                                    "X": 1.23,
+                                    "Y": 2
+                                },
+                                "PointB": {
+                                    "PointID": 8,
+                                    "X": 0.615,
+                                    "Y": 2
+                                },
+                                "ArticleCombo": "486890/466470"
+                            }
+                        ],
+                        "Area": 0.303452,
+                        "Uf": 1.4451607476635515,
+                        "UfNote": null,
+                        "ThermalFrameID": 2
+                    },
+                    {
+                        "FrameSegs": [
+                            {
+                                "FrameSegID": 3,
+                                "PointA": {
+                                    "PointID": 5,
+                                    "X": 0,
+                                    "Y": 1
+                                },
+                                "PointB": {
+                                    "PointID": 7,
+                                    "X": 0.615,
+                                    "Y": 1
+                                },
+                                "ArticleCombo": "382280/466470"
+                            },
+                            {
+                                "FrameSegID": 3,
+                                "PointA": {
+                                    "PointID": 6,
+                                    "X": 1.23,
+                                    "Y": 1
+                                },
+                                "PointB": {
+                                    "PointID": 7,
+                                    "X": 0.615,
+                                    "Y": 1
+                                },
+                                "ArticleCombo": "382280/466470"
+                            }
+                        ],
+                        "Area": 0.142152,
+                        "Uf": 1.599590909090909,
+                        "UfNote": null,
+                        "ThermalFrameID": 3
+                    },
+                    {
+                        "FrameSegs": [
+                            {
+                                "FrameSegID": 4,
+                                "PointA": {
+                                    "PointID": 7,
+                                    "X": 0.615,
+                                    "Y": 1
+                                },
+                                "PointB": {
+                                    "PointID": 8,
+                                    "X": 0.615,
+                                    "Y": 2
+                                },
+                                "ArticleCombo": "382280/466470/466470"
+                            }
+                        ],
+                        "Area": 0.16227000000000003,
+                        "Uf": 1.56,
+                        "UfNote": null,
+                        "ThermalFrameID": 4
+                    }
+                ],
+                "ThermalFacadeMembers": null,
+                "ThermalUIFacadeGlassEdges": null,
+                "ThermalUIGlasses": [
+                    {
+                        "GlassID": [ 1, 2, 3 ],
+                        "Ug": 1.358,
+                        "Area": 1.670996
+                    }
+                ],
+                "ThermalUIGlassEdges": [
+                    {
+                        "GlassID": [ 1, 2, 3 ],
+                        "Psi": 0.116,
+                        "Length": 8.93
+                    }
+                ],
+                "ThermalUIPanels": null,
+                "ThermalUIPanelEdges": null,
+                "ThermalUIInsertUnitFrameEdges": null,
+                "ThermalUIInsertUnitGlasses": null,
+                "ThermalUIInsertUnitPanels": null,
+                "ThermalUIInsertUnitGlassEdges": null,
+                "ThermalUIInsertUnitPanelEdges": null,
+                "ThermalUIInsertUnitFrames": null,
+                "GlassGeometricInfos": null,
+                "TotalArea": 2.46,
+                "TotalUw": 1.816100797605322
+            },
+            "reportFileUrl": null
+        }
+    },
+    "CollapsedPanels": {
+        "Panel_Acoustic": false,
+        "Panel_Configure": false,
+        "Panel_Framing": false,
+        "Panel_Glass": false,
+        "Panel_Load": false,
+        "Panel_Operability": true,
+        "Panel_Structural": false,
+        "Panel_Thermal": false
+    }}

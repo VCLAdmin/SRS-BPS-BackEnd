@@ -1,0 +1,439 @@
+{
+    "UserSetting":
+    {
+        "Language": "en-US",
+        "UserName": "Jakobe Lucas",
+        "ApplicationType": "SRS"
+    },
+    "ProblemSetting":
+    {
+        "UserGuid": "d6300b15-f624-4826-ae2c-78100b8ae384",
+        "ProjectGuid": "faba6a1b-e080-402d-ac6e-790218be89e8",
+        "ProblemGuid": "7a6b0316-64ca-4bf7-8afc-c4d75a3ff817",
+        "EnableAcoustic": false,
+        "EnableStructural": false,
+        "EnableThermal": false,
+        "ProductType": "Window",
+        "FacadeType": null,
+        "ProjectName": "NB Test",
+        "Location": "123 William St, New York, NY 10038, USA",
+        "ConfigurationName": "Product 4",
+        "UserNotes": "",
+        "Client": null,
+        "ProjectNumber": null,
+        "LastModifiedDate": null,
+        "DrawingNames": null
+    },
+    "SRSProblemSetting":
+    {
+        "isOrderPlaced": false,
+        "OrderNumber": "1336-1404",
+        "SubTotal": 2734,
+        "Quantity": 0,
+        "Client": null,
+        "ProjectNumber": null,
+        "LastModifiedDate": null,
+        "DrawingNames": null,
+        "QuickCheckPassed": true
+    },
+    "UnifiedModelVersion": "V2",
+    "ModelInput":
+    {
+        "FrameSystem":
+        {
+            "SystemType": "AWS 75.SI+",
+            "UvalueType": "AIF",
+            "InsulationType": "Polyamide Anodized After",
+            "InsulatingBarDataNote": null,
+            "InsulationMaterial": "8",
+            "Alloys": "6060-T66 (150MPa)",
+            "xNumberOfPanels": 0,
+            "yNumberOfPanels": 0,
+            "MajorMullionTopRecess": 0,
+            "MajorMullionBottomRecess": 0,
+            "VerticalJointWidth": 0,
+            "HorizontalJointWidth": 0,
+            "AluminumFinish": "Anodized",
+            "AluminumColor": "Traffic white - RAL 9016",
+            "InsulationZone": null
+        },
+        "Geometry":
+        {
+            "Points": [
+            {
+                "PointID": 1,
+                "X": 0,
+                "Y": 0
+            },
+            {
+                "PointID": 2,
+                "X": 0,
+                "Y": 2500
+            },
+            {
+                "PointID": 3,
+                "X": 4000,
+                "Y": 0
+            },
+            {
+                "PointID": 4,
+                "X": 4000,
+                "Y": 2500
+            },
+            {
+                "PointID": 5,
+                "X": 3250,
+                "Y": 0
+            },
+            {
+                "PointID": 6,
+                "X": 3250,
+                "Y": 2500
+            },
+            {
+                "PointID": 7,
+                "X": 750,
+                "Y": 0
+            },
+            {
+                "PointID": 8,
+                "X": 750,
+                "Y": 2500
+            },
+            {
+                "PointID": 9,
+                "X": 0,
+                "Y": 2000
+            },
+            {
+                "PointID": 10,
+                "X": 750,
+                "Y": 2000
+            },
+            {
+                "PointID": 11,
+                "X": 750,
+                "Y": 2000
+            },
+            {
+                "PointID": 12,
+                "X": 3250,
+                "Y": 2000
+            },
+            {
+                "PointID": 13,
+                "X": 3250,
+                "Y": 2000
+            },
+            {
+                "PointID": 14,
+                "X": 4000,
+                "Y": 2000
+            }],
+            "Members": [
+            {
+                "MemberID": 1,
+                "PointA": 1,
+                "PointB": 2,
+                "SectionID": 1,
+                "MemberType": 1,
+                "Length_cm": 0,
+                "TributaryArea": 0,
+                "TributaryAreaFactor": 0,
+                "Cp": 0
+            },
+            {
+                "MemberID": 2,
+                "PointA": 3,
+                "PointB": 4,
+                "SectionID": 1,
+                "MemberType": 1,
+                "Length_cm": 0,
+                "TributaryArea": 0,
+                "TributaryAreaFactor": 0,
+                "Cp": 0
+            },
+            {
+                "MemberID": 3,
+                "PointA": 2,
+                "PointB": 4,
+                "SectionID": 1,
+                "MemberType": 1,
+                "Length_cm": 0,
+                "TributaryArea": 0,
+                "TributaryAreaFactor": 0,
+                "Cp": 0
+            },
+            {
+                "MemberID": 4,
+                "PointA": 5,
+                "PointB": 6,
+                "SectionID": 2,
+                "MemberType": 2
+            },
+            {
+                "MemberID": 5,
+                "PointA": 7,
+                "PointB": 8,
+                "SectionID": 2,
+                "MemberType": 2
+            },
+            {
+                "MemberID": 6,
+                "PointA": 9,
+                "PointB": 10,
+                "SectionID": 3,
+                "MemberType": 3
+            },
+            {
+                "MemberID": 7,
+                "PointA": 11,
+                "PointB": 12,
+                "SectionID": 3,
+                "MemberType": 3
+            },
+            {
+                "MemberID": 8,
+                "PointA": 13,
+                "PointB": 14,
+                "SectionID": 3,
+                "MemberType": 3
+            },
+            {
+                "MemberID": 9,
+                "PointA": 1,
+                "PointB": 7,
+                "SectionID": 33,
+                "MemberType": 33
+            },
+            {
+                "MemberID": 10,
+                "PointA": 7,
+                "PointB": 5,
+                "SectionID": 31,
+                "MemberType": 31
+            },
+            {
+                "MemberID": 11,
+                "PointA": 5,
+                "PointB": 3,
+                "SectionID": 33,
+                "MemberType": 33
+            }],
+            "Infills": [
+            {
+                "InfillID": 1,
+                "BoundingMembers": [
+                    1,
+                    6,
+                    5,
+                    9
+                ],
+                "GlazingSystemID": 1,
+                "PanelSystemID": -1,
+                "OperabilitySystemID": -1
+            },
+            {
+                "InfillID": 2,
+                "BoundingMembers": [
+                    4,
+                    8,
+                    2,
+                    11
+                ],
+                "GlazingSystemID": 1,
+                "PanelSystemID": -1,
+                "OperabilitySystemID": -1
+            },
+            {
+                "InfillID": 3,
+                "BoundingMembers": [
+                    5,
+                    7,
+                    4,
+                    10
+                ],
+                "GlazingSystemID": 1,
+                "PanelSystemID": -1,
+                "OperabilitySystemID": 1
+            },
+            {
+                "InfillID": 4,
+                "BoundingMembers": [
+                    1,
+                    3,
+                    5,
+                    6
+                ],
+                "GlazingSystemID": 1,
+                "PanelSystemID": -1,
+                "OperabilitySystemID": -1
+            },
+            {
+                "InfillID": 5,
+                "BoundingMembers": [
+                    5,
+                    3,
+                    4,
+                    7
+                ],
+                "GlazingSystemID": 1,
+                "PanelSystemID": -1,
+                "OperabilitySystemID": -1
+            },
+            {
+                "InfillID": 6,
+                "BoundingMembers": [
+                    4,
+                    3,
+                    2,
+                    8
+                ],
+                "GlazingSystemID": 1,
+                "PanelSystemID": -1,
+                "OperabilitySystemID": -1
+            }],
+            "OperabilitySystems": [
+            {
+                "OperabilitySystemID": 1,
+                "DoorSystemID": 1,
+                "VentOpeningDirection": "Inward",
+                "VentOperableType": "Double-Door-Active-Right"
+            }],
+            "DoorSystems": [
+            {
+                "DoorSystemID": 1,
+                "DoorSystemType": "AWS 75.SI+",
+                "DoorSillArticleName": "397350",
+                "DoorLeafArticleName": "476230",
+                "DoorPassiveJambArticleName": "476240",
+                "DoorThresholdArticleName": "10000",
+                "DoorSillInsideW": 100,
+                "DoorSillOutsideW": 125,
+                "DoorLeafInsideW": 73,
+                "DoorLeafOutsideW": 73,
+                "DoorPassiveJambInsideW": 48,
+                "DoorPassiveJambOutsideW": 98,
+                "DoorSideLightSillArticleName": "382750",
+                "OutsideHandleArticleName": "240099",
+                "OutsideHandleColor": "Silver Grey - RAL 7001",
+                "InsideHandleArticleName": "240152",
+                "InsideHandleColor": "Silver Grey - RAL 9005",
+                "HingeCondition": 3,
+                "HingeArticleName": "279545",
+                "HingeColor": "Silver Grey - RAL 7016"
+            }],
+            "SlabAnchors": null,
+            "SpliceJoints": null,
+            "Reinforcements": null,
+            "GlazingSystems": [
+            {
+                "GlazingSystemID": 1,
+                "Rw": 31,
+                "UValue": 1.1,
+                "SpacerType": 1,
+                "Description": "4/16/4 (24 mm)",
+                "Plates": [
+                {
+                    "Material": "glass",
+                    "H": 4,
+                    "InterMaterial": null,
+                    "InterH": 0
+                },
+                {
+                    "Material": "glass",
+                    "H": 4,
+                    "InterMaterial": null,
+                    "InterH": 0
+                }],
+                "Cavities": [
+                {
+                    "CavityType": "Air",
+                    "Lz": 16
+                }],
+                "Category": null,
+                "PSIValue": 0
+            }],
+            "PanelSystems": [],
+            "Sections": [
+            {
+                "SectionID": 1,
+                "SectionType": 1,
+                "ArticleName": "486890",
+                "InsideW": 34,
+                "OutsideW": 59,
+                "DistBetweenIsoBars": 28.8,
+                "Depth": -75
+            },
+            {
+                "ArticleName": "368660",
+                "InsideW": 34,
+                "OutsideW": 84,
+                "DistBetweenIsoBars": 24,
+                "Depth": -75,
+                "SectionID": 2,
+                "SectionType": 2
+            },
+            {
+                "ArticleName": "382280",
+                "InsideW": 34,
+                "OutsideW": 84,
+                "DistBetweenIsoBars": 24,
+                "Depth": -75,
+                "SectionID": 3,
+                "SectionType": 3
+            },
+            {
+                "ArticleName": "382750",
+                "InsideW": 108,
+                "OutsideW": 133,
+                "DistBetweenIsoBars": 98,
+                "Depth": -75,
+                "SectionID": 33,
+                "SectionType": 33
+            },
+            {
+                "ArticleName": "100000",
+                "InsideW": 0,
+                "OutsideW": 0,
+                "DistBetweenIsoBars": 0,
+                "Depth": 0,
+                "SectionID": 31,
+                "SectionType": 31
+            }],
+            "FacadeSections": null,
+            "CustomGlass": null
+        },
+        "Acoustic": null,
+        "Structural":
+        {
+            "WindLoad": 0.96,
+            "HorizontalLiveLoad": 0,
+            "HorizontalLiveLoadHeight": 0,
+            "Cpp": 1,
+            "Cpn": -1,
+            "ShowBoundaryCondition": false,
+            "ShowWindPressure": false,
+            "WindLoadInputType": 1,
+            "DispIndexType": 1,
+            "DispHorizontalIndex": 175,
+            "DispVerticalIndex": 360
+        },
+        "Thermal":
+        {
+            "RelativeHumidity": 0,
+            "InsulationZone": null
+        }
+    },
+    "AnalysisResult": null,
+    "CollapsedPanels":
+    {
+        "Panel_Configure": true,
+        "Panel_Operability": true,
+        "Panel_Framing": false,
+        "Panel_Glass": false,
+        "Panel_Acoustic": false,
+        "Panel_Structural": false,
+        "Panel_Thermal": false
+    }
+}
