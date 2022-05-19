@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VCLWebAPI", "VCLWebAPI\VCLWebAPI.csproj", "{93E884DF-B358-4BFC-9EC2-43A68C22B0B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93E884DF-B358-4BFC-9EC2-43A68C22B0B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93E884DF-B358-4BFC-9EC2-43A68C22B0B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93E884DF-B358-4BFC-9EC2-43A68C22B0B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93E884DF-B358-4BFC-9EC2-43A68C22B0B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15F1CD06-CA53-41FB-B1E8-C17AB6C03CF1}
+	EndGlobalSection
+EndGlobal
