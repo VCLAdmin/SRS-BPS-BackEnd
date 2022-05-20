@@ -10,7 +10,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="FabricatorController" />.
     /// </summary>
     [Authorize]
-    public class FabricatorController : ApiController
+    public class FabricatorController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
         /// Defines the _fabricatorService.

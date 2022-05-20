@@ -15,6 +15,7 @@ using VCLWebAPI.Mappers;
 using VCLWebAPI.Models;
 using VCLWebAPI.Models.Account;
 using VCLWebAPI.Models.Edmx;
+using VCLWebAPI;
 
 namespace VCLWebAPI.Services
 {
@@ -38,14 +39,14 @@ namespace VCLWebAPI.Services
             return user;
         }
         public User GetCurrentUser() {
-            return _db.User.Where(e => e.Email == HttpContext.Current.User.Identity.Name).FirstOrDefault();
+            return _db.User.Where(e => e.Email == HttpContextHelper.Current.User.Identity.Name).FirstOrDefault();
         }
 
         public ApplicationUserManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContextHelper.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
             private set
             {

@@ -17,7 +17,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="OrderController" />.
     /// </summary>
     [Authorize]
-    public class OrderController : ApiController
+    public class OrderController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
         /// Defines the _bpsProjectService.

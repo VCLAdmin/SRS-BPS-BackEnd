@@ -14,6 +14,7 @@ using VCLWebAPI.Models.BPS;
 using VCLWebAPI.Models.Edmx;
 using VCLWebAPI.Models.SRS;
 using VCLWebAPI.Services;
+using VCLWebAPI;
 
 namespace VCLWebAPI.Controllers
 {
@@ -750,8 +751,8 @@ namespace VCLWebAPI.Controllers
         {
             try
             {
-                string strUnifiedModel = HttpContext.Current.Request.Form["unifiedModel"];
-                HttpFileCollection hfc = HttpContext.Current.Request.Files;
+                string strUnifiedModel = HttpContextHelper.Current.Request.Form["unifiedModel"];
+                HttpFileCollection hfc = HttpContextHelper.Current.Request.Files;
                 BpsUnifiedModel unifiedModel = _bpsProjectService.UploadResults(strUnifiedModel, hfc);
                 return Ok(unifiedModel);
             }

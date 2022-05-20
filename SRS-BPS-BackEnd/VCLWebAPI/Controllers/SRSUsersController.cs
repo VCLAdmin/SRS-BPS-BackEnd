@@ -11,7 +11,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="SRSUsersController" />.
     /// </summary>
     [Authorize]
-    public class SRSUsersController : ApiController
+    public class SRSUsersController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
         /// Defines the _srsuserService.

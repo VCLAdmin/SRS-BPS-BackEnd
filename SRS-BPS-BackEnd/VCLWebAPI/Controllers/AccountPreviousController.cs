@@ -7,6 +7,7 @@ using VCLWebAPI.Models;
 using VCLWebAPI.Models.Account;
 using VCLWebAPI.Models.Edmx;
 using VCLWebAPI.Services;
+using VCLWebAPI;
 
 namespace VCLWebAPI.Controllers
 {
@@ -120,7 +121,7 @@ namespace VCLWebAPI.Controllers
         [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<UserApiModel> SignIn(AccountApiModel accountApiModel)
         {
-            if (!HttpContext.Current.User.Identity.IsAuthenticated)
+            if (!HttpContextHelper.Current.User.Identity.IsAuthenticated)
             {
                 throw new UnauthorizedAccessException();
             }
@@ -134,7 +135,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="Boolean"/>.</returns>
         public Boolean ValidateHash(AccountApiModel accountApiModel)
         {
-            if (!HttpContext.Current.User.Identity.IsAuthenticated)
+            if (!HttpContextHelper.Current.User.Identity.IsAuthenticated)
             {
                 throw new UnauthorizedAccessException();
             }

@@ -6,7 +6,7 @@ namespace VCLWebAPI.Controllers
     /// <summary>
     /// Defines the <see cref="BaseController" />.
     /// </summary>
-    public class BaseController : ApiController
+    public class BaseController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
     }
 }

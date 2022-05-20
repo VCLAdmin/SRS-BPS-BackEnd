@@ -8,7 +8,7 @@ namespace VCLWebAPI.Results
 {
     public class ChallengeResult : IHttpActionResult
     {
-        public ChallengeResult(string loginProvider, ApiController controller)
+        public ChallengeResult(string loginProvider, Microsoft.AspNetCore.Mvc.ControllerBase controller)
         {
             LoginProvider = loginProvider;
             Request = controller.Request;

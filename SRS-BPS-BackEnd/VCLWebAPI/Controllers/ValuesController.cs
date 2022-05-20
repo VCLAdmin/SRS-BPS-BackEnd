@@ -7,7 +7,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="ValuesController" />.
     /// </summary>
     [Authorize]
-    public class ValuesController : ApiController
+    public class ValuesController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
         /// The Delete.

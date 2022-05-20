@@ -10,7 +10,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="DealerController" />.
     /// </summary>
     [Authorize]
-    public class DealerController : ApiController
+    public class DealerController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
         /// Defines the _dealerService.

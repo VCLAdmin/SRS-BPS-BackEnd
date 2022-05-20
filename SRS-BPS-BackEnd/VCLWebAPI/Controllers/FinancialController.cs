@@ -10,7 +10,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="FinancialController" />.
     /// </summary>
     [Authorize]
-    public class FinancialController : ApiController
+    public class FinancialController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
         /// Defines the _dealerService.

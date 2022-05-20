@@ -9,7 +9,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="QueuingServerController" />.
     /// </summary>
     [Authorize]
-    public class QueuingServerController : ApiController
+    public class QueuingServerController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
         /// Defines the qss.
