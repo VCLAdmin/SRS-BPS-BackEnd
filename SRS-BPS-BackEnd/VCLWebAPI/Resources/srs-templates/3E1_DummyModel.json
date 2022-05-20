@@ -1,0 +1,329 @@
+{
+  "UserSetting": {
+    "Language": "en-US",
+    "UserName": "Designer",
+    "ApplicationType": "BPS"
+  },
+  "ProblemSetting": {
+    "UserGuid": "72525eee-d7be-4e38-837f-1243d47a651f",
+    "ProjectGuid": "88a1c91a-e1de-4133-a851-dc653607cf22",
+    "ProblemGuid": "88c7cbf7-174c-4992-8da6-c8d9d4d80d6e",
+    "EnableAcoustic": false,
+    "EnableStructural": true,
+    "EnableThermal": false,
+    "ProductType": "SlidingDoor",
+    "FacadeType": null,
+    "ProjectName": "SldingDoorCase1",
+    "Location": "Houston",
+    "ConfigurationName": "SlidingDoor_Type_3E/1 Left",  //Type 3E/1 can open from left or from right (user may set)
+    "UserNotes": "",
+    "Client": null,
+    "ProjectNumber": null,
+    "LastModifiedDate": null,
+    "DrawingNames": null,
+    "isAcousticEnabled": false
+  },
+  "SRSProblemSetting": 
+  {
+        "isOrderPlaced": false,
+        "OrderNumber": "1234-5678",
+        "SubTotal": 0,
+        "Quantity": 0,
+        "Client": null,
+        "ProjectNumber": null,
+        "LastModifiedDate": null,
+        "DrawingNames": null,
+        "QuickCheckPassed": true
+    },
+  "UnifiedModelVersion": "V2",
+  "ModelInput": {
+    "FrameSystem": {
+      "SystemType": "ASE 60",
+      "UvalueType": "AIF",
+      "InsulationType": "Polyamide Anodized After",
+      "InsulatingBarDataNote": null,
+      "InsulationMaterial": "8",
+      "Alloys": "6060-T66 (150MPa)",
+      "xNumberOfPanels": 0,
+      "yNumberOfPanels": 0,
+      "MajorMullionTopRecess": 0,
+      "MajorMullionBottomRecess": 0,
+      "VerticalJointWidth": 0,
+      "HorizontalJointWidth": 0,
+      "AluminumFinish": "Anodized",
+      "AluminumColor": "Silver grey - RAL 7001",
+      "InsulationZone": null
+    },
+    "Geometry": {
+      "Points": [
+        {
+          "PointID": 1,
+          "X": 0,
+          "Y": 0
+        },
+        {
+          "PointID": 2,
+          "X": 0,
+          "Y": 2500
+        },
+        {
+          "PointID": 3,
+          "X": 4500,
+          "Y": 0
+        },
+        {
+          "PointID": 4,
+          "X": 4500,
+          "Y": 2500
+        }
+      ],
+      "Members": [
+        {
+          "MemberID": 1,
+          "PointA": 1,
+          "PointB": 2,
+          "SectionID": 41,
+          "MemberType": 1,
+          "Length_cm": 0,
+          "TributaryArea": 0,
+          "TributaryAreaFactor": 0,
+          "Cp": 0
+        },
+        {
+          "MemberID": 2,
+          "PointA": 3,
+          "PointB": 4,
+          "SectionID": 41,
+          "MemberType": 1,
+          "Length_cm": 0,
+          "TributaryArea": 0,
+          "TributaryAreaFactor": 0,
+          "Cp": 0
+        },
+        {
+          "MemberID": 3,
+          "PointA": 1,
+          "PointB": 3,
+          "SectionID": 45,  //bottom outer frame has its own Section Type and ID
+          "MemberType": 1,
+          "Length_cm": 0,
+          "TributaryArea": 0,
+          "TributaryAreaFactor": 0,
+          "Cp": 0
+        },
+        {
+          "MemberID": 4,
+          "PointA": 2,
+          "PointB": 4,
+          "SectionID": 41,
+          "MemberType": 1,
+          "Length_cm": 0,
+          "TributaryArea": 0,
+          "TributaryAreaFactor": 0,
+          "Cp": 0
+        }
+      ],
+      "Infills": [
+        {
+          "InfillID": 1,
+          "BoundingMembers": [
+            1,
+            4,
+            2,
+            3
+          ],
+          "GlazingSystemID": 1,
+          "PanelSystemID": -1,
+          "OperabilitySystemID": 1,
+          "BlockDistance": 150,
+          "VentWeight": 0,
+          "LockingPointOption": 0,
+          "HandlePosition": 0,
+          "InsertOuterFrameDepth": 0,
+          "InsertWindowSystem": null,
+          "InsertWindowSystemType": null,
+          "GlazingBeadProfileArticleName": null,
+          "GlazingGasketArticleName": null,
+          "GlazingRebateGasketArticleName": null,
+          "GlazingRebateInsulationArticleName": null
+        }
+      ],
+      "GlazingSystems": [
+        {
+          "Manufacturer": null,
+          "BrandName": null,
+          "GlazingSystemID": 1,
+          "Color": null,
+          "Rw": 31,
+          "RwC": 0,
+          "RwCtr": 0,
+          "STC": 0,
+          "OITC": 0,
+          "UValue": 1.1,
+          "SHGC": 0,
+          "VT": 0,
+          "SpacerType": 1,
+          "Description": "4/16/4 (24 mm)",
+          "Plates": [
+            {
+              "Material": "glass",
+              "H": 4,
+              "InterMaterial": null,
+              "InterH": 0
+            },
+            {
+              "Material": "glass",
+              "H": 4,
+              "InterMaterial": null,
+              "InterH": 0
+            }
+          ],
+          "Cavities": [
+            {
+              "CavityType": "Air",
+              "Lz": 16
+            }
+          ],
+          "Category": null,
+          "PSIValue": 0
+        }
+      ],
+      "PanelSystems": [],
+      "OperabilitySystems": [
+        {
+          "OperabilitySystemID": 1,
+          "SldingDoorSystemID": 1,
+          "VentArticleName": null,
+          "VentInsideW": 0.0,
+          "VentOutsideW": 0.0,
+          "VentDistBetweenIsoBars": 0.0,
+          "JunctionType": 0,
+          "InsertedWindowType": null,
+          "InsertOuterFrameArticleName": null,
+          "InsertOuterFrameInsideW": 0.0,
+          "InsertOuterFrameOutsideW": 0.0,
+          "InsertOuterFrameDistBetweenIsoBars": 0.0,
+          "InsertUvalueType": null,
+          "InsertInsulationType": null,
+          "VentOpeningDirection": null,
+          "VentOperableType": "SlidingDoor-Type-3E1-Left",    //Type 3E/1 triple track with three panels, two sliding and one fixed. "Left" indicates vent opens from left on inside
+          "RebateGasketArticleName": null,
+          "CenterGasketInsulationArticleName": null,
+          "InsideHandleArticleName": null,
+          "HandleColor": null,
+          "InsertOuterFrameDepth": 0.0,
+          "InsertWindowSystem": null
+        }
+      ],
+      "SlidingDoorSystems": [
+        {
+          "SlidingDoorSystemID": 1,
+          "InsideHandleArticleName": "269414",  //crank handle
+          "InsideHandleColor": "Traffic White - RAL 9016",
+          "OutsideHandleArticleName": "269404", //handle recess
+          "OutsideHandleColor": "INOX",
+          "SlidingDoorSystemType": "ASE 60",            //Could be ASE 60 or ASE 80.HI for 4.0 release
+          "SlidingOperabilityType": "Lift_And_Slide",   //For ASE, either "Sliding" or "Lift_And_Slide" as options, but in 4.0 release only Lift and Slide
+          "SlidingVentSectionID" : 43,
+          "SlidingVentInterlockSectionID" : 42,
+          "InterlockReinforcement": true, //Probably need to track this as an option users can enable
+          "VentFrames": [  //Vents are read from left to right viewed on outside
+            {
+              "VentFrameID": 1, //leftmost vent from outside view
+              "Width": 1500,
+              "Type": "Fixed",
+              "Track": 1   //Track 1 to 3 is counted from outside to inside, so Track 1 is most outward and 3 most inward
+            },
+            {
+              "VentFrameID": 2,
+              "Width": 1500,
+              "Type": "Sliding",
+              "Track": 2
+            },
+            {
+              "VentFrameID": 3,
+              "Width": 1500,   //last should be total minus others to match overall width
+              "Type": "Sliding",
+              "Track": 3
+        
+            }
+          ]
+        }
+      ],
+      "SlabAnchors": null,
+      "SpliceJoints": null,
+      "Reinforcements": null,
+      "Sections": [
+        {
+          "SectionID": 41,
+          "SectionType": 41,  //Type 41 for sliding door outer frames, which can have two sets of iso bars
+          "ArticleName": "487880",
+          "InsideW": 48,
+          "OutsideW": 48,
+          "DistBetweenFrontIsoBars": 10.8,
+          "DistBetweenBackIsoBars": 10.8,
+          "Depth": -220
+        },
+        {
+          "SectionID": 45,
+          "SectionType": 45,  //Type 45 for sliding door bottom outer frames, which can be different from rest of outer frame
+          "ArticleName": "487890",
+          "InsideW": 48,
+          "OutsideW": 48,
+          "DistBetweenFrontIsoBars": 10.8,
+          "DistBetweenBackIsoBars": 10.8,
+          "Depth": -232
+        },
+        {
+          "SectionID": 43,
+          "SectionType": 43,        // Type 43 for sliding door vent main article type (everywhere except interlock profile)
+          "ArticleName": "490080",
+          "InsideW": 60,
+          "OutsideW": 82,
+          "DistBetweenIsoBars": 16, //might need to revise if iso bars are uneven length
+          "Depth": -60
+         
+        },
+        {
+          "SectionID": 42,
+          "SectionType": 42,    // Type 42 for interlock vent article type (only at overlapping interlock sections)
+      "ArticleName": "490080",  //Can match Type 43 or could be different if DesignLine option is selected. In 4.0 release, will match rest of vent
+          "InsideW":60,
+          "OutsideW": 82,
+          "DistBetweenIsoBars": 16, //might need to revise if iso bars are uneven length
+          "Depth": -60
+        }
+
+      ],
+      "FacadeSections": null,
+      "CustomGlass": null
+    },
+    "Acoustic": null,
+    "Structural": {
+      "WindLoad": 0.96,
+      "HorizontalLiveLoad": 0,
+      "HorizontalLiveLoadHeight": 0,
+      "Cpp": 1,
+      "Cpn": -1,
+      "ShowBoundaryCondition": false,
+      "ShowWindPressure": false,
+      "WindLoadInputType": 1,
+      "DispIndexType": 1,
+      "DispHorizontalIndex": 175,
+      "DispVerticalIndex": 360
+    },
+    "Thermal": null,
+    "SRSExtendedData": null
+  },
+  "AnalysisResult": null,
+  "CollapsedPanels": {
+    "Panel_Configure": false,
+    "Panel_Operability": false,
+    "Panel_Framing": false,
+    "Panel_Glass": false,
+    "Panel_Acoustic": false,
+    "Panel_Structural": false,
+    "Panel_Thermal": false,
+    "Panel_Load": false
+  }
+}

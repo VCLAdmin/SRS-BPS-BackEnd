@@ -1,0 +1,1 @@
+This "Resources" folder should be kept in the folder as the calling app.

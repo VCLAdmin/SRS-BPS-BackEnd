@@ -1,0 +1,342 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AcousticSolver, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AcousticSolver\bin\Debug\AcousticSolver.dll</HintPath>
+    </Reference>
+    <Reference Include="StrucutralSolver_SBA">
+      <HintPath>..\StrucutralSolver_SBA\bin\Debug\StrucutralSolver_SBA.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="ThermalSolver">
+      <HintPath>..\ThermalSolver\bin\Debug\ThermalSolver.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\AccessRole.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\AcousticReport.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Address.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\ADSArticle.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Article.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\ArticleSectionalProperty.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\ArticleType.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\ASEArticle.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\AspNetRoles.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\AspNetUserClaims.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\AspNetUserLogins.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\AspNetUsers.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\BpsBoundaryCondition.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\BpsProblem.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\BpsProject.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\BpsUnifiedProblem.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\CustomArticle.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Dealer.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\DoorHandleHinge.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\ExternalClient.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Fabricator.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\FacadeArticle.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\FacadeArticleSectionalProperty.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\FacadeInsertUnit.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\FacadeProfile.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\FacadeSpacer.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Feature.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Financial.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\GlassBPS.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\GlassSRS.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\InsulatingBar.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Order.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\OrderDetails.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Order_Status.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Permission.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Permission_Role.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\Product.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\ProductType.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\SLU_Status.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\StateTax.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\ThermalBtoBBlockData.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\ThermalBtoBDirectData.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\ThermalBtoBStandardData.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\UDCArticle.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\User.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\VCLDesignDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VCLDesignDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\VCLDesignDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\VCLDesignDB.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>VCLDesignDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Update="Models\Edmx\WindZoneGermany.cs">
+      <DependentUpon>VCLDesignDB.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\Structural\" />
+    <Folder Include="Models\Thermal\" />
+    <Folder Include="Views\AccountOld\" />
+    <Folder Include="Views\Dealer\" />
+    <Folder Include="Views\Financial\" />
+    <Folder Include="Views\QueuingServer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Models\Edmx\VCLDesignDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>VCLDesignDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Properties\PublishProfiles\VCLWebAPI_Deploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BpsUnifiedModel\BpsUnifiedModelLib.csproj" />
+    <ProjectReference Include="..\SRS_Solver\SRS_Solver.csproj" />
+    <ProjectReference Include="..\VCLMigration\VCLMigration.csproj" />
+    <ProjectReference Include="..\ViewResources\ViewResources.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.7.0\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.SimpleNotificationService.3.7.2.6\analyzers\dotnet\cs\AWSSDK.SimpleNotificationService.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.9.4" />
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.3.60" />
+    <PackageReference Include="bootstrap" Version="5.1.3" />
+    <PackageReference Include="IronPdf" Version="2022.5.5629" />
+    <PackageReference Include="jQuery" Version="3.6.0" />
+    <PackageReference Include="jQuery.Validation" Version="1.19.3" />
+    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.Web" Version="2.20.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.8" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.8" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.HelpPage" Version="5.2.8" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.5" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.12" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1000" />
+    <PackageReference Include="Microsoft.Owin.Cors" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Owin.Security.Facebook" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Owin.Security.Google" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Owin.Security.MicrosoftAccount" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Owin.Security.Twitter" Version="4.2.2" />
+    <PackageReference Include="Modernizr" Version="2.8.3" />
+    <PackageReference Include="MySql.Web" Version="8.0.29" />
+    <PackageReference Include="netDXF" Version="2.2.0.1" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="PDFsharp" Version="1.50.5147" />
+    <PackageReference Include="Pomelo.JsonObject" Version="2.2.1" />
+    <PackageReference Include="popper.js" Version="1.16.1" />
+    <PackageReference Include="Respond" Version="1.4.2" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+    <PackageReference Include="System.Management" Version="6.0.0" />
+    <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <PackageReference Include="ztools.other.MySql.Data" Version="6.9.8" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.326103">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Antlr4" Version="4.6.6" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.8" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.8" />
+    <PackageReference Include="MySql.Data.EntityFramework" Version="8.0.29" />
+    <PackageReference Include="NAudio.Lame" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\Edmx\AccessRole1.cs" />
+    <Compile Remove="Models\Edmx\AcousticReport1.cs" />
+    <Compile Remove="Models\Edmx\Address1.cs" />
+    <Compile Remove="Models\Edmx\ADSArticle1.cs" />
+    <Compile Remove="Models\Edmx\Article1.cs" />
+    <Compile Remove="Models\Edmx\ArticleSectionalProperty1.cs" />
+    <Compile Remove="Models\Edmx\ArticleType1.cs" />
+    <Compile Remove="Models\Edmx\AspNetRoles1.cs" />
+    <Compile Remove="Models\Edmx\AspNetUserClaims1.cs" />
+    <Compile Remove="Models\Edmx\AspNetUserLogins1.cs" />
+    <Compile Remove="Models\Edmx\AspNetUsers1.cs" />
+    <Compile Remove="Models\Edmx\BpsBoundaryCondition1.cs" />
+    <Compile Remove="Models\Edmx\BpsProblem1.cs" />
+    <Compile Remove="Models\Edmx\BpsProject1.cs" />
+    <Compile Remove="Models\Edmx\BpsUnifiedProblem1.cs" />
+    <Compile Remove="Models\Edmx\CustomArticle1.cs" />
+    <Compile Remove="Models\Edmx\Dealer1.cs" />
+    <Compile Remove="Models\Edmx\DoorHandleHinge1.cs" />
+    <Compile Remove="Models\Edmx\ExternalClient1.cs" />
+    <Compile Remove="Models\Edmx\Fabricator1.cs" />
+    <Compile Remove="Models\Edmx\FacadeArticle1.cs" />
+    <Compile Remove="Models\Edmx\FacadeArticleSectionalProperty1.cs" />
+    <Compile Remove="Models\Edmx\FacadeInsertUnit1.cs" />
+    <Compile Remove="Models\Edmx\FacadeProfile1.cs" />
+    <Compile Remove="Models\Edmx\FacadeSpacer1.cs" />
+    <Compile Remove="Models\Edmx\Feature1.cs" />
+    <Compile Remove="Models\Edmx\Financial1.cs" />
+    <Compile Remove="Models\Edmx\GlassBPS1.cs" />
+    <Compile Remove="Models\Edmx\GlassSRS1.cs" />
+    <Compile Remove="Models\Edmx\InsulatingBar1.cs" />
+    <Compile Remove="Models\Edmx\Order1.cs" />
+    <Compile Remove="Models\Edmx\OrderDetails1.cs" />
+    <Compile Remove="Models\Edmx\Order_Status1.cs" />
+    <Compile Remove="Models\Edmx\Permission1.cs" />
+    <Compile Remove="Models\Edmx\Permission_Role1.cs" />
+    <Compile Remove="Models\Edmx\Product1.cs" />
+    <Compile Remove="Models\Edmx\ProductType1.cs" />
+    <Compile Remove="Models\Edmx\SLU_Status1.cs" />
+    <Compile Remove="Models\Edmx\StateTax1.cs" />
+    <Compile Remove="Models\Edmx\ThermalBtoBBlockData1.cs" />
+    <Compile Remove="Models\Edmx\ThermalBtoBDirectData1.cs" />
+    <Compile Remove="Models\Edmx\ThermalBtoBStandardData1.cs" />
+    <Compile Remove="Models\Edmx\UDCArticle1.cs" />
+    <Compile Remove="Models\Edmx\User1.cs" />
+    <Compile Remove="Models\Edmx\WindZoneGermany1.cs" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58119</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:58119/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

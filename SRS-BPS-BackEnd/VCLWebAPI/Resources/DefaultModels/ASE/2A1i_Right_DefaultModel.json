@@ -1,0 +1,308 @@
+{
+    "UserSetting":
+    {
+        "Language": "en-US",
+        "UserName": "Designer",
+        "ApplicationType": "BPS"
+    },
+    "ProblemSetting":
+    {
+      "UserGuid": "00000000-0000-0000-0000-000000000000",
+        "ProjectGuid": "00000000-0000-0000-0000-000000000000",
+        "ProblemGuid": "00000000-0000-0000-0000-000000000000",
+        "EnableAcoustic": false,
+        "EnableStructural": false,
+        "EnableThermal": false,
+        "ProductType": "SlidingDoor",
+        "FacadeType": null,
+        "ProjectName": null,
+        "Location": null,
+        "ConfigurationName": "DEFAULT-SlidingDoor-Type-2A1.i-Right",  
+        "UserNotes": "",
+        "Client": null,
+        "ProjectNumber": null,
+        "LastModifiedDate": null,
+        "DrawingNames": null,
+        "isAcousticEnabled": false,
+        "SlidingDoorType": "Classic"
+    },
+    "SRSProblemSetting":
+    {
+        "isOrderPlaced": false,
+        "OrderNumber": null,
+        "SubTotal": 0,
+        "Quantity": 0,
+        "Client": null,
+        "ProjectNumber": null,
+        "LastModifiedDate": null,
+        "DrawingNames": null,
+        "QuickCheckPassed": true
+    },
+    "UnifiedModelVersion": "V2",
+    "ModelInput":
+    {
+        "FrameSystem":
+        {
+            "SystemType": "ASE 60",
+            "UvalueType": "AIF",
+            "InsulationType": "Polyamide Anodized After",
+            "InsulatingBarDataNote": null,
+            "InsulationMaterial": "8",
+            "Alloys": "6060-T66 (150MPa)",
+            "xNumberOfPanels": 0,
+            "yNumberOfPanels": 0,
+            "MajorMullionTopRecess": 0,
+            "MajorMullionBottomRecess": 0,
+            "VerticalJointWidth": 0,
+            "HorizontalJointWidth": 0,
+            "AluminumFinish": "Anodized",
+            "AluminumColor": "Silver grey - RAL 7001",
+            "InsulationZone": null
+        },
+        "Geometry":
+        {
+            "Points": [
+            {
+                "PointID": 1,
+                "X": 0,
+                "Y": 0
+            },
+            {
+                "PointID": 2,
+                "X": 0,
+                "Y": 2200
+            },
+            {
+                "PointID": 3,
+                "X": 2500,
+                "Y": 0
+            },
+            {
+                "PointID": 4,
+                "X": 2500,
+                "Y": 2200
+            }],
+            "Members": [
+            {
+                "MemberID": 1,
+                "PointA": 1,
+                "PointB": 2,
+                "SectionID": 41,
+                "MemberType": 41,
+                "Length_cm": 0,
+                "TributaryArea": 0,
+                "TributaryAreaFactor": 0,
+                "Cp": 0
+            },
+            {
+                "MemberID": 2,
+                "PointA": 3,
+                "PointB": 4,
+                "SectionID": 41,
+                "MemberType": 41,
+                "Length_cm": 0,
+                "TributaryArea": 0,
+                "TributaryAreaFactor": 0,
+                "Cp": 0
+            },
+            {
+                "MemberID": 3,
+                "PointA": 1,
+                "PointB": 3,
+                "SectionID": 45, 
+                "MemberType": 45,
+                "Length_cm": 0,
+                "TributaryArea": 0,
+                "TributaryAreaFactor": 0,
+                "Cp": 0
+            },
+            {
+                "MemberID": 4,
+                "PointA": 2,
+                "PointB": 4,
+                "SectionID": 41,
+                "MemberType": 41,
+                "Length_cm": 0,
+                "TributaryArea": 0,
+                "TributaryAreaFactor": 0,
+                "Cp": 0
+            }],
+            "Infills": [
+            {
+                "InfillID": 1,
+                "BoundingMembers": [
+                    1,
+                    4,
+                    2,
+                    3
+                ],
+                "GlazingSystemID": 1,
+                "PanelSystemID": -1,
+                "OperabilitySystemID": 1,
+                "BlockDistance": 150,
+                "VentWeight": 0,
+                "LockingPointOption": 0,
+                "HandlePosition": 0,
+                "InsertOuterFrameDepth": 0,
+                "InsertWindowSystem": null,
+                "InsertWindowSystemType": null,
+                "GlazingBeadProfileArticleName": null,
+                "GlazingGasketArticleName": null,
+                "GlazingRebateGasketArticleName": null,
+                "GlazingRebateInsulationArticleName": null
+            }],
+            "GlazingSystems": [
+            {
+                "Manufacturer": null,
+                "BrandName": null,
+                "GlazingSystemID": 1,
+                "Color": null,
+               "Rw": 35,
+                "RwC": -1,
+                "RwCtr": -4,
+                "STC": 35,
+                "OITC": 30,
+                "UValue": 1.358,
+                "SHGC": 0.39,
+                "VT": 0.7023,
+                "SpacerType": 1,
+                "Description": "1/4 Clear SB 60+1/2 ARGON+1/4 Clear (1 in)",
+                "Plates": [
+                {
+                    "Material": "glass",
+                    "H": 6,
+                    "InterMaterial": null,
+                    "InterH": 0
+                },
+                {
+                    "Material": "glass",
+                    "H": 6,
+                    "InterMaterial": null,
+                    "InterH": 0
+                }],
+                "Cavities": [
+                {
+                    "CavityType": "Argon",
+                    "Lz": 12
+                }],
+                "Category": null,
+                "PSIValue": 0
+            }],
+            "PanelSystems": [],
+            "OperabilitySystems": [
+            {
+                "OperabilitySystemID": 1,
+                "SlidingDoorSystemID": 1,
+                "VentArticleName": null,
+                "VentInsideW": 0.0,
+                "VentOutsideW": 0.0,
+                "VentDistBetweenIsoBars": 0.0,
+                "JunctionType": 0,
+                "InsertedWindowType": null,
+                "InsertOuterFrameArticleName": null,
+                "InsertOuterFrameInsideW": 0.0,
+                "InsertOuterFrameOutsideW": 0.0,
+                "InsertOuterFrameDistBetweenIsoBars": 0.0,
+                "InsertUvalueType": null,
+                "InsertInsulationType": null,
+                "VentOpeningDirection": null,
+                "VentOperableType": "SlidingDoor-Type-2A1.i-Right",   
+                "RebateGasketArticleName": null,
+                "CenterGasketInsulationArticleName": null,
+                "InsideHandleArticleName": null,
+                "HandleColor": null,
+                "InsertOuterFrameDepth": 0.0,
+                "InsertWindowSystem": null
+            }],
+            "SlidingDoorSystems": [
+            {
+                "SlidingDoorSystemID": 1,
+                "InsideHandleArticleName": "269411",
+                "InsideHandleColor": "Silver grey - RAL 7001",
+                "OutsideHandleArticleName": "269400", 
+                "OutsideHandleColor": "Silver grey - RAL 7001",
+                "SlidingDoorSystemType": "ASE 60", 
+                "SlidingOperabilityType": "Lift_And_Slide", 
+                "SlidingVentSectionID": 43,
+                "SlidingVentInterlockSectionID": 42,
+                "InterlockReinforcement": true, 
+                "StructuralProfileArticleName": "513000", 
+                "SteelTubeArticleName": "201056", 
+                "DoubleVentArticleName": null, 
+                "MovingVent" : "Inside",
+                "VentFrames": [ 
+                    {
+                        "VentFrameID": 1, 
+                        "Width": 1250, 
+                        "Type": "Sliding",
+                        "Track": 2 
+                    },
+                    {
+                        "VentFrameID": 2,
+                        "Width": 1250,
+                        "Type": "Fixed",
+                        "Track": 1
+                    }
+                    
+                ]
+            }],
+            "SlabAnchors": null,
+            "SpliceJoints": null,
+            "Reinforcements": null,
+            "Sections": [
+                {
+                    "SectionID": 41,
+                    "SectionType": 41,
+                    "ArticleName": "487850",
+                    "InsideW": 48,
+                    "OutsideW": 48,
+                    "Depth": -140
+                },
+                {
+                    "SectionID": 45,
+                    "SectionType": 45, 
+                    "ArticleName": "487850", 
+                    "InsideW": 48,
+                    "OutsideW": 48,
+                    "Depth": -140
+                },
+                {
+                    "SectionID": 43,
+                    "SectionType": 43,
+                    "ArticleName": "504010",
+                    "InsideW": 60,
+                    "OutsideW": 82,
+                    "Depth": -60
+
+                },
+                {
+                    "SectionID": 42,
+                    "SectionType": 42,
+                    "ArticleName": "504010",
+                    "InsideW": 60,
+                    "OutsideW": 82,
+                    "Depth": -60
+                }
+
+            ],
+            "FacadeSections": null,
+            "CustomGlass": null
+        },
+        "Acoustic": null,
+        "Structural": null,
+        "Thermal": null,
+        "SRSExtendedData": null
+    },
+    "AnalysisResult": null,
+    "CollapsedPanels":
+    {
+        "Panel_Configure": false,
+        "Panel_Operability": false,
+        "Panel_Framing": false,
+        "Panel_Glass": false,
+        "Panel_Acoustic": false,
+        "Panel_Structural": false,
+        "Panel_Thermal": false,
+        "Panel_Load": false
+    }
+}

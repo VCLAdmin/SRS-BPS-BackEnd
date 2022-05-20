@@ -1,0 +1,1016 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Acoustic" xml:space="preserve">
+    <value>Acoustic</value>
+  </data>
+  <data name="Acoustics" xml:space="preserve">
+    <value>Acoustics</value>
+  </data>
+  <data name="AcousticsInfo" xml:space="preserve">
+    <value>Calculate Rw(C, Ctr)/STC/OITC values and sound transmission loss in 100-5000Hz for complex windows and façades.</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="AddNotes" xml:space="preserve">
+    <value>Add notes</value>
+  </data>
+  <data name="Air" xml:space="preserve">
+    <value>Air</value>
+  </data>
+  <data name="Airport" xml:space="preserve">
+    <value>Airport</value>
+  </data>
+  <data name="Airspace" xml:space="preserve">
+    <value>Airspace</value>
+  </data>
+  <data name="Aluminum" xml:space="preserve">
+    <value>Aluminum</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="ArgonAir" xml:space="preserve">
+    <value>Argon Air</value>
+  </data>
+  <data name="ArticleNumber" xml:space="preserve">
+    <value>Article number</value>
+  </data>
+  <data name="AverageUValue" xml:space="preserve">
+    <value>Average U-Value</value>
+  </data>
+  <data name="AxialForce" xml:space="preserve">
+    <value>Axial Force</value>
+  </data>
+  <data name="BottomHung" xml:space="preserve">
+    <value>Bottom-Hung</value>
+  </data>
+  <data name="BoundaryCondition" xml:space="preserve">
+    <value>Boundary Condition</value>
+  </data>
+  <data name="BuildingDepth" xml:space="preserve">
+    <value>building depth</value>
+  </data>
+  <data name="BuildingHeight" xml:space="preserve">
+    <value>building height</value>
+  </data>
+  <data name="BuildingInformation" xml:space="preserve">
+    <value>Building information</value>
+  </data>
+  <data name="BuildingWidth" xml:space="preserve">
+    <value>Building width</value>
+  </data>
+  <data name="CalculateWindLoad" xml:space="preserve">
+    <value>Calculate wind load</value>
+  </data>
+  <data name="CenterOfGlassUValue" xml:space="preserve">
+    <value>Center of Glass U-Value</value>
+  </data>
+  <data name="Chart" xml:space="preserve">
+    <value>Chart</value>
+  </data>
+  <data name="ClickToUpload" xml:space="preserve">
+    <value>Click to upload</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Compute" xml:space="preserve">
+    <value>Compute</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="ConfigurationPanel" xml:space="preserve">
+    <value>Configuration Panel</value>
+  </data>
+  <data name="Configure" xml:space="preserve">
+    <value>Configure</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Contact us</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateNewGlassConfig" xml:space="preserve">
+    <value>Create new glass configuration</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="CustomProfile" xml:space="preserve">
+    <value>Custom profile</value>
+  </data>
+  <data name="DateOfBirth" xml:space="preserve">
+    <value>Date of birth</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="DeadLoad" xml:space="preserve">
+    <value>Dead load</value>
+  </data>
+  <data name="Deflection" xml:space="preserve">
+    <value>Deflection</value>
+  </data>
+  <data name="DeflectionCriteria" xml:space="preserve">
+    <value>Deflection criteria</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DewPointCalculator" xml:space="preserve">
+    <value>Dew Point Calculator</value>
+  </data>
+  <data name="DewPointTCalculator" xml:space="preserve">
+    <value>Dew point T Calculator</value>
+  </data>
+  <data name="Dimension" xml:space="preserve">
+    <value>Dimension</value>
+  </data>
+  <data name="Door" xml:space="preserve">
+    <value>Door</value>
+  </data>
+  <data name="DoubleGlassLibrary" xml:space="preserve">
+    <value>Double Glass Library</value>
+  </data>
+  <data name="DoubleVentShSh" xml:space="preserve">
+    <value>Double Vent (SH/SH)</value>
+  </data>
+  <data name="DoubleVentShTt" xml:space="preserve">
+    <value>Double Vent (SH/TT)</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadInOnePdf" xml:space="preserve">
+    <value>Download in one pdf</value>
+  </data>
+  <data name="Drag" xml:space="preserve">
+    <value>Drag</value>
+  </data>
+  <data name="Edge" xml:space="preserve">
+    <value>Edge</value>
+  </data>
+  <data name="EdgeZone" xml:space="preserve">
+    <value>Edge zone</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+  <data name="EnvironmentalAudio" xml:space="preserve">
+    <value>Environmental Audio</value>
+  </data>
+  <data name="ExpansionProfile" xml:space="preserve">
+    <value>Expansion profile</value>
+  </data>
+  <data name="E_mail" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="Façade" xml:space="preserve">
+    <value>Façade</value>
+  </data>
+  <data name="FireTruck" xml:space="preserve">
+    <value>Fire truck</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Fixed" xml:space="preserve">
+    <value>Fixed</value>
+  </data>
+  <data name="FixedOrOpening" xml:space="preserve">
+    <value>Fixed / opening</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot password</value>
+  </data>
+  <data name="Frame" xml:space="preserve">
+    <value>Frame</value>
+  </data>
+  <data name="FrameArea" xml:space="preserve">
+    <value>Frame area</value>
+  </data>
+  <data name="Framing" xml:space="preserve">
+    <value>Framing</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frequency</value>
+  </data>
+  <data name="Gain" xml:space="preserve">
+    <value>Gain</value>
+  </data>
+  <data name="Gaskets" xml:space="preserve">
+    <value>Gaskets</value>
+  </data>
+  <data name="GasketsWithFins" xml:space="preserve">
+    <value>Gaskets with fins</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="Glass" xml:space="preserve">
+    <value>Glass</value>
+  </data>
+  <data name="GlassAndPanel" xml:space="preserve">
+    <value>Glass &amp; Panel</value>
+  </data>
+  <data name="GlassAndSpandrel" xml:space="preserve">
+    <value>Glass &amp; Spandrel</value>
+  </data>
+  <data name="GlassArea" xml:space="preserve">
+    <value>Glass area</value>
+  </data>
+  <data name="GlassDescription" xml:space="preserve">
+    <value>Glass Description</value>
+  </data>
+  <data name="GlassEdgeSeal" xml:space="preserve">
+    <value>Glass edge seal</value>
+  </data>
+  <data name="GlassRW" xml:space="preserve">
+    <value>Glass RW</value>
+  </data>
+  <data name="GlazingGasketCombination" xml:space="preserve">
+    <value>Glazing gasket combination</value>
+  </data>
+  <data name="GlazingRebateInsulation" xml:space="preserve">
+    <value>Glazing Rebate Insulation</value>
+  </data>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="HelpAndSupport" xml:space="preserve">
+    <value>Help &amp; Support</value>
+  </data>
+  <data name="Imperial" xml:space="preserve">
+    <value>Imperial</value>
+  </data>
+  <data name="InfoPanel" xml:space="preserve">
+    <value>Info Panel</value>
+  </data>
+  <data name="Inside" xml:space="preserve">
+    <value>Inside</value>
+  </data>
+  <data name="InsulatingBar" xml:space="preserve">
+    <value>Insulating Bar</value>
+  </data>
+  <data name="Insulation" xml:space="preserve">
+    <value>Insulation</value>
+  </data>
+  <data name="Inward" xml:space="preserve">
+    <value>Inward</value>
+  </data>
+  <data name="Laminate" xml:space="preserve">
+    <value>Laminate</value>
+  </data>
+  <data name="LaminatedGlass" xml:space="preserve">
+    <value>Laminated Glass</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Legal" xml:space="preserve">
+    <value>Legal</value>
+  </data>
+  <data name="Length" xml:space="preserve">
+    <value>length</value>
+  </data>
+  <data name="LightweightHollowCMU" xml:space="preserve">
+    <value>Lightweight Hollow CMU</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="LoadType" xml:space="preserve">
+    <value>Load Type</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="MaxAbsoluteValue" xml:space="preserve">
+    <value>Max Absolute Value</value>
+  </data>
+  <data name="Maximum" xml:space="preserve">
+    <value>Maximum</value>
+  </data>
+  <data name="Metric" xml:space="preserve">
+    <value>Metric</value>
+  </data>
+  <data name="MiddleZone" xml:space="preserve">
+    <value>Middle Zone</value>
+  </data>
+  <data name="Moment" xml:space="preserve">
+    <value>Moment</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="MullionOrTransom" xml:space="preserve">
+    <value>Mullion / Transom</value>
+  </data>
+  <data name="MullionOrTransomLibrary" xml:space="preserve">
+    <value>Mullion / Transom Library</value>
+  </data>
+  <data name="NegativeWindLoad" xml:space="preserve">
+    <value>Negative Wind load</value>
+  </data>
+  <data name="NewProject" xml:space="preserve">
+    <value>New project</value>
+  </data>
+  <data name="OneDayAgo" xml:space="preserve">
+    <value>1 Day ago</value>
+  </data>
+  <data name="OneMonthAgo" xml:space="preserve">
+    <value>1 month ago</value>
+  </data>
+  <data name="Opening" xml:space="preserve">
+    <value>Opening</value>
+  </data>
+  <data name="Operability" xml:space="preserve">
+    <value>Operability</value>
+  </data>
+  <data name="Operable" xml:space="preserve">
+    <value>Operable</value>
+  </data>
+  <data name="OperableType" xml:space="preserve">
+    <value>OperableType</value>
+  </data>
+  <data name="OuterFrame" xml:space="preserve">
+    <value>Outer Frame</value>
+  </data>
+  <data name="OuterFrameLibrary" xml:space="preserve">
+    <value>Outer Frame Library</value>
+  </data>
+  <data name="Outside" xml:space="preserve">
+    <value>Outside</value>
+  </data>
+  <data name="Outward" xml:space="preserve">
+    <value>Outward</value>
+  </data>
+  <data name="OverallPerformance" xml:space="preserve">
+    <value>Overall performance</value>
+  </data>
+  <data name="OverallWindowPerformance" xml:space="preserve">
+    <value>Overall window performance</value>
+  </data>
+  <data name="Panel" xml:space="preserve">
+    <value>Panel</value>
+  </data>
+  <data name="PanelLibrary" xml:space="preserve">
+    <value>Panel Library</value>
+  </data>
+  <data name="Panels" xml:space="preserve">
+    <value>Panels</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PermissibleDeflection" xml:space="preserve">
+    <value>Permissible Deflection</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="PhysicsType" xml:space="preserve">
+    <value>Physics Type</value>
+  </data>
+  <data name="Polyamide" xml:space="preserve">
+    <value>Polyamide</value>
+  </data>
+  <data name="Polythermid" xml:space="preserve">
+    <value>Polythermid</value>
+  </data>
+  <data name="PositiveWindLoad" xml:space="preserve">
+    <value>Positive Wind load</value>
+  </data>
+  <data name="PoweredBy" xml:space="preserve">
+    <value>POWERED BY</value>
+  </data>
+  <data name="Preliminary" xml:space="preserve">
+    <value>Preliminary</value>
+  </data>
+  <data name="ProductInfo" xml:space="preserve">
+    <value>Product Info</value>
+  </data>
+  <data name="ProductType" xml:space="preserve">
+    <value>Product Type</value>
+  </data>
+  <data name="ProfileIDName" xml:space="preserve">
+    <value>Profile ID name</value>
+  </data>
+  <data name="ProfileName" xml:space="preserve">
+    <value>Profile name</value>
+  </data>
+  <data name="Profiles" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="ProjectLocation" xml:space="preserve">
+    <value>Project location</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Project Name</value>
+  </data>
+  <data name="ProjectProperties" xml:space="preserve">
+    <value>Project properties</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="Reactions" xml:space="preserve">
+    <value>Reactions</value>
+  </data>
+  <data name="RegularGaskets" xml:space="preserve">
+    <value>Regular gaskets</value>
+  </data>
+  <data name="RelativeHumidity" xml:space="preserve">
+    <value>Relative humidity</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="RetypeEmail" xml:space="preserve">
+    <value>Retype Email</value>
+  </data>
+  <data name="RetypePassword" xml:space="preserve">
+    <value>Retype Password</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="RoomArea" xml:space="preserve">
+    <value>Room Area</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SearchByArticleNumber" xml:space="preserve">
+    <value>Search by article number</value>
+  </data>
+  <data name="SearchByDimension" xml:space="preserve">
+    <value>Search by dimension</value>
+  </data>
+  <data name="SectionProperties" xml:space="preserve">
+    <value>Section Properties</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ShearForce" xml:space="preserve">
+    <value>Shear Force</value>
+  </data>
+  <data name="SideHung" xml:space="preserve">
+    <value>Side-Hung</value>
+  </data>
+  <data name="Signature" xml:space="preserve">
+    <value>Signature</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="SingleWoodStud" xml:space="preserve">
+    <value>Single Wood Stud</value>
+  </data>
+  <data name="SiteInformation" xml:space="preserve">
+    <value>Site information</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="SlidingDoor" xml:space="preserve">
+    <value>Sliding Door</value>
+  </data>
+  <data name="SolidConcretePanel" xml:space="preserve">
+    <value>Solid Concrete Panel</value>
+  </data>
+  <data name="SoundTransmissionLossDB" xml:space="preserve">
+    <value>Sound Transmission Loss (dB)</value>
+  </data>
+  <data name="Spacer" xml:space="preserve">
+    <value>Spacer</value>
+  </data>
+  <data name="SpacerType" xml:space="preserve">
+    <value>Spacer Type</value>
+  </data>
+  <data name="StainlessSteel" xml:space="preserve">
+    <value>Stainless Steel</value>
+  </data>
+  <data name="StickSystem" xml:space="preserve">
+    <value>Stick System</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="Structural" xml:space="preserve">
+    <value>Structural</value>
+  </data>
+  <data name="StructuralInfo" xml:space="preserve">
+    <value>Efficient and reliable structural analysis of windows, doors and façades, supporting both European and US codes.</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="SystemName" xml:space="preserve">
+    <value>System Name</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
+  </data>
+  <data name="TerrainCategory" xml:space="preserve">
+    <value>Terrain category</value>
+  </data>
+  <data name="TerrainCategoryI" xml:space="preserve">
+    <value>Terrain category I</value>
+  </data>
+  <data name="TerrainCategoryII" xml:space="preserve">
+    <value>Terrain category II</value>
+  </data>
+  <data name="TerrainCategoryIII" xml:space="preserve">
+    <value>Terrain category III</value>
+  </data>
+  <data name="TerrainCategoryIII_Info" xml:space="preserve">
+    <value>Suburbs, industrial or commercial areas; forests/woods</value>
+  </data>
+  <data name="TerrainCategoryII_Info" xml:space="preserve">
+    <value>Terrain with hedges, isolated farm steads, houses or trees, e. g. agricultural areas.</value>
+  </data>
+  <data name="TerrainCategoryIV" xml:space="preserve">
+    <value>Terrain category IV</value>
+  </data>
+  <data name="TerrainCategoryIV_Info" xml:space="preserve">
+    <value>Urban areas in which at least 15% of the surface is covered with buildings of a mean height of more than 15 m.</value>
+  </data>
+  <data name="TerrainCategoryI_Info" xml:space="preserve">
+    <value>Open sea; lakes with a free surface of at least 5 km in wind direction; level, flat country without obstacles.</value>
+  </data>
+  <data name="TerrainCategoryV" xml:space="preserve">
+    <value>Terrain category V</value>
+  </data>
+  <data name="TerrainCategoryVI" xml:space="preserve">
+    <value>Terrain category VI</value>
+  </data>
+  <data name="TerrainCategoryVI_Info" xml:space="preserve">
+    <value>Coastal areas, mixed profile of type I and Type II.</value>
+  </data>
+  <data name="TerrainCategoryV_Info" xml:space="preserve">
+    <value>Inland regions, mixed profile of type II and Type III.</value>
+  </data>
+  <data name="Thermal" xml:space="preserve">
+    <value>Thermal</value>
+  </data>
+  <data name="ThermalInfo" xml:space="preserve">
+    <value>U-values for aluminum windows and façades, supporting both European and US codes.</value>
+  </data>
+  <data name="TiltOrTurn" xml:space="preserve">
+    <value>Tilt/Turn</value>
+  </data>
+  <data name="Torsion" xml:space="preserve">
+    <value>Torsion</value>
+  </data>
+  <data name="TotalArea" xml:space="preserve">
+    <value>Total area</value>
+  </data>
+  <data name="Train" xml:space="preserve">
+    <value>Train</value>
+  </data>
+  <data name="TripleGlassLibrary" xml:space="preserve">
+    <value>Triple Glass Library</value>
+  </data>
+  <data name="TwoDaysAgo" xml:space="preserve">
+    <value>2 Days ago</value>
+  </data>
+  <data name="TwoMonthsAgo" xml:space="preserve">
+    <value>2 months ago</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="TypeAndThickness" xml:space="preserve">
+    <value>Type &amp; Thickness</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+  <data name="Unitized" xml:space="preserve">
+    <value>Unitized</value>
+  </data>
+  <data name="Untitled" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UploadDXF" xml:space="preserve">
+    <value>Upload DXF</value>
+  </data>
+  <data name="UploadFile" xml:space="preserve">
+    <value>Upload file</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="UserDefine" xml:space="preserve">
+    <value>User Define</value>
+  </data>
+  <data name="UValue" xml:space="preserve">
+    <value>U-Value</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="VentFrame" xml:space="preserve">
+    <value>Vent Frame</value>
+  </data>
+  <data name="VentFrameLibrary" xml:space="preserve">
+    <value>Vent Frame Library</value>
+  </data>
+  <data name="VentProfile" xml:space="preserve">
+    <value>Vent Profile</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="WallPerimeterEffect" xml:space="preserve">
+    <value>Wall perimeter effect</value>
+  </data>
+  <data name="WallType" xml:space="preserve">
+    <value>Wall Type</value>
+  </data>
+  <data name="WelcomeBack" xml:space="preserve">
+    <value>Welcome Back</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="WindLoad" xml:space="preserve">
+    <value>Wind load</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="WindowDescription" xml:space="preserve">
+    <value>Windows are to be shown in the building with floor &lt;br /&gt;
+dash-lines (representing elevations) and zone dash-lines &lt;br /&gt;
+(denoting window location zones).</value>
+  </data>
+  <data name="WindowElevation" xml:space="preserve">
+    <value>Window elevation</value>
+  </data>
+  <data name="WindowHeight" xml:space="preserve">
+    <value>Window height</value>
+  </data>
+  <data name="WindowInformation" xml:space="preserve">
+    <value>Window information</value>
+  </data>
+  <data name="WindowWidth" xml:space="preserve">
+    <value>Window width</value>
+  </data>
+  <data name="WindowZone" xml:space="preserve">
+    <value>Window zone</value>
+  </data>
+  <data name="AluminumStress" xml:space="preserve">
+    <value>Aluminum Stress</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="DEFlag" xml:space="preserve">
+    <value>Deutsche Flagge</value>
+  </data>
+  <data name="Facade" xml:space="preserve">
+    <value>Facade</value>
+  </data>
+  <data name="GlassInfo" xml:space="preserve">
+    <value>Glass Info</value>
+  </data>
+  <data name="Option" xml:space="preserve">
+    <value>option</value>
+  </data>
+  <data name="RiskCategoryOfBuilding" xml:space="preserve">
+    <value>Risk category of building</value>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="ThermalBreakShearStress" xml:space="preserve">
+    <value>Thermal Break Shear Stress</value>
+  </data>
+  <data name="USAFlag" xml:space="preserve">
+    <value>American Flag</value>
+  </data>
+  <data name="WindPressure" xml:space="preserve">
+    <value>Wind Pressure</value>
+  </data>
+  <data name="WindSpeed" xml:space="preserve">
+    <value>Wind Speed</value>
+  </data>
+  <data name="WindZone" xml:space="preserve">
+    <value>Wind Zone</value>
+  </data>
+  <data name="Alloys" xml:space="preserve">
+    <value>Alloys</value>
+  </data>
+  <data name="Axes" xml:space="preserve">
+    <value>Axes</value>
+  </data>
+  <data name="CalculateWindPressure" xml:space="preserve">
+    <value>Calculate Wind Pressure</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ContactSupport" xml:space="preserve">
+    <value>Contact support</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DragORClickToUpload" xml:space="preserve">
+    <value>Drag OR Click to upload</value>
+  </data>
+  <data name="ExposureCategory" xml:space="preserve">
+    <value>Exposure Category</value>
+  </data>
+  <data name="ForgotUsernamePassword" xml:space="preserve">
+    <value>Forgot your username or password?</value>
+  </data>
+  <data name="Guidance" xml:space="preserve">
+    <value>Guidance</value>
+  </data>
+  <data name="KeyRatios" xml:space="preserve">
+    <value>Key Ratios</value>
+  </data>
+  <data name="Log_in" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="TermsOfUse" xml:space="preserve">
+    <value>To access the Building Physics Test Server, log in and accept the terms of use.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="WarningForGlassPanel" xml:space="preserve">
+    <value>You must apply a configuration for all glass panels.</value>
+  </data>
+  <data name="WarningForRefreshPage" xml:space="preserve">
+    <value>An error occured. Please refresh the page.</value>
+  </data>
+  <data name="WarningForSplittingPanes" xml:space="preserve">
+    <value>Splitting panes will remove panes you have added to your glass configurations. Do you want to continue?</value>
+  </data>
+  <data name="WindowDimension" xml:space="preserve">
+    <value>Window Dimension</value>
+  </data>
+  <data name="PolyamideAnodizedAfter" xml:space="preserve">
+    <value>(PA) Anodized After</value>
+  </data>
+  <data name="PolyamideAnodizedBefore" xml:space="preserve">
+    <value>(PA) Anodized Before</value>
+  </data>
+  <data name="PolyamideCoatedAfter" xml:space="preserve">
+    <value>(PA) Coated After</value>
+  </data>
+  <data name="PolyamideCoatedBefore" xml:space="preserve">
+    <value>(PA) Coated Before</value>
+  </data>
+  <data name="PolythermidAnodizedBefore" xml:space="preserve">
+    <value>(PT) Anodized Before</value>
+  </data>
+  <data name="PolythermidCoatedBefore" xml:space="preserve">
+    <value>(PT) Coated Before</value>
+  </data>
+  <data name="Glass Edge Seal" xml:space="preserve">
+    <value>Glass Edge Seal</value>
+  </data>
+  <data name="PsiValue" xml:space="preserve">
+    <value>Psi-Value</value>
+  </data>
+  <data name="OverallWindow" xml:space="preserve">
+    <value>Overall Window</value>
+  </data>
+  <data name="TnC1" xml:space="preserve">
+    <value>I have read and accept the </value>
+  </data>
+  <data name="TnC2" xml:space="preserve">
+    <value>terms and conditions</value>
+  </data>
+  <data name="TnC3" xml:space="preserve">
+    <value> of use.</value>
+  </data>
+  <data name="DisclaimerText" xml:space="preserve">
+    <value>These programs are used for the approximate determination of technical parameters. The results of these pre-dimensioning do not replace the required detailed planning and do not constitute proof of compliance with building regulations. The exclusive rights of use are owned by Schüco International KG.</value>
+  </data>
+  <data name="DeleteIntermediatePaneWarning" xml:space="preserve">
+    <value>Deleting intermediates will remove panes you have added to your glass configurations. Do you want to continue?</value>
+  </data>
+  <data name="AcousticsInfoText" xml:space="preserve">
+    <value>In accordance with DIN 4109-2:2018 "Sound insulation in buildings - Part 2: Verification of compliance with the requirements by calculation", an area-based energy calculation of the “weighted sound reduction index of building components” Rw,res has been carried out for the user-defined window unit.</value>
+  </data>
+  <data name="InsulatingBarText" xml:space="preserve">
+    <value>Unlike the setting in the fabrication data block, polyamide insulating bars are calculated.</value>
+  </data>
+  <data name="OpeningPercentage" xml:space="preserve">
+    <value>Opening Percentage</value>
+  </data>
+  <data name="OverallWindowPerformanceDB" xml:space="preserve">
+    <value>Overall window performance (dB)</value>
+  </data>
+  <data name="UValueText" xml:space="preserve">
+    <value>To calculate the U value for window and door systems with bonded infill, the Uf value is calculated in relation to the system, with the addition of 0.1 to 0.6 W/(m2K).</value>
+  </data>
+  <data name="WarningForDisableResult" xml:space="preserve">
+    <value>By editing the window configuration you will lose your current calculation results and reports. Would you like to continue editing the configuration?</value>
+  </data>
+  <data name="GeneralAluminumSpacer" xml:space="preserve">
+    <value>General Aluminum</value>
+  </data>
+  <data name="GeneralNonStainlessSteelSpacer" xml:space="preserve">
+    <value>General Non-Stainless Steel</value>
+  </data>
+  <data name="GeneralThermallyImprovedSpacer" xml:space="preserve">
+    <value>General Thermally Improved</value>
+  </data>
+  <data name="GlazingGasketCombinationOption1" xml:space="preserve">
+    <value>Option 1</value>
+  </data>
+  <data name="GlazingGasketCombinationOption2" xml:space="preserve">
+    <value>Option 2</value>
+  </data>
+  <data name="GlazingGasketCombinationOption3" xml:space="preserve">
+    <value>Option 3</value>
+  </data>
+  <data name="GlazingGasketCombinationOption4" xml:space="preserve">
+    <value>Option 4</value>
+  </data>
+  <data name="GlazingGasketCombinationOption1Content" xml:space="preserve">
+    <value>with glazing rebate insulation, assembly insulation first</value>
+  </data>
+  <data name="GlazingGasketCombinationOption2Content" xml:space="preserve">
+    <value>with glazing rebate insulation, assembly glazing first,288138, 288149</value>
+  </data>
+  <data name="GlazingGasketCombinationOption3Content" xml:space="preserve">
+    <value>with gasket fin</value>
+  </data>
+  <data name="GlazingGasketCombinationOption4Content" xml:space="preserve">
+    <value>without glazing rebate insulation</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+</root>
