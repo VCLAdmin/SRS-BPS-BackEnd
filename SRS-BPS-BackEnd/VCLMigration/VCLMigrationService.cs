@@ -22,10 +22,12 @@ namespace VCLMigration
                     }
                     catch (Exception ex)
                     {
-                        System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-                        dynamic item = serializer.Deserialize<object>(bpsUM_v1_string);
+                        //System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                        //dynamic item = serializer.Deserialize<object>(bpsUM_v1_string);
+                        dynamic item = JsonConvert.DeserializeObject<object>(bpsUM_v1_string);
                         item["AnalysisResult"] = null;
-                        bpsUM_v1_string = serializer.Serialize(item);
+                        //bpsUM_v1_string = serializer.Serialize(item);
+                        bpsUM_v1_string = JsonConvert.SerializeObject(item);
                         bpsUM_v1 = JsonConvert.DeserializeObject<BpsUnifiedModel_V1>(bpsUM_v1_string);
                     }
                     if (bpsUM_v1.ModelInput == null || bpsUM_v1.UnifiedModelVersion == "V2" || hasInfillsAt != -1)

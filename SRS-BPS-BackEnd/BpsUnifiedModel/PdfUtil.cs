@@ -34,7 +34,7 @@ namespace BpsUnifiedModelLib
     }
 
     public class PdfUtil
-    {
+    {   /*
         public static List<MemberGeometricInfo> ComputeMemberGeometricInfo(ModelInput input)
         {
             List<MemberGeometricInfo> memberGeometricInfos = new List<MemberGeometricInfo>();
@@ -540,6 +540,6 @@ namespace BpsUnifiedModelLib
             g.Save();
             g.Dispose();
         }
-
+        */
     }
 }
