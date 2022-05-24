@@ -230,6 +230,7 @@
     <PackageReference Include="IronPdf" Version="2022.5.5629" />
     <PackageReference Include="jQuery" Version="3.6.0" />
     <PackageReference Include="jQuery.Validation" Version="1.19.3" />
+    <PackageReference Include="log4net" Version="2.0.14" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.Web" Version="2.20.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.8" />
