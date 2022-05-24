@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
-//using System.Web.Http;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
 using VCLWebAPI.Services;
 
 namespace VCLWebAPI.Controllers

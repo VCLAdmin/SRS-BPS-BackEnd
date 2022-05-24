@@ -1,25 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Owin;
-//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-//using Microsoft.AspNet.Identity.Owin;
-//using Microsoft.Owin.Security;
-//using Microsoft.Owin.Security.Cookies;
-//using Microsoft.Owin.Security.OAuth;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-//using System.Web;
-//using System.Web.Http;
+using System.Web;
+using System.Web.Http;
 using VCLWebAPI.Exceptions;
 using VCLWebAPI.Models;
 using VCLWebAPI.Providers;
 using VCLWebAPI.Results;
 using VCLWebAPI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace VCLWebAPI.Controllers
 {
@@ -28,7 +25,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="AccountController" />.
     /// </summary>
     [Authorize]
-    [Route("api/Account")]
+    [RoutePrefix("api/Account")]
     public class AccountController : BaseController
     {
         /// <summary>
@@ -92,9 +89,9 @@ namespace VCLWebAPI.Controllers
         /// The AddExternalLogin.
         /// </summary>
         /// <param name="model">The model<see cref="AddExternalLoginBindingModel"/>.</param>
-        /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        /// <returns>The <see cref="Task{IHttpActionResult}"/>.</returns>
         [Route("AddExternalLogin")]
-        public async Task<IActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
+        public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -134,9 +131,9 @@ namespace VCLWebAPI.Controllers
         /// The ChangePassword.
         /// </summary>
         /// <param name="model">The model<see cref="ChangePasswordBindingModel"/>.</param>
-        /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        /// <returns>The <see cref="Task{IHttpActionResult}"/>.</returns>
         [Route("ChangePassword")]
-        public async Task<IActionResult> ChangePassword(ChangePasswordBindingModel model)
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -217,12 +214,12 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="provider">The provider<see cref="string"/>.</param>
         /// <param name="error">The error<see cref="string"/>.</param>
-        /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        /// <returns>The <see cref="Task{IHttpActionResult}"/>.</returns>
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [Route("ExternalLogin", Name = "ExternalLogin")]
-        public async Task<IActionResult> GetExternalLogin(string provider, string error = null)
+        public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
             if (error != null)
             {
@@ -387,9 +384,9 @@ namespace VCLWebAPI.Controllers
         /// <summary>
         /// The Logout.
         /// </summary>
-        /// <returns>The <see cref="IActionResult"/>.</returns>
+        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
         [Route("Logout")]
-        public IActionResult Logout()
+        public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             return Ok();
@@ -399,10 +396,10 @@ namespace VCLWebAPI.Controllers
         /// The Register.
         /// </summary>
         /// <param name="model">The model<see cref="RegisterBindingModel"/>.</param>
-        /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        /// <returns>The <see cref="Task{IHttpActionResult}"/>.</returns>
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -423,11 +420,11 @@ namespace VCLWebAPI.Controllers
         /// The RegisterExternal.
         /// </summary>
         /// <param name="model">The model<see cref="RegisterExternalBindingModel"/>.</param>
-        /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        /// <returns>The <see cref="Task{IHttpActionResult}"/>.</returns>
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
-        public async Task<IActionResult> RegisterExternal(RegisterExternalBindingModel model)
+        public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -459,9 +456,9 @@ namespace VCLWebAPI.Controllers
         /// The RemoveLogin.
         /// </summary>
         /// <param name="model">The model<see cref="RemoveLoginBindingModel"/>.</param>
-        /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        /// <returns>The <see cref="Task{IHttpActionResult}"/>.</returns>
         [Route("RemoveLogin")]
-        public async Task<IActionResult> RemoveLogin(RemoveLoginBindingModel model)
+        public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -492,9 +489,9 @@ namespace VCLWebAPI.Controllers
         /// The SetPassword.
         /// </summary>
         /// <param name="model">The model<see cref="SetPasswordBindingModel"/>.</param>
-        /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        /// <returns>The <see cref="Task{IHttpActionResult}"/>.</returns>
         [Route("SetPassword")]
-        public async Task<IActionResult> SetPassword(SetPasswordBindingModel model)
+        public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -545,8 +542,8 @@ namespace VCLWebAPI.Controllers
         /// The GetErrorResult.
         /// </summary>
         /// <param name="result">The result<see cref="IdentityResult"/>.</param>
-        /// <returns>The <see cref="IActionResult"/>.</returns>
-        private IActionResult GetErrorResult(IdentityResult result)
+        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
+        private IHttpActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)
             {

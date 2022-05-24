@@ -5,14 +5,11 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-//using System.Web.Http;
-//using System.Web.Script.Serialization;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
+using System.Web.Script.Serialization;
 using VCLWebAPI.Models.Edmx;
 using VCLWebAPI.Models.SRS;
 using VCLWebAPI.Services;
-using System.Text.Json;
 
 namespace VCLWebAPI.Controllers
 {
@@ -59,12 +56,12 @@ namespace VCLWebAPI.Controllers
         /// The GetProblemByGuid.
         /// </summary>
         /// <param name="problemGuid">The problemGuid<see cref="string"/>.</param>
-        /// <returns>The <see cref="IActionResult"/>.</returns>
+        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
         [HttpGet]
         [Route("api/Order/GenerateProposal/{problemGuid}/{ProposalOrBOM}")]
         // Use this to generate proposal using problemGuid.
         // Else just call this method to use the download.json located in "...\VCLDesign\VCLWebAPI\Resources\srs-templates\download.json"
-        public IActionResult GenerateProposal(string problemGuid, string ProposalOrBOM)
+        public IHttpActionResult GenerateProposal(string problemGuid, string ProposalOrBOM)
         {
             try
             {
@@ -83,10 +80,10 @@ namespace VCLWebAPI.Controllers
         /// <summary>
         /// The GenerateProposal_FromJsonFile.
         /// </summary>
-        /// <returns>The <see cref="IActionResult"/>.</returns>
+        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
         [HttpGet]
         [Route("api/Order/GenerateProposal_FromJsonFile/{ProposalOrBOM}")]
-        public IActionResult GenerateProposal_FromJsonFile(string ProposalOrBOM)
+        public IHttpActionResult GenerateProposal_FromJsonFile(string ProposalOrBOM)
         {
             try
             {
@@ -105,18 +102,17 @@ namespace VCLWebAPI.Controllers
         /// The GenerateProposal_FromJsonModel.
         /// </summary>
         /// <param name="jsonModel">The jsonModel<see cref="BpsUnifiedModel"/>.</param>
-        /// <returns>The <see cref="IActionResult"/>.</returns>
+        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
         [HttpGet]
         [Route("api/Order/GenerateProposal_FromJsonModel/")]
-        public IActionResult GenerateProposal_FromJsonModel(BpsUnifiedModel jsonModel)
+        public IHttpActionResult GenerateProposal_FromJsonModel(BpsUnifiedModel jsonModel)
         {
             try
             {
                 SRS_Solver.SRSAnalysis srsAnalysis = new SRS_Solver.SRSAnalysis();
 
-                //var jsonStringName = new JavaScriptSerializer();
-                //var jsonStringResult = jsonStringName.Serialize(jsonModel);
-                var jsonStringResult = JsonSerializer.Serialize(jsonModel);
+                var jsonStringName = new JavaScriptSerializer();
+                var jsonStringResult = jsonStringName.Serialize(jsonModel);
 
                 srsAnalysis.GenerateProposal_FromJsonString(jsonStringResult);
                 return Ok();
@@ -132,18 +128,16 @@ namespace VCLWebAPI.Controllers
         /// The GenerateProposal_FromJsonTemplateModel.
         /// </summary>
         /// <param name="jsonModel">The jsonModel<see cref="SRSUnifiedApiModel"/>.</param>
-        /// <returns>The <see cref="IActionResult"/>.</returns>
+        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
         [HttpGet]
         [Route("api/Order/GenerateProposal_FromJsonTemplateModel/")]
-        public IActionResult GenerateProposal_FromJsonTemplateModel(SRSUnifiedApiModel jsonModel)
+        public IHttpActionResult GenerateProposal_FromJsonTemplateModel(SRSUnifiedApiModel jsonModel)
         {
             try
             {
                 SRS_Solver.SRSAnalysis srsAnalysis = new SRS_Solver.SRSAnalysis();
-                //var jsonStringName = new JavaScriptSerializer();
-                //var jsonStringResult = jsonStringName.Serialize(jsonModel.BPSUnifiedModel);
-
-                var jsonStringResult = JsonSerializer.Serialize(jsonModel.BPSUnifiedModel);
+                var jsonStringName = new JavaScriptSerializer();
+                var jsonStringResult = jsonStringName.Serialize(jsonModel.BPSUnifiedModel);
 
                 srsAnalysis.GenerateProposal_FromJsonString(jsonStringResult, jsonModel.TemplateFileName);
                 return Ok();

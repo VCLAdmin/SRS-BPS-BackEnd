@@ -1,10 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-//using System.Web;
-//using System.Web.Mvc;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+using System.Web;
+using System.Web.Mvc;
 using VCLWebAPI.Models;
 using VCLWebAPI.Models.Account;
 using VCLWebAPI.Models.Edmx;
@@ -123,7 +121,7 @@ namespace VCLWebAPI.Controllers
         [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<UserApiModel> SignIn(AccountApiModel accountApiModel)
         {
-            if (!HttpContext.User.Identity.IsAuthenticated)
+            if (!HttpContextHelper.Current.User.Identity.IsAuthenticated)
             {
                 throw new UnauthorizedAccessException();
             }
@@ -137,7 +135,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="Boolean"/>.</returns>
         public Boolean ValidateHash(AccountApiModel accountApiModel)
         {
-            if (!HttpContext.User.Identity.IsAuthenticated)
+            if (!HttpContextHelper.Current.User.Identity.IsAuthenticated)
             {
                 throw new UnauthorizedAccessException();
             }

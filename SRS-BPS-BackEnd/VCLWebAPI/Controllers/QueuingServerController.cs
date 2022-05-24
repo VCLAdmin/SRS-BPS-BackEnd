@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-//using System.Web.Http;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using System.Web.Http;
 using VCLWebAPI.Services;
 
 namespace VCLWebAPI.Controllers
