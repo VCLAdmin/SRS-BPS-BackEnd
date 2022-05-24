@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
+//using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VCLWebAPI.Controllers
 {

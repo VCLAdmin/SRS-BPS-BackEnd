@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿//using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
 using VCLWebAPI.Services;
 
 namespace VCLWebAPI.Controllers

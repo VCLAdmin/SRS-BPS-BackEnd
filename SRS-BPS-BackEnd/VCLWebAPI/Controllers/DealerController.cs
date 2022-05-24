@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Http;
+//using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VCLWebAPI.Models.SRS;
 using VCLWebAPI.Services;
 

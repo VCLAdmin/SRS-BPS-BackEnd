@@ -216,6 +216,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BpsUnifiedModel\BpsUnifiedModelLib.csproj" />
     <ProjectReference Include="..\SRS_Solver\SRS_Solver.csproj" />
+    <ProjectReference Include="..\StrucutralSolver_SBA\StructuralSolver_SBA.csproj" />
     <ProjectReference Include="..\VCLMigration\VCLMigration.csproj" />
     <ProjectReference Include="..\ViewResources\ViewResources.csproj" />
   </ItemGroup>
@@ -235,6 +236,8 @@
     <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.8" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.8" />
     <PackageReference Include="Microsoft.AspNet.WebApi.HelpPage" Version="5.2.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Owin" Version="6.0.5" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.5" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.12" />
