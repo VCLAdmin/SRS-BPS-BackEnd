@@ -1,11 +1,11 @@
 ﻿using Amazon;
 using Amazon.S3;
-using Amazon.S3.IO;
+//using Amazon.S3.IO;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using System;
 using System.Collections.Generic;
-using System.Web;
+//using System.Web;
 using VCLWebAPI.Models.AWS;
 
 namespace VCLWebAPI.Services
