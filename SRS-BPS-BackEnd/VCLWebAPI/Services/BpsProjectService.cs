@@ -1534,13 +1534,13 @@ namespace VCLWebAPI.Services
             DeleteOrderByGuid(project.ProblemGuid);
             return _db.Order.Where(e => e.OrderDetails.Count > 0).ToList().Select(s => _projectMapper.ProjectDbToApiModel(s)).ToList();
         }
-        public List<OrderApiModel> DeleteProblemById(int problemId)
+        public async Task<List<OrderApiModel>> DeleteProblemById(int problemId)
         {
             BpsUnifiedProblem project = _db.BpsUnifiedProblem.Where(x => x.ProblemId == problemId).SingleOrDefault();
-            DeleteProblemByGuid(project.ProblemGuid);
+            await DeleteProblemByGuid(project.ProblemGuid);
             return _db.Order.Where(e => e.OrderDetails.Count > 0).ToList().Select(s => _projectMapper.ProjectDbToApiModel(s)).ToList();
         }
-        public Guid? DeleteProblemByGuid(Guid problemGuid)
+        public async Task<Guid?> DeleteProblemByGuid(Guid problemGuid)
         {
             BpsUnifiedProblem problem = GetProblemByGuid(problemGuid);
             if (problem is null)
@@ -1555,18 +1555,19 @@ namespace VCLWebAPI.Services
             string pdfFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Content\\structural-result\\{userGuid}\\{projectGuid}\\{problemGuid}\\");
             if (Directory.Exists(pdfFolderPath)) Directory.Delete(pdfFolderPath, true);
 
-            DeleteFile(problemGuid.ToString());
+            await DeleteFile(problemGuid.ToString());
 
             DeleteProblem(problem, "child");
             return problemGuid;
         }
 
 
-        public bool CheckFileExist(string key, string bucketName, AmazonS3Client s3Client)
+        public async Task<bool> CheckFileExist(string key, string bucketName, AmazonS3Client s3Client)
         {
             try
             {
-                var fileObject = s3Client.GetObject(bucketName, key);
+                //var fileObject = s3Client.GetObject(bucketName, key);
+                var fileObject = await s3Client.GetObjectAsync(bucketName, key);
                 if (fileObject != null)
                     return true;
                 else
@@ -1578,7 +1579,7 @@ namespace VCLWebAPI.Services
                 //throw new NullReferenceException("File not present on s3.");
             }
         }
-        public bool DeleteFile(string key)
+        public async Task<bool> DeleteFile(string key)
         {
             if (String.IsNullOrEmpty(key))
             {
@@ -1598,9 +1599,11 @@ namespace VCLWebAPI.Services
             {
                 ServiceURL = service_url
             });
-            if (CheckFileExist(localFileFullPath, bucket_name, s3Client))
+            bool fileExist = await CheckFileExist(localFileFullPath, bucket_name, s3Client);
+            //if (CheckFileExist(localFileFullPath, bucket_name, s3Client))
+            if (fileExist)
             {
-                s3Client.DeleteObject(bucket_name, localFileFullPath);
+                await s3Client.DeleteObjectAsync(bucket_name, localFileFullPath);
             }
             return true;
         }
