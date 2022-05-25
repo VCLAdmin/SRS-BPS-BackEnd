@@ -558,7 +558,7 @@ namespace VCLWebAPI.Controllers
                 string reportURL = AppDomain.CurrentDomain.BaseDirectory + reportRequest.FolderPath + reportRequest.ReportFileName;
                 MemoryStream reportStream = _bpsProjectService.GetReport(reportURL);
                 HttpResponseMessage httpResponseMessage;
-                httpResponseMessage = Request.CreateResponse(HttpStatusCode.OK);
+                httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
                 httpResponseMessage.Content = new StreamContent(reportStream);
                 //
                 httpResponseMessage.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
@@ -755,7 +755,7 @@ namespace VCLWebAPI.Controllers
             try
             {
                 string strUnifiedModel = HttpContext.Request.Form["unifiedModel"];
-                HttpFileCollection hfc = HttpContext.Request.Files;
+                IFormFileCollection hfc = HttpContext.Request.Form.Files;
                 BpsUnifiedModel unifiedModel = _bpsProjectService.UploadResults(strUnifiedModel, hfc);
                 return Ok(unifiedModel);
             }
