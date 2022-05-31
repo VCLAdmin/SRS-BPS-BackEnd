@@ -14,21 +14,48 @@ using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VCLWebAPI.Services;
+using VCLWebAPI.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using VCLWebAPI.Services.Handlers;
 
 namespace VCLWebAPI
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            //SetConfiguration();
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment WebHostEnvironment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // 1.Add Cors
+            services.AddCors(o => o.AddPolicy("VCL_Policy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            // 2. AddAuthentication
+            services.AddAuthentication("token")
+                .AddOAuth2Introspection("token", options =>
+                {
+                    options.Authority = Configuration.GetSection(@"Authority").Value;
+
+                    options.ClientId = "CMACS_API";
+                    options.ClientSecret = "secret";
+                });
+            //.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
             services.AddControllersWithViews(ConfigureMvcOptions)
                 // Newtonsoft.Json is added for compatibility reasons
                 // The recommended approach is to use System.Text.Json for serialization
@@ -39,6 +66,18 @@ namespace VCLWebAPI
                     options.UseMemberCasing();
                 });
 
+            // 3. addAuthorization
+            services.AddAuthorization();
+
+            // 4. Add EF services to the services container.
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,5 +102,15 @@ namespace VCLWebAPI
         private void ConfigureMvcOptions(MvcOptions mvcOptions)
         { 
         }
+
+        //public void SetConfiguration()
+        //{
+        //    //Can be removed later once the UI is ready with adding of new user.
+        //    AccountService accountService = new AccountService();
+        //    accountService.AddAspNetUsers();
+        //    //accountService.AddNewUsers();
+        //    //accountService.AddSRSData();
+        //    //VCLDesignDB.Util.Globals.DBConnectionString = VCLDesignDB.Util.Constants.Local_DbConnectionString;
+        //}
     }
 }
