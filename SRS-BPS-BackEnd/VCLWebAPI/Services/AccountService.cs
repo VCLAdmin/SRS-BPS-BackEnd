@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,8 +8,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Security;
 using VCLWebAPI.Mappers;
 using VCLWebAPI.Models;
 using VCLWebAPI.Models.Account;
@@ -22,7 +19,8 @@ namespace VCLWebAPI.Services
     public class AccountService
     {
         private readonly VCLDesignDBEntities _db;
-        private ApplicationUserManager _userManager;
+        private UserManager<IdentityUser> _userManager;
+        //private ApplicationUserManager _userManager;
         public AccountService()
         {
             _db = new VCLDesignDBEntities();
@@ -42,17 +40,17 @@ namespace VCLWebAPI.Services
             return _db.User.Where(e => e.Email == HttpContextHelper.Current.User.Identity.Name).FirstOrDefault();
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContextHelper.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+        //public ApplicationUserManager UserManager
+        //{
+        //    get
+        //    {
+        //        return _userManager ?? HttpContextHelper.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    }
+        //    private set
+        //    {
+        //        _userManager = value;
+        //    }
+        //}
 
         public async Task<UserApiModel> SignIn(AccountApiModel accountApiModel)
         {
@@ -75,8 +73,8 @@ namespace VCLWebAPI.Services
                 Thread.CurrentThread.CurrentUICulture = !String.IsNullOrEmpty(user.Language) ? new CultureInfo(user.Language) : new CultureInfo("en-US");
                 userApiModel = new UserMapper().MapUserDbModelToApiModel(user);
                 // var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                var aspUser = await UserManager.FindByNameAsync(user.Email);
-                var rolesForUser = UserManager.GetRoles(aspUser.Id);
+                var aspUser = await _userManager.FindByNameAsync(user.Email);
+                var rolesForUser = await _userManager.GetRolesAsync(aspUser);
                 if (rolesForUser.Contains("Dealer-Full") || rolesForUser.Contains("Dealer-Restricted"))
                 {
                     user.Language = SetLanguage(accountApiModel, user);
@@ -94,14 +92,14 @@ namespace VCLWebAPI.Services
 
         public async Task<string> GetRoleForSRS(string email)
         {
-            var aspUser = await UserManager.FindByNameAsync(email);
-            var rolesForUser = UserManager.GetRoles(aspUser.Id);
+            var aspUser = await _userManager.FindByNameAsync(email);
+            var rolesForUser = await _userManager.GetRolesAsync(aspUser);
             return rolesForUser[0] != null ? rolesForUser[0] : string.Empty;
         }
-        public string GetUserRole(string email)
+        public async Task<string> GetUserRoleAsync(string email)
         {
-            var aspUser = UserManager.FindByName(email);
-            var rolesForUser = UserManager.GetRoles(aspUser.Id);
+            var aspUser = await _userManager.FindByNameAsync(email);
+            var rolesForUser = await _userManager.GetRolesAsync(aspUser);
             return rolesForUser[0] != null ? rolesForUser[0] : string.Empty;
         }
 
@@ -326,11 +324,11 @@ namespace VCLWebAPI.Services
             return 1;
         }
 
-        public List<CreateContactBindingModel> ContactList()
+        public async Task<List<CreateContactBindingModel>> ContactList()
         {
             List<CreateContactBindingModel> contactList = new List<CreateContactBindingModel>();
             foreach (User user in _db.User.Where(e => e.Email != null).ToList()) {
-                var userRoles = GetUserRole(user.Email);
+                var userRoles = await GetUserRoleAsync(user.Email);
                 if (userRoles != null && (userRoles != "SRSAdministrator" && userRoles != "Dealer-Full" && userRoles != "Dealer-Restricted"))
                 {
                     CreateContactBindingModel contact = new CreateContactBindingModel();
@@ -509,18 +507,18 @@ namespace VCLWebAPI.Services
         {
             try
             {
-                var aspUser = await UserManager.FindByNameAsync(email);
+                var aspUser = await _userManager.FindByNameAsync(email);
                 if (aspUser != null)
                 {
-                    var token = await UserManager.GeneratePasswordResetTokenAsync(aspUser.Id);
-                    var result = await UserManager.ResetPasswordAsync(aspUser.Id, token, password);
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(aspUser);
+                    var result = await _userManager.ResetPasswordAsync(aspUser, token, password);
                     if (result.Succeeded)
                     {
                         return "";
                     }
                     else
                     {
-                        return result.Errors.FirstOrDefault();
+                        return result.Errors.FirstOrDefault().ToString();
                     }
                 }
                 else
@@ -536,113 +534,113 @@ namespace VCLWebAPI.Services
 
         public void AddUsersToAspNet()
         {
-            List<string> aspNetUsers = _db.AspNetUsers.Select(s => s.Email).ToList();
-            List<User> newUserList = _db.User.Where(x => x.Email.Trim() != "" && x.Email != null && !aspNetUsers.Contains(x.Email)).ToList();
-            foreach (User newUser in newUserList.Distinct())
-            {
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
-                {
-                    AllowOnlyAlphanumericUserNames = false
-                };
-                var user = new ApplicationUser { UserName = newUser.Email, Email = newUser.Email };
-                var result = userManager.Create(user, "bps2019!");
-                result = userManager.SetLockoutEnabled(user.Id, false);
-                // Add user admin to Role Admin if not already added
-                var rolesForUser = userManager.GetRoles(user.Id);
-                if (!rolesForUser.Contains(newUser.Email))
-                {
-                    result = userManager.AddToRole(user.Id, "Internal");
-                }
-            }
-            try
-            {
-                _db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            //List<string> aspNetUsers = _db.AspNetUsers.Select(s => s.Email).ToList();
+            //List<User> newUserList = _db.User.Where(x => x.Email.Trim() != "" && x.Email != null && !aspNetUsers.Contains(x.Email)).ToList();
+            //foreach (User newUser in newUserList.Distinct())
+            //{
+            //    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            //    userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
+            //    {
+            //        AllowOnlyAlphanumericUserNames = false
+            //    };
+            //    var user = new ApplicationUser { UserName = newUser.Email, Email = newUser.Email };
+            //    var result = _userManager.Create(user, "bps2019!");
+            //    result = _userManager.SetLockoutEnabled(user.Id, false);
+            //    // Add user admin to Role Admin if not already added
+            //    var rolesForUser = _userManager.GetRoles(user.Id);
+            //    if (!rolesForUser.Contains(newUser.Email))
+            //    {
+            //        result = userManager.AddToRole(user.Id, "Internal");
+            //    }
+            //}
+            //try
+            //{
+            //    _db.SaveChanges();
+            //}
+            //catch (Exception e)
+            //{
+            //    throw;
+            //}
         }
 
         public void AddAspNetUsers()
         {
             //Seed Database here for now
             // var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
-            var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
-            if (!RoleManager.RoleExists("SRSAdministrator"))
-            {
-                string[] roleNames = { "SRSAdministrator", "Fabricator", "Dealer-Full","Dealer-Restricted","Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator", "External" };
-                IdentityResult roleResult;
-                foreach (var roleName in roleNames)
-                {
-                    if (!RoleManager.RoleExists(roleName))
-                    {
-                        roleResult = RoleManager.Create(new IdentityRole(roleName));
-                    }
-                }
+            //var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            //if (!RoleManager.RoleExists("SRSAdministrator"))
+            //{
+            //    string[] roleNames = { "SRSAdministrator", "Fabricator", "Dealer-Full","Dealer-Restricted","Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator", "External" };
+            //    IdentityResult roleResult;
+            //    foreach (var roleName in roleNames)
+            //    {
+            //        if (!RoleManager.RoleExists(roleName))
+            //        {
+            //            roleResult = RoleManager.Create(new IdentityRole(roleName));
+            //        }
+            //    }
 
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
-                {
-                    AllowOnlyAlphanumericUserNames = false
-                };
-                //AWSUtils awsUtil = new AWSUtils();
-                string[] userNames = { "SRSAdministrator","Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator" };
-                //var userManager = GetUserManager<ApplicationUserManager>();
-                foreach (var userName in userNames)
-                {
-                    string name = userName + "@vcldesign.com";
-                    var user = userManager.FindByName(name);
+            //    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            //    userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
+            //    {
+            //        AllowOnlyAlphanumericUserNames = false
+            //    };
+            //    //AWSUtils awsUtil = new AWSUtils();
+            //    string[] userNames = { "SRSAdministrator","Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator" };
+            //    //var userManager = GetUserManager<ApplicationUserManager>();
+            //    foreach (var userName in userNames)
+            //    {
+            //        string name = userName + "@vcldesign.com";
+            //        var user = userManager.FindByName(name);
 
-                    if (user == null)
-                    {
-                        user = new ApplicationUser { UserName = name, Email = name };
-                        var result = userManager.Create(user, "bps2019!");
-                        result = userManager.SetLockoutEnabled(user.Id, false);
-                        try
-                        {
-                            User appUser = new User
-                            {
-                                UserName = userName,
-                                UserGuid = Guid.NewGuid(),
-                                NameFirst = userName,
-                                NameLast = userName,
-                                Email = name,
-                                Language = "en-US",
-                                Company = "Schuco"
-                            };
-                            if (_db.User.Where(x => x.UserName == userName).SingleOrDefault() == null)
-                            {
-                                _db.User.Add(appUser);
-                                _db.SaveChanges();
-                            }
-                            SaltAndHashNewUsers();
-                        }
-                        catch (Exception ex)
-                        {
-                            var ex1 = ex;
-                        }
-                    }
+            //        if (user == null)
+            //        {
+            //            user = new ApplicationUser { UserName = name, Email = name };
+            //            var result = userManager.Create(user, "bps2019!");
+            //            result = userManager.SetLockoutEnabled(user.Id, false);
+            //            try
+            //            {
+            //                User appUser = new User
+            //                {
+            //                    UserName = userName,
+            //                    UserGuid = Guid.NewGuid(),
+            //                    NameFirst = userName,
+            //                    NameLast = userName,
+            //                    Email = name,
+            //                    Language = "en-US",
+            //                    Company = "Schuco"
+            //                };
+            //                if (_db.User.Where(x => x.UserName == userName).SingleOrDefault() == null)
+            //                {
+            //                    _db.User.Add(appUser);
+            //                    _db.SaveChanges();
+            //                }
+            //                SaltAndHashNewUsers();
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                var ex1 = ex;
+            //            }
+            //        }
 
-                    // Add user admin to Role Admin if not already added
-                    var rolesForUser = userManager.GetRoles(user.Id);
-                    if (!rolesForUser.Contains(userName))
-                    {
-                        var result = userManager.AddToRole(user.Id, userName);
-                    }
-                }
+            //        // Add user admin to Role Admin if not already added
+            //        var rolesForUser = userManager.GetRoles(user.Id);
+            //        if (!rolesForUser.Contains(userName))
+            //        {
+            //            var result = userManager.AddToRole(user.Id, userName);
+            //        }
+            //    }
 
-                try
-                {
-                    _db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-            }
-            AddUsersToAspNet();
+            //    try
+            //    {
+            //        _db.SaveChanges();
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        throw;
+            //    }
+            //}
+            //AddUsersToAspNet();
         }
         public void AddSRSData() {
             AddFabricator();
@@ -882,30 +880,30 @@ namespace VCLWebAPI.Services
         }
         public void AddUsersToAspNet(string email, string role)
         {
-            User newUser = _db.User.First(x => x.Email == email);
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
-            {
-                AllowOnlyAlphanumericUserNames = false
-            };
-            var user = new ApplicationUser { UserName = newUser.Email, Email = newUser.Email };
-            var result = userManager.Create(user, "bps2019!");
-            result = userManager.SetLockoutEnabled(user.Id, false);
-            // Add user admin to Role Admin if not already added
-            var rolesForUser = userManager.GetRoles(user.Id);
-            if (!rolesForUser.Contains(newUser.Email))
-            {
-                result = userManager.AddToRole(user.Id, role);
-            }
+            //User newUser = _db.User.First(x => x.Email == email);
+            //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            //userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
+            //{
+            //    AllowOnlyAlphanumericUserNames = false
+            //};
+            //var user = new ApplicationUser { UserName = newUser.Email, Email = newUser.Email };
+            //var result = userManager.Create(user, "bps2019!");
+            //result = userManager.SetLockoutEnabled(user.Id, false);
+            //// Add user admin to Role Admin if not already added
+            //var rolesForUser = userManager.GetRoles(user.Id);
+            //if (!rolesForUser.Contains(newUser.Email))
+            //{
+            //    result = userManager.AddToRole(user.Id, role);
+            //}
 
-            try
-            {
-                _db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            //try
+            //{
+            //    _db.SaveChanges();
+            //}
+            //catch (Exception e)
+            //{
+            //    throw;
+            //}
         }
     }
 }

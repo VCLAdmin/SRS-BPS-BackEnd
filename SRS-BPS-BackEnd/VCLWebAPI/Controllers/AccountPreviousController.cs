@@ -53,7 +53,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="VersionInformationApiModel"/>.</returns>
         [HttpGet]
-        [OverrideActionFilters]
+        //[OverrideActionFilters]
         public VersionInformationApiModel GetVersionInformation()
         {
             var fileInfo = new FileInfo(GetType().Assembly.Location);

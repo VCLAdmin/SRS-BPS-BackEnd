@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 //using System.Web.Http;
 using VCLWebAPI.Exceptions;
 using VCLWebAPI.Models;
-using VCLWebAPI.Providers;
-using VCLWebAPI.Results;
 using VCLWebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using VCLWebAPI.Utils;
 
 namespace VCLWebAPI.Controllers
 {
@@ -38,13 +38,14 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         private const string LocalLoginProvider = "Local";
         private AccountService _accountService;
-        private ApplicationUserManager _userManager;
+        private UserManager<IdentityUser> _userManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
         /// </summary>
-        public AccountController()
+        public AccountController(UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _accountService = new AccountService();
         }
 
@@ -53,10 +54,10 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="userManager">The userManager<see cref="ApplicationUserManager"/>.</param>
         /// <param name="accessTokenFormat">The accessTokenFormat<see cref="ISecureDataFormat{AuthenticationTicket}"/>.</param>
-        public AccountController(ApplicationUserManager userManager,
+        public AccountController(UserManager<IdentityUser> userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
-            UserManager = userManager;
+            _userManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
 
@@ -68,17 +69,17 @@ namespace VCLWebAPI.Controllers
         /// <summary>
         /// Gets the UserManager.
         /// </summary>
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+        //public ApplicationUserManager UserManager
+        //{
+        //    get
+        //    {
+        //        return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    }
+        //    private set
+        //    {
+        //        _userManager = value;
+        //    }
+        //}
 
         /// <summary>
         /// Gets the Authentication.
@@ -86,6 +87,11 @@ namespace VCLWebAPI.Controllers
         private IAuthenticationManager Authentication
         {
             get { return Request.GetOwinContext().Authentication; }
+        }
+
+        private async Task<IdentityUser> GetUser()
+        {
+            return await _userManager.FindByIdAsync(User.GetLoggedInUserId<string>());
         }
 
         /// <summary>
@@ -119,8 +125,8 @@ namespace VCLWebAPI.Controllers
                 return BadRequest("The external login is already associated with an account.");
             }
 
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
-                new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
+            IdentityResult result = await _userManager.AddLoginAsync(await GetUser(),
+                new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey, externalData.));
 
             if (!result.Succeeded)
             {
@@ -143,7 +149,7 @@ namespace VCLWebAPI.Controllers
                 throw new InvalidModelException();
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+            IdentityResult result = await _userManager.ChangePasswordAsync(await GetUser(), model.OldPassword,
                 model.NewPassword);
 
             if (!result.Succeeded)
@@ -209,7 +215,7 @@ namespace VCLWebAPI.Controllers
             {
                 throw new InvalidModelException();
             }
-            return _accountService.ContactList();
+            return await _accountService.ContactList();
         }
 
         /// <summary>
@@ -247,7 +253,7 @@ namespace VCLWebAPI.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+            ApplicationUser user = await _userManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
                 externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
@@ -256,9 +262,9 @@ namespace VCLWebAPI.Controllers
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(_userManager,
                    OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(_userManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
                 AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
@@ -330,7 +336,7 @@ namespace VCLWebAPI.Controllers
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
-            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            IdentityUser user = await GetUser();
 
             if (user == null)
             {
@@ -378,7 +384,7 @@ namespace VCLWebAPI.Controllers
 
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                Email = User.GetLoggedInUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
@@ -410,7 +416,7 @@ namespace VCLWebAPI.Controllers
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -441,13 +447,13 @@ namespace VCLWebAPI.Controllers
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
-            IdentityResult result = await UserManager.CreateAsync(user);
+            IdentityResult result = await _userManager.CreateAsync(user);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
 
-            result = await UserManager.AddLoginAsync(user.Id, info.Login);
+            result = await _userManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -472,12 +478,11 @@ namespace VCLWebAPI.Controllers
 
             if (model.LoginProvider == LocalLoginProvider)
             {
-                result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+                result = await _userManager.RemovePasswordAsync(await GetUser());
             }
             else
             {
-                result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
-                    new UserLoginInfo(model.LoginProvider, model.ProviderKey));
+                result = await _userManager.RemoveLoginAsync(await GetUser(), model.LoginProvider, model.ProviderKey);
             }
 
             if (!result.Succeeded)
@@ -501,7 +506,7 @@ namespace VCLWebAPI.Controllers
                 throw new InvalidModelException();
             }
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            IdentityResult result = await _userManager.AddPasswordAsync(await GetUser(), model.NewPassword);
 
             if (!result.Succeeded)
             {
@@ -557,9 +562,9 @@ namespace VCLWebAPI.Controllers
             {
                 if (result.Errors != null)
                 {
-                    foreach (string error in result.Errors)
+                    foreach (IdentityError error in result.Errors)
                     {
-                        ModelState.AddModelError("", error);
+                        ModelState.AddModelError("", error.ToString());
                     }
                 }
 

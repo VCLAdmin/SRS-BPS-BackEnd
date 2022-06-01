@@ -122,7 +122,7 @@ namespace VCLWebAPI.Services
         {
             List<BpsProject> projects = new List<BpsProject>();
             User currentUser = _accountService.GetCurrentUser();
-            string role = _accountService.GetUserRole(currentUser.Email);
+            //string role = _accountService.GetUserRole(currentUser.Email);
             var dealer = currentUser.Dealer.FirstOrDefault();
             if (dealer != null)
             {

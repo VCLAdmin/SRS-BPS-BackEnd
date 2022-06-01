@@ -9,12 +9,13 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using VCLWebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace VCLWebAPI.Services.Handlers
 {
     public class BasicAuthenticationHandler: AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly DbContext _context;
         public BasicAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
@@ -37,18 +38,18 @@ namespace VCLWebAPI.Services.Handlers
                 string clientId = creds[0];
                 string clientSecret = creds[1];
 
-                var externalClients = _context.ExternalClients.Where(ec => ec.ClientExternalId == clientId && ec.ClientSecret == clientSecret).FirstOrDefault();
-                if (externalClients == null)
-                {
-                    return AuthenticateResult.Fail("Invalid Account");
-                }
-                else {
-                    var claims = new[] { new Claim(ClaimTypes.Name, externalClients.ClientName) };
+                //var externalClients = _context.ExternalClients.Where(ec => ec.ClientExternalId == clientId && ec.ClientSecret == clientSecret).FirstOrDefault();
+                //if (externalClients == null)
+                //{
+                //    return AuthenticateResult.Fail("Invalid Account");
+                //}
+                //else {
+                    var claims = new[] { new Claim(ClaimTypes.Name, HttpContextHelper.Current.User.Identity.Name) };
                     var identity = new ClaimsIdentity(claims, Scheme.Name);
                     var principal = new ClaimsPrincipal(identity);
                     var ticket = new AuthenticationTicket(principal, Scheme.Name);
                     return AuthenticateResult.Success(ticket);
-                }
+                //}
             }
             catch (Exception e)
             {
