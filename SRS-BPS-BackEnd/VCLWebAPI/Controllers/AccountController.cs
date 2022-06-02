@@ -20,6 +20,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using VCLWebAPI.Utils;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using System.Web;
+//using Microsoft.AspNetCore.Http.Authentication;
 
 namespace VCLWebAPI.Controllers
 {
@@ -39,12 +44,14 @@ namespace VCLWebAPI.Controllers
         private const string LocalLoginProvider = "Local";
         private AccountService _accountService;
         private UserManager<IdentityUser> _userManager;
+        private SignInManager<IdentityUser> _signInManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
         /// </summary>
-        public AccountController(UserManager<IdentityUser> userManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
+            _signInManager = signInManager;
             _userManager = userManager;
             _accountService = new AccountService();
         }
@@ -84,10 +91,10 @@ namespace VCLWebAPI.Controllers
         /// <summary>
         /// Gets the Authentication.
         /// </summary>
-        private IAuthenticationManager Authentication
-        {
-            get { return Request.GetOwinContext().Authentication; }
-        }
+        //private IAuthenticationManager Authentication
+        //{
+        //    get { return Request.GetOwinContext().Authentication; }
+        //}
 
         private async Task<IdentityUser> GetUser()
         {
@@ -99,42 +106,45 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="model">The model<see cref="AddExternalLoginBindingModel"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
-        [Route("AddExternalLogin")]
-        public async Task<IActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                throw new InvalidModelException();
-            }
+        //[Route("AddExternalLogin")]
+        //public async Task<IActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        throw new InvalidModelException();
+        //    }
 
-            Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+        //    //Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+        //    await HttpContext.SignOutAsync();
 
-            AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
+        //    AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
 
-            if (ticket == null || ticket.Identity == null || (ticket.Properties != null
-                && ticket.Properties.ExpiresUtc.HasValue
-                && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
-            {
-                return BadRequest("External login failure.");
-            }
+        //    //if (ticket == null || ticket.Identity == null || (ticket.Properties != null
+        //    if (ticket == null || ticket.Principal == null || (ticket.Properties != null
+        //        && ticket.Properties.ExpiresUtc.HasValue
+        //        && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
+        //    {
+        //        return BadRequest("External login failure.");
+        //    }
 
-            ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
+        //    //ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket..Identity);
+        //    ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Principal);
 
-            if (externalData == null)
-            {
-                return BadRequest("The external login is already associated with an account.");
-            }
+        //    if (externalData == null)
+        //    {
+        //        return BadRequest("The external login is already associated with an account.");
+        //    }
 
-            IdentityResult result = await _userManager.AddLoginAsync(await GetUser(),
-                new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey, externalData.));
+        //    IdentityResult result = await _userManager.AddLoginAsync(await GetUser(),
+        //        new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey, displayName);
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+        //    if (!result.Succeeded)
+        //    {
+        //        return GetErrorResult(result);
+        //    }
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         /// <summary>
         /// The ChangePassword.
@@ -224,8 +234,8 @@ namespace VCLWebAPI.Controllers
         /// <param name="provider">The provider<see cref="string"/>.</param>
         /// <param name="error">The error<see cref="string"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
-        [OverrideAuthentication]
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
+        [System.Web.Mvc.OverrideAuthentication]
+        [System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [Route("ExternalLogin", Name = "ExternalLogin")]
         public async Task<IActionResult> GetExternalLogin(string provider, string error = null)
@@ -237,45 +247,55 @@ namespace VCLWebAPI.Controllers
 
             if (!User.Identity.IsAuthenticated)
             {
-                return new ChallengeResult(provider, this);
+                return new ChallengeResult(provider); //return new ChallengeResult(provider, this);
             }
 
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsPrincipal);
 
             if (externalLogin == null)
             {
-                return InternalServerError();
+                //return InternalServerError();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             if (externalLogin.LoginProvider != provider)
             {
-                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                return new ChallengeResult(provider, this);
+                //Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                await HttpContext.SignOutAsync();
+                return new ChallengeResult(provider);//return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await _userManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
-                externalLogin.ProviderKey));
+            //ApplicationUser user = await _userManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+            //    externalLogin.ProviderKey));
 
-            bool hasRegistered = user != null;
+            IdentityUser user = await _userManager.FindByLoginAsync(externalLogin.LoginProvider,
+                externalLogin.ProviderKey);
 
-            if (hasRegistered)
-            {
-                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            //bool hasRegistered = user != null;
 
-                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(_userManager,
-                   OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(_userManager,
-                    CookieAuthenticationDefaults.AuthenticationType);
+            //if (hasRegistered)
+            //{
+            //    //Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            //    await HttpContext.SignOutAsync();
 
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
-                Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
-            }
-            else
-            {
-                IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
-                Authentication.SignIn(identity);
-            }
+            //    //ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(_userManager,
+            //    //   OAuthDefaults.AuthenticationType);
+            //    //ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(_userManager,
+            //    //    CookieAuthenticationDefaults.AuthenticationType);
+
+            //    ClaimsIdentity oAuthIdentity = await _userManager.CreateAsync(user, OAuthDefaults.AuthenticationType);
+            //    ClaimsIdentity cookieIdentity = await _userManager.CreateAsync(user, CookieAuthenticationDefaults.AuthenticationType);
+
+            //    AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+            //    //Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+            //}
+            //else
+            //{
+            //    IEnumerable<Claim> claims = externalLogin.GetClaims();
+            //    ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+            //    //Authentication.SignIn(identity);
+            //}
+            await HttpContext.SignInAsync(User);
 
             return Ok();
         }
@@ -287,45 +307,46 @@ namespace VCLWebAPI.Controllers
         /// <param name="returnUrl">The returnUrl<see cref="string"/>.</param>
         /// <param name="generateState">The generateState<see cref="bool"/>.</param>
         /// <returns>The <see cref="IEnumerable{ExternalLoginViewModel}"/>.</returns>
-        [AllowAnonymous]
-        [Route("ExternalLogins")]
-        public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
-        {
-            IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
-            List<ExternalLoginViewModel> logins = new List<ExternalLoginViewModel>();
+        //[AllowAnonymous]
+        //[Route("ExternalLogins")]
+        //public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
+        //{
+        //    IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
+        //    //IEnumerable<AuthenticationDescription> descriptions = HttpContext.GetType();
+        //    List<ExternalLoginViewModel> logins = new List<ExternalLoginViewModel>();
 
-            string state;
+        //    string state;
 
-            if (generateState)
-            {
-                const int strengthInBits = 256;
-                state = RandomOAuthStateGenerator.Generate(strengthInBits);
-            }
-            else
-            {
-                state = null;
-            }
+        //    if (generateState)
+        //    {
+        //        const int strengthInBits = 256;
+        //        state = RandomOAuthStateGenerator.Generate(strengthInBits);
+        //    }
+        //    else
+        //    {
+        //        state = null;
+        //    }
 
-            foreach (AuthenticationDescription description in descriptions)
-            {
-                ExternalLoginViewModel login = new ExternalLoginViewModel
-                {
-                    Name = description.Caption,
-                    Url = Url.Route("ExternalLogin", new
-                    {
-                        provider = description.AuthenticationType,
-                        response_type = "token",
-                        client_id = Startup.PublicClientId,
-                        redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
-                        state = state
-                    }),
-                    State = state
-                };
-                logins.Add(login);
-            }
+        //    foreach (AuthenticationDescription description in descriptions)
+        //    {
+        //        ExternalLoginViewModel login = new ExternalLoginViewModel
+        //        {
+        //            Name = description.Caption,
+        //            Url = Url.Route("ExternalLogin", new
+        //            {
+        //                provider = description.AuthenticationType,
+        //                response_type = "token",
+        //                client_id = Startup.PublicClientId,
+        //                redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
+        //                state = state
+        //            }),
+        //            State = state
+        //        };
+        //        logins.Add(login);
+        //    }
 
-            return logins;
-        }
+        //    return logins;
+        //}
 
         /// <summary>
         /// The GetManageInfo.
@@ -333,54 +354,55 @@ namespace VCLWebAPI.Controllers
         /// <param name="returnUrl">The returnUrl<see cref="string"/>.</param>
         /// <param name="generateState">The generateState<see cref="bool"/>.</param>
         /// <returns>The <see cref="Task{ManageInfoViewModel}"/>.</returns>
-        [Route("ManageInfo")]
-        public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
-        {
-            IdentityUser user = await GetUser();
+        //[Route("ManageInfo")]
+        //public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
+        //{
+        //    IdentityUser user = await GetUser();
 
-            if (user == null)
-            {
-                throw new NotFoundException();
-            }
+        //    if (user == null)
+        //    {
+        //        throw new NotFoundException();
+        //    }
 
-            List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
+        //    List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
 
-            foreach (IdentityUserLogin linkedAccount in user.Logins)
-            {
-                logins.Add(new UserLoginInfoViewModel
-                {
-                    LoginProvider = linkedAccount.LoginProvider,
-                    ProviderKey = linkedAccount.ProviderKey
-                });
-            }
+        //    foreach (IdentityUserLogin linkedAccount in user..Logins)
+        //    {
+        //        logins.Add(new UserLoginInfoViewModel
+        //        {
+        //            LoginProvider = linkedAccount.LoginProvider,
+        //            ProviderKey = linkedAccount.ProviderKey
+        //        });
+        //    }
 
-            if (user.PasswordHash != null)
-            {
-                logins.Add(new UserLoginInfoViewModel
-                {
-                    LoginProvider = LocalLoginProvider,
-                    ProviderKey = user.UserName,
-                });
-            }
+        //    if (user.PasswordHash != null)
+        //    {
+        //        logins.Add(new UserLoginInfoViewModel
+        //        {
+        //            LoginProvider = LocalLoginProvider,
+        //            ProviderKey = user.UserName,
+        //        });
+        //    }
 
-            return new ManageInfoViewModel
-            {
-                LocalLoginProvider = LocalLoginProvider,
-                Email = user.UserName,
-                Logins = logins,
-                ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
-            };
-        }
+        //    return new ManageInfoViewModel
+        //    {
+        //        LocalLoginProvider = LocalLoginProvider,
+        //        Email = user.UserName,
+        //        Logins = logins,
+        //        ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
+        //    };
+        //}
 
         /// <summary>
         /// The GetUserInfo.
         /// </summary>
         /// <returns>The <see cref="UserInfoViewModel"/>.</returns>
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            //ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsPrincipal);
 
             return new UserInfoViewModel
             {
@@ -395,9 +417,10 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [Route("Logout")]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+            //Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+            await HttpContext.SignOutAsync();
             return Ok();
         }
 
@@ -430,8 +453,8 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="model">The model<see cref="RegisterExternalBindingModel"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
-        [OverrideAuthentication]
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [System.Web.Mvc.OverrideAuthentication]
+        [System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
         public async Task<IActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
@@ -439,10 +462,12 @@ namespace VCLWebAPI.Controllers
             {
                 throw new InvalidModelException();
             }
-            var info = await Authentication.GetExternalLoginInfoAsync();
+            //var info = await Authentication.GetExternalLoginInfoAsync();
+            var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                return InternalServerError();
+                //return InternalServerError();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
@@ -453,7 +478,7 @@ namespace VCLWebAPI.Controllers
                 return GetErrorResult(result);
             }
 
-            result = await _userManager.AddLoginAsync(user.Id, info.Login);
+            result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -535,16 +560,16 @@ namespace VCLWebAPI.Controllers
         /// The Dispose.
         /// </summary>
         /// <param name="disposing">The disposing<see cref="bool"/>.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && _userManager != null)
-            {
-                _userManager.Dispose();
-                _userManager = null;
-            }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing && _userManager != null)
+        //    {
+        //        _userManager.Dispose();
+        //        _userManager = null;
+        //    }
 
-            base.Dispose(disposing);
-        }
+        //    base.Dispose(disposing);
+        //}
 
         /// <summary>
         /// The GetErrorResult.
@@ -555,7 +580,8 @@ namespace VCLWebAPI.Controllers
         {
             if (result == null)
             {
-                return InternalServerError();
+                //return InternalServerError();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             if (!result.Succeeded)
@@ -605,7 +631,8 @@ namespace VCLWebAPI.Controllers
             /// </summary>
             /// <param name="identity">The identity<see cref="ClaimsIdentity"/>.</param>
             /// <returns>The <see cref="ExternalLoginData"/>.</returns>
-            public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
+            //public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
+            public static ExternalLoginData FromIdentity(ClaimsPrincipal identity) // ClaimsIdentity identity)
             {
                 if (identity == null)
                 {
@@ -679,7 +706,7 @@ namespace VCLWebAPI.Controllers
 
                 byte[] data = new byte[strengthInBytes];
                 _random.GetBytes(data);
-                return HttpServerUtility.UrlTokenEncode(data);
+                return HttpUtility.UrlEncode(data);//return HttpServerUtility.UrlTokenEncode(data);
             }
         }
     }
