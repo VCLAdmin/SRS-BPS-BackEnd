@@ -28,7 +28,7 @@ namespace VCLWebAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //SetConfiguration();
+            SetConfiguration();
         }
 
         public IConfiguration Configuration { get; }
@@ -73,9 +73,9 @@ namespace VCLWebAPI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
 
             services.AddMvc();
 
@@ -140,14 +140,14 @@ namespace VCLWebAPI
         { 
         }
 
-        //public void SetConfiguration()
-        //{
-        //    //Can be removed later once the UI is ready with adding of new user.
-        //    AccountService accountService = new AccountService();
-        //    accountService.AddAspNetUsers();
-        //    //accountService.AddNewUsers();
-        //    //accountService.AddSRSData();
-        //    //VCLDesignDB.Util.Globals.DBConnectionString = VCLDesignDB.Util.Constants.Local_DbConnectionString;
-        //}
+        public void SetConfiguration()
+        {
+            //Can be removed later once the UI is ready with adding of new user.
+            AccountService accountService = new AccountService();
+            accountService.AddAspNetUsers();
+            //accountService.AddNewUsers();
+            //accountService.AddSRSData();
+            //VCLDesignDB.Util.Globals.DBConnectionString = VCLDesignDB.Util.Constants.Local_DbConnectionString;
+        }
     }
 }
