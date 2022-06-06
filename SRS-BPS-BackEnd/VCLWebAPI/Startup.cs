@@ -20,6 +20,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using VCLWebAPI.Services.Handlers;
+using Microsoft.AspNetCore.Http.Features;
+using System.Text.Json.Serialization;
 
 namespace VCLWebAPI
 {
@@ -40,13 +42,11 @@ namespace VCLWebAPI
             // 1.Add Cors
             services.AddCors(o => o.AddPolicy("VCL_Policy", builder =>
             {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
+                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
             }));
 
             // 2. AddAuthentication
-            //services.AddAuthentication("token")
+            services.AddAuthentication("BasicAuthentication")
             //    .AddOAuth2Introspection("token", options =>
             //    {
             //        options.Authority = Configuration.GetSection(@"Authority").Value;
@@ -54,7 +54,7 @@ namespace VCLWebAPI
             //        options.ClientId = "CMACS_API";
             //        options.ClientSecret = "secret";
             //    });
-            //.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
             services.AddControllersWithViews(ConfigureMvcOptions)
                 // Newtonsoft.Json is added for compatibility reasons
@@ -73,15 +73,18 @@ namespace VCLWebAPI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            //services.AddMvc().AddMvcOptions(options =>
+            //{
+            //    options.EnableEndpointRouting = false;
+            //});
 
             // 5. identity config
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -114,6 +117,29 @@ namespace VCLWebAPI
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
+            // 6. add IISserver configure
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = int.MaxValue;
+            });
+
+            services.Configure<FormOptions>(options =>
+            {
+                options.ValueLengthLimit = int.MaxValue;
+                options.MultipartBodyLengthLimit = int.MaxValue; // if don't set default value is: 128 MB
+                options.MultipartHeadersLengthLimit = int.MaxValue;
+            });
+
+            //7. physicsCore
+            services.AddMemoryCache();
+
+            //services.AddScoped<ICachingService, CachingService>();
+
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -124,6 +150,12 @@ namespace VCLWebAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            //7 physicsCore
+            app.UseHttpsRedirection();
+
+            //app.MapControllers();
+            app.UseCors("VCL_Policy");
+
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
@@ -133,11 +165,22 @@ namespace VCLWebAPI
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                //endpoints.MapControllerRoute(
+                //    name: "VCLWebAPI",
+                //    pattern: "api/{controller}/{action}/{id?}",
+                //    defaults: new { controller = "Home", action = "Index" });
             });
+            //app.UseMvc(
+            //    routes =>
+            //    {
+            //        routes.MapRoute("areaRoute", "{area:exists}/{controller=Api/Controller}/{action=Index}/{id?}");
+            //        routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
+            //    });
         }
 
         private void ConfigureMvcOptions(MvcOptions mvcOptions)
-        { 
+        {
         }
 
         public void SetConfiguration()
