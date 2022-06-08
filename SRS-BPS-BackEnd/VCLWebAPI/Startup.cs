@@ -45,6 +45,10 @@ namespace VCLWebAPI
                 builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
             }));
 
+            // 4. Add EF services to the services container.
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("LocalIdentConnection")));
+
             // 2. AddAuthentication
             services.AddAuthentication("BasicAuthentication")
             //    .AddOAuth2Introspection("token", options =>
@@ -56,6 +60,10 @@ namespace VCLWebAPI
             //    });
             .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
+
+            // 3. addAuthorization
+            services.AddAuthorization();
+
             services.AddControllersWithViews(ConfigureMvcOptions)
                 // Newtonsoft.Json is added for compatibility reasons
                 // The recommended approach is to use System.Text.Json for serialization
@@ -66,12 +74,16 @@ namespace VCLWebAPI
                     options.UseMemberCasing();
                 });
 
-            // 3. addAuthorization
-            services.AddAuthorization();
+            //7. physicsCore
+            services.AddMemoryCache();
 
-            // 4. Add EF services to the services container.
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalIdentConnection")));
+            //services.AddScoped<ICachingService, CachingService>();
+
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
+            });
+
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -131,15 +143,7 @@ namespace VCLWebAPI
                 options.MultipartHeadersLengthLimit = int.MaxValue;
             });
 
-            //7. physicsCore
-            services.AddMemoryCache();
-
-            //services.AddScoped<ICachingService, CachingService>();
-
-            services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
-            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -158,8 +162,8 @@ namespace VCLWebAPI
 
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
