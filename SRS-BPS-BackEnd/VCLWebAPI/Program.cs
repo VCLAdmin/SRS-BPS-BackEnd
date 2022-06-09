@@ -56,6 +56,7 @@ using VCLWebAPI.Services.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json;
 
 // gettoken
 using Microsoft.AspNetCore.Http;
@@ -63,13 +64,22 @@ using System.Security.Claims;
 //using Microsoft.IdentityModel.JsonWebTokens;
 using System.IdentityModel.Tokens.Jwt;
 using VCLWebAPI.Models.Account;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Net.Http.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//Globals.DE_AWSSecretKey = builder.Configuration.GetSection(@"DE_AWSSecretKey").Value;
+//Globals.DE_AWSSecretKey = builder.Configuration.GetSection(@"DE_AWSSecretKey").Value;
+//Globals.DE_AWSSecretKey = builder.Configuration.GetSection(@"DE_AWSSecretKey").Value;
 
-var connectionString = builder.Configuration.GetConnectionString("LocalIdentConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlite(connectionString));
+
+
+string signingkey = builder.Configuration["DE_AWSSecretKey"];
+string issuer = builder.Configuration["Issuer"];
+string audience = builder.Configuration["Audience"];
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -81,10 +91,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Issuer"],
         ValidAudience = builder.Configuration["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SigningKey"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["DE_AWSSecretKey"]))
     };
 });
 builder.Services.AddAuthorization();
+
+var connectionString = builder.Configuration.GetConnectionString("LocalIdentConnection");
+builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlite(connectionString));
 
 builder.Services.Configure<IISServerOptions>(options =>
 {
@@ -162,6 +175,10 @@ app.UseCors("VCL_Policy");
 
 app.UseHttpsRedirection();
 
+app.MapPost("/Token", GetToken);
+
+app.UseRouting();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
@@ -173,20 +190,29 @@ app.UseAuthorization();
 //        routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
 //    });
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapPost("/Token", GetToken);
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 
 
+//async Task<string> ReadStringDataManual()
+//{
+//    using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+//    {
+//        return await reader.ReadToEndAsync();
+//    }
+//}
 
 
 async Task GetToken(HttpContext http)
 {
     var dbContext = http.RequestServices.GetService<ApplicationDbContext>();
+    var options = new JsonSerializerOptions();
+    var request = http.Request;
+    //var jsonModel = new StringContent(JsonConvert.SerializeObject(request.Body), Encoding.UTF8, "application/json");
+    //var inputUser = await jsonModel.ReadFromJsonAsync<AccountApiModel>();
     var inputUser = await http.Request.ReadFromJsonAsync<AccountApiModel>();
     if (!string.IsNullOrEmpty(inputUser.UserName) &&
         !string.IsNullOrEmpty(inputUser.Password))
@@ -215,7 +241,7 @@ async Task GetToken(HttpContext http)
             expires: DateTime.UtcNow.AddDays(60),
             notBefore: DateTime.UtcNow,
             signingCredentials: new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SigningKey"])),
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["DE_AWSSecretKey"])),
                 SecurityAlgorithms.HmacSha256)
         );
 
