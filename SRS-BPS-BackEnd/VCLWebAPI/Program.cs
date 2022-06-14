@@ -259,8 +259,8 @@ async Task GetToken(HttpContext http)
     if (!string.IsNullOrEmpty(inputUser.UserName) &&
         !string.IsNullOrEmpty(inputUser.Password))
     {
-        var user = await dbContext.User
-            .FirstOrDefaultAsync(x => x.UserName == inputUser.UserName);
+        var user = dbContext.User
+            .SingleOrDefault(x => x.Email.Equals(inputUser.UserName));
         //
         // var loggedInUser = null;
         Boolean valid = true;
@@ -293,8 +293,6 @@ async Task GetToken(HttpContext http)
                 }
             }
         }
-
-
         else
         {
 
