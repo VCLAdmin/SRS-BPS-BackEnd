@@ -2,9 +2,14 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Configuration;
 using System.IO;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using VCLWebAPI.Models.Account;
+using VCLWebAPI.Utils;
 
 namespace VCLWebAPI.Models
 {
@@ -19,6 +24,45 @@ namespace VCLWebAPI.Models
             // Add custom user claims here
             return (ClaimsIdentity)userIdentity;
         }
+
+        //public Boolean ValidateHash(string username, string password)
+        //{
+        //    var user = this;
+        //    // User user = new User();
+        //    byte[] salt = new byte[16];
+        //    string hashedPassword = string.Empty;
+        //    byte[] hashBytes = new byte[] { };
+        //    byte[] hash = new byte[] { };
+        //    Rfc2898DeriveBytes pbkdf2;
+        //    Boolean valid = true;
+
+        //    // user = _db.User.SingleOrDefault(x => x.UserName.Equals(username));
+
+        //    if (user != null)
+        //    {
+        //        salt = user.Salt;
+        //        hashedPassword = user.PasswordHash;
+        //        hashBytes = Convert.FromBase64String(hashedPassword);
+        //        Array.Copy(hashBytes, 0, salt, 0, 16);
+        //        pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+        //        hash = pbkdf2.GetBytes(20);
+
+        //        for (int i = 0; i < 20; i++)
+        //        {
+        //            if (hashBytes[i + 16] != hash[i])
+        //            {
+        //                valid = false;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        valid = false;
+        //    }
+
+        //    return valid;
+        //}
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -28,25 +72,33 @@ namespace VCLWebAPI.Models
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //services.AddDbContext<PhysicsCoreContext>(options =>
-            //    options.UseSqlite(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    //services.AddDbContext<PhysicsCoreContext>(options =>
+        //    //    options.UseSqlite(
+        //    //        Configuration.GetConnectionString("DefaultConnection")));
+        //    var configuration = new ConfigurationBuilder()
+        //        .SetBasePath(Directory.GetCurrentDirectory())
+        //        .AddJsonFile("appsettings.json")
+        //        .Build();
 
-            var connectionString = configuration.GetConnectionString("LocalIdentConnection");
-            optionsBuilder.UseSqlite(connectionString);
+        //    var connectionString = configuration.GetConnectionString("LocalIdentConnection");
+        //    optionsBuilder.UseSqlite(connectionString);
+        //}
+
+        //public static ApplicationDbContext Create()
+        //{
+        //    // "LocalIdentConnection", throwIfV1Schema: false??
+        //    DbContextOptions< ApplicationDbContext > options = new DbContextOptions< ApplicationDbContext >();
+        //    return new ApplicationDbContext(options);
+        //}
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            // connect to sql server with connection string from app settings
+            options.UseSqlServer(Globals.ConnectionString);
         }
 
-        public static ApplicationDbContext Create()
-        {
-            // "LocalIdentConnection", throwIfV1Schema: false??
-            DbContextOptions< ApplicationDbContext > options = new DbContextOptions< ApplicationDbContext >();
-            return new ApplicationDbContext(options);
-        }
+        //public DbSet<AccountApiModel> Users { get; set; }
     }
 }

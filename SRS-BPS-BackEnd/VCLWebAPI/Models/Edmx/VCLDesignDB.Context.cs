@@ -12,11 +12,14 @@ namespace VCLWebAPI.Models.Edmx
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+    using VCLWebAPI.Configurations;
+    using VCLWebAPI.Utils;
+
+    [DbConfigurationType(typeof(VCLDesignDBConfiguration))]
     public partial class VCLDesignDBEntities : DbContext
     {
         public VCLDesignDBEntities()
-            : base("name=VCLDesignDBEntities")
+            : base(Globals.ConnectionString)
         {
         }
     

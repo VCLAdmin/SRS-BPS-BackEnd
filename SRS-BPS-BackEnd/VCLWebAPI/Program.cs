@@ -67,15 +67,21 @@ using VCLWebAPI.Models.Account;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using VCLWebAPI.Utils;
+using VCLWebAPI.Models.Edmx;
+using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+Globals.ConnectionString = builder.Configuration.GetConnectionString("VCLDesignDBEntities");
 //Globals.DE_AWSSecretKey = builder.Configuration.GetSection(@"DE_AWSSecretKey").Value;
 //Globals.DE_AWSSecretKey = builder.Configuration.GetSection(@"DE_AWSSecretKey").Value;
 //Globals.DE_AWSSecretKey = builder.Configuration.GetSection(@"DE_AWSSecretKey").Value;
 
-
+var connectionString = builder.Configuration.GetConnectionString("LocalIdentConnection");
+builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(connectionString));
 
 string signingkey = builder.Configuration["DE_AWSSecretKey"];
 string issuer = builder.Configuration["Issuer"];
@@ -96,8 +102,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 builder.Services.AddAuthorization();
 
-var connectionString = builder.Configuration.GetConnectionString("LocalIdentConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlite(connectionString));
+
 
 builder.Services.Configure<IISServerOptions>(options =>
 {
@@ -204,50 +209,135 @@ app.Run();
 //        return await reader.ReadToEndAsync();
 //    }
 //}
+Boolean ValidateHash(string username, string password, User user)
+{
+    // User user = new User();
+    byte[] salt = new byte[16];
+    string hashedPassword = string.Empty;
+    byte[] hashBytes = new byte[] { };
+    byte[] hash = new byte[] { };
+    Rfc2898DeriveBytes pbkdf2;
+    Boolean valid = true;
 
+    // user = _db.User.SingleOrDefault(x => x.UserName.Equals(username));
 
+    if (user != null)
+    {
+        salt = user.Salt;
+        hashedPassword = user.Hash;
+        hashBytes = Convert.FromBase64String(hashedPassword);
+        Array.Copy(hashBytes, 0, salt, 0, 16);
+        pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+        hash = pbkdf2.GetBytes(20);
+
+        for (int i = 0; i < 20; i++)
+        {
+            if (hashBytes[i + 16] != hash[i])
+            {
+                valid = false;
+                break;
+            }
+        }
+    }
+    else
+    {
+        valid = false;
+    }
+
+    return valid;
+}
 async Task GetToken(HttpContext http)
 {
-    var dbContext = http.RequestServices.GetService<ApplicationDbContext>();
-    var options = new JsonSerializerOptions();
-    var request = http.Request;
+  //  private readonly VCLDesignDBEntities _dbContext = new VCLDesignDBEntities();
+    var dbContext = http.RequestServices.GetService<VCLDesignDBEntities>();
+    dbContext = dbContext != null? dbContext : new VCLDesignDBEntities();
+    //var request = http.Request;
+    //request.Headers.ContentType = "application/json";
     //var jsonModel = new StringContent(JsonConvert.SerializeObject(request.Body), Encoding.UTF8, "application/json");
     //var inputUser = await jsonModel.ReadFromJsonAsync<AccountApiModel>();
     var inputUser = await http.Request.ReadFromJsonAsync<AccountApiModel>();
     if (!string.IsNullOrEmpty(inputUser.UserName) &&
         !string.IsNullOrEmpty(inputUser.Password))
     {
-        var loggedInUser = await dbContext.Users
-            .FirstOrDefaultAsync(user => user.UserName == inputUser.UserName
-            && user.PasswordHash == inputUser.Password);
-        if (loggedInUser == null)
+        var user = await dbContext.User
+            .FirstOrDefaultAsync(x => x.UserName == inputUser.UserName);
+        //
+        // var loggedInUser = null;
+        Boolean valid = true;
+        if (user != null)
         {
+            byte[] salt = new byte[16];
+            string hashedPassword = string.Empty;
+            byte[] hashBytes = new byte[] { };
+            byte[] hash = new byte[] { };
+            Rfc2898DeriveBytes pbkdf2;
+            //Boolean valid = true;
+
+            // user = _db.User.SingleOrDefault(x => x.UserName.Equals(username));
+
+            // if (user != null)
+            //{
+            salt = user.Salt;
+            hashedPassword = user.Hash;
+            hashBytes = Convert.FromBase64String(hashedPassword);
+            Array.Copy(hashBytes, 0, salt, 0, 16);
+            pbkdf2 = new Rfc2898DeriveBytes(inputUser.Password, salt, 10000);
+            hash = pbkdf2.GetBytes(20);
+
+            for (int i = 0; i < 20; i++)
+            {
+                if (hashBytes[i + 16] != hash[i])
+                {
+                    valid = false;
+                    break;
+                }
+            }
+        }
+
+
+        else
+        {
+
             http.Response.StatusCode = 401;
+            return;
+
+            valid = false;
+        }
+        //
+        if (valid)
+        {
+
+
+            var claims = new[]
+            {
+            new Claim(JwtRegisteredClaimNames.Sub, inputUser.UserName),
+            new Claim(JwtRegisteredClaimNames.Name, inputUser.UserName),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email)
+        };
+
+            var token = new JwtSecurityToken
+            (
+                issuer: builder.Configuration["Issuer"],
+                audience: builder.Configuration["Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(60),
+                notBefore: DateTime.UtcNow,
+                signingCredentials: new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["DE_AWSSecretKey"])),
+                    SecurityAlgorithms.HmacSha256)
+            );
+
+            await http.Response.WriteAsJsonAsync(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
             return;
         }
 
-        var claims = new[]
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, inputUser.UserName),
-            new Claim(JwtRegisteredClaimNames.Name, inputUser.UserName),
-            new Claim(JwtRegisteredClaimNames.Email, loggedInUser.Email)
-        };
-
-        var token = new JwtSecurityToken
-        (
-            issuer: builder.Configuration["Issuer"],
-            audience: builder.Configuration["Audience"],
-            claims: claims,
-            expires: DateTime.UtcNow.AddDays(60),
-            notBefore: DateTime.UtcNow,
-            signingCredentials: new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["DE_AWSSecretKey"])),
-                SecurityAlgorithms.HmacSha256)
-        );
-
-        await http.Response.WriteAsJsonAsync(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
-        return;
     }
 
     http.Response.StatusCode = 400;
+    // await  V();
 }
+
+//async Task V()
+//{
+
+//}

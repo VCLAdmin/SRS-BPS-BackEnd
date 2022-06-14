@@ -39,6 +39,11 @@ namespace VCLWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            string signingkey = Configuration["SigningKey"];
+            string issuer = Configuration["Issuer"];
+            string audience = Configuration["Audience"];
+
             // 1.Add Cors
             services.AddCors(o => o.AddPolicy("VCL_Policy", builder =>
             {
