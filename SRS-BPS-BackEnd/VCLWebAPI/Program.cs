@@ -325,7 +325,7 @@ async Task GetToken(HttpContext http)
                     SecurityAlgorithms.HmacSha256)
             );
 
-            await http.Response.WriteAsJsonAsync(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+            await http.Response.WriteAsJsonAsync(new { access_token = new JwtSecurityTokenHandler().WriteToken(token), expires = DateTime.UtcNow.AddDays(60) });
             return;
         }
 
