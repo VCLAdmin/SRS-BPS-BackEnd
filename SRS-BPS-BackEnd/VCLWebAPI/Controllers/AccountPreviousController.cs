@@ -17,6 +17,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="AccountPreviousController" />.
     /// </summary>
     [Authorize]
+    [Route("api/AccountPrevious")]
     public class AccountPreviousController : BaseController
     {
         /// <summary>
@@ -53,7 +54,8 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="VersionInformationApiModel"/>.</returns>
         [HttpGet]
-        //[OverrideActionFilters]
+        [Route("GetVersionInformation")]
+        [AllowAnonymous]
         public VersionInformationApiModel GetVersionInformation()
         {
             var fileInfo = new FileInfo(GetType().Assembly.Location);
@@ -120,6 +122,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="accountApiModel">The accountApiModel<see cref="AccountApiModel"/>.</param>
         /// <returns>The <see cref="UserApiModel"/>.</returns>
         [HttpPost]
+        [Route("SignIn")]
         [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<UserApiModel> SignIn(AccountApiModel accountApiModel)
         {
