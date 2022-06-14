@@ -214,14 +214,14 @@ app.Use((context, next) =>
     return next(context);
 });
 
-app.MapControllers();
+//app.MapControllers();
 
-//app.UseMvc(
-//    routes =>
-//    {
-//        routes.MapRoute("areaRoute", "{area:exists}/{controller=Api/Controller}/{action=Index}/{id?}");
-//        routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
-//    });
+app.UseMvc(
+    routes =>
+    {
+        routes.MapRoute("areaRoute", "{area:exists}/{controller=Api/Controller}/{action=Index}/{id?}");
+        routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
+    });
 
 //app.MapControllerRoute(
 //    name: "default",
@@ -353,7 +353,7 @@ async Task GetToken(HttpContext http)
                     SecurityAlgorithms.HmacSha256)
             );
 
-            await http.Response.WriteAsJsonAsync(new { access_token = new JwtSecurityTokenHandler().WriteToken(token), expires_in = TimeSpan.FromHours(8).TotalSeconds});
+            await http.Response.WriteAsJsonAsync(new { access_token = new JwtSecurityTokenHandler().WriteToken(token), expires_in = TimeSpan.FromHours(8).TotalSeconds, refresh_token = "" });
             return;
         }
 

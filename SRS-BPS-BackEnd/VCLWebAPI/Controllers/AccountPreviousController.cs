@@ -123,7 +123,6 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="UserApiModel"/>.</returns>
         [HttpPost]
         [Route("SignIn")]
-        [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<UserApiModel> SignIn(AccountApiModel accountApiModel)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
