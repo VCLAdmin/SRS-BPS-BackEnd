@@ -77,106 +77,134 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 Globals.ConnectionString = builder.Configuration.GetConnectionString("VCLDesignDBEntities");
+Globals.ConnectionStringApp = builder.Configuration.GetConnectionString("LocalIdentConnection");
+Globals.Issuer = builder.Configuration["Issuer"];
+Globals.Audience = builder.Configuration["Audience"];
+Globals.Secret = builder.Configuration["DE_AWSSecretKey"];
 //Globals.DE_AWSSecretKey = builder.Configuration.GetSection(@"DE_AWSSecretKey").Value;
 //Globals.DE_AWSSecretKey = builder.Configuration.GetSection(@"DE_AWSSecretKey").Value;
 //Globals.DE_AWSSecretKey = builder.Configuration.GetSection(@"DE_AWSSecretKey").Value;
 
-var connectionString = builder.Configuration.GetConnectionString("LocalIdentConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(connectionString));
 
-string signingkey = builder.Configuration["DE_AWSSecretKey"];
-string issuer = builder.Configuration["Issuer"];
-string audience = builder.Configuration["Audience"];
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateActor = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Issuer"],
-        ValidAudience = builder.Configuration["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["DE_AWSSecretKey"]))
-    };
-});
-builder.Services.AddAuthorization();
-
-
-
-builder.Services.Configure<IISServerOptions>(options =>
-{
-    options.MaxRequestBodySize = int.MaxValue;
-});
-
-builder.Services.Configure<FormOptions>(options =>
-{
-    options.ValueLengthLimit = int.MaxValue;
-    options.MultipartBodyLengthLimit = int.MaxValue; // if don't set default value is: 128 MB
-    options.MultipartHeadersLengthLimit = int.MaxValue;
-});
-
-
-builder.Services.AddMemoryCache();
-
-//builder.Services.AddScoped<ICachingService, CachingService>();
-
-builder.Services.AddControllersWithViews()
-                // Newtonsoft.Json is added for compatibility reasons
-                // The recommended approach is to use System.Text.Json for serialization
-                // Visit the following link for more guidance about moving away from Newtonsoft.Json to System.Text.Json
-                // https://docs.microsoft.com/dotnet/standard/serialization/system-text-json-migrate-from-newtonsoft-how-to
-                .AddNewtonsoftJson(options =>
-                {
-                    options.UseMemberCasing();
-                })
-                .AddMvcOptions(options =>
-                {
-                    options.EnableEndpointRouting = false;
-                });
-
-builder.Services.AddAntiforgery(options =>
-{
-    // Set Cookie properties using CookieBuilder properties†.
-    options.FormFieldName = "AntiforgeryFieldname";
-    options.HeaderName = "X-CSRF-TOKEN-HEADERNAME";
-    options.SuppressXFrameOptionsHeader = false;
-});
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 builder.Services.AddCors(p => p.AddPolicy("VCL_Policy", builder =>
 {
     builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 
-builder.Services.Configure<IdentityOptions>(options =>
+builder.Services.AddMvc().AddMvcOptions(options =>
 {
-    // Password settings.
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
-    //options.Password.RequiredUniqueChars = 1;
+    options.EnableEndpointRouting = false;
+});
 
-    // Lockout settings.
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("LocalIdentConnection")));
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
-    // User settings.
-    options.User.AllowedUserNameCharacters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = true;
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Issuer"],
+        ValidIssuer = builder.Configuration["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["DE_AWSSecretKey"]))
+    };
 });
 
 
-IConfiguration configuration = new ConfigurationBuilder()
-                            .AddJsonFile("appsettings.json")
-                            .Build();
+//builder.Services.AddAuthorization();
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
+
+//var connectionString = builder.Configuration.GetConnectionString("LocalIdentConnection");
+//builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(connectionString));
+
+//string signingkey = builder.Configuration["DE_AWSSecretKey"];
+//string issuer = builder.Configuration["Issuer"];
+//string audience = builder.Configuration["Audience"];
+
+
+
+
+
+//builder.Services.Configure<IISServerOptions>(options =>
+//{
+//    options.MaxRequestBodySize = int.MaxValue;
+//});
+
+//builder.Services.Configure<FormOptions>(options =>
+//{
+//    options.ValueLengthLimit = int.MaxValue;
+//    options.MultipartBodyLengthLimit = int.MaxValue; // if don't set default value is: 128 MB
+//    options.MultipartHeadersLengthLimit = int.MaxValue;
+//});
+
+
+//builder.Services.AddMemoryCache();
+
+////builder.Services.AddScoped<ICachingService, CachingService>();
+
+//builder.Services.AddControllersWithViews()
+//                // Newtonsoft.Json is added for compatibility reasons
+//                // The recommended approach is to use System.Text.Json for serialization
+//                // Visit the following link for more guidance about moving away from Newtonsoft.Json to System.Text.Json
+//                // https://docs.microsoft.com/dotnet/standard/serialization/system-text-json-migrate-from-newtonsoft-how-to
+//                .AddNewtonsoftJson(options =>
+//                {
+//                    options.UseMemberCasing();
+//                })
+//                .AddMvcOptions(options =>
+//                {
+//                    options.EnableEndpointRouting = false;
+//                });
+
+//builder.Services.AddAntiforgery(options =>
+//{
+//    // Set Cookie properties using CookieBuilder properties†.
+//    options.FormFieldName = "AntiforgeryFieldname";
+//    options.HeaderName = "X-CSRF-TOKEN-HEADERNAME";
+//    options.SuppressXFrameOptionsHeader = false;
+//});
+
+//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+//builder.Services.AddEndpointsApiExplorer();
+////builder.Services.AddSwaggerGen();
+
+
+//builder.Services.Configure<IdentityOptions>(options =>
+//{
+//    // Password settings.
+//    options.Password.RequireDigit = true;
+//    options.Password.RequireLowercase = true;
+//    options.Password.RequireNonAlphanumeric = true;
+//    options.Password.RequireUppercase = true;
+//    options.Password.RequiredLength = 6;
+//    //options.Password.RequiredUniqueChars = 1;
+
+//    // Lockout settings.
+//    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+//    options.Lockout.MaxFailedAccessAttempts = 5;
+//    options.Lockout.AllowedForNewUsers = true;
+
+//    // User settings.
+//    options.User.AllowedUserNameCharacters =
+//    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+//    options.User.RequireUniqueEmail = true;
+//});
+
 
 
 var app = builder.Build();
@@ -187,34 +215,9 @@ System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Inst
 
 app.UseCors("VCL_Policy");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.MapPost("/Token", GetToken);
-
-app.UseRouting();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-var antiforgery = app.Services.GetRequiredService<IAntiforgery>();
-
-app.Use((context, next) =>
-{
-    var requestPath = context.Request.Path.Value;
-
-    if (string.Equals(requestPath, "/", StringComparison.OrdinalIgnoreCase)
-        || string.Equals(requestPath, "/index.html", StringComparison.OrdinalIgnoreCase))
-    {
-        var tokenSet = antiforgery.GetAndStoreTokens(context);
-        context.Response.Cookies.Append("XSRF-TOKEN", tokenSet.RequestToken!,
-            new CookieOptions { HttpOnly = false });
-    }
-
-    return next(context);
-});
-
-//app.MapControllers();
+//app.MapPost("/Token", GetToken);
 
 app.UseMvc(
     routes =>
@@ -222,6 +225,33 @@ app.UseMvc(
         routes.MapRoute("areaRoute", "{area:exists}/{controller=Api/Controller}/{action=Index}/{id?}");
         routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
     });
+
+//app.UseRouting();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+//var antiforgery = app.Services.GetRequiredService<IAntiforgery>();
+
+//app.Use((context, next) =>
+//{
+//    var requestPath = context.Request.Path.Value;
+
+//    if (string.Equals(requestPath, "/", StringComparison.OrdinalIgnoreCase)
+//        || string.Equals(requestPath, "/index.html", StringComparison.OrdinalIgnoreCase))
+//    {
+//        var tokenSet = antiforgery.GetAndStoreTokens(context);
+//        context.Response.Cookies.Append("XSRF-TOKEN", tokenSet.RequestToken!,
+//            new CookieOptions { HttpOnly = false });
+//    }
+
+//    return next(context);
+//});
+
+//app.MapControllers();
+
+
 
 //app.MapControllerRoute(
 //    name: "default",
@@ -274,11 +304,16 @@ Boolean ValidateHash(string username, string password, User user)
 
     return valid;
 }
+
+
+
+
+
 async Task GetToken(HttpContext http)
 {
-  //  private readonly VCLDesignDBEntities _dbContext = new VCLDesignDBEntities();
+    //  private readonly VCLDesignDBEntities _dbContext = new VCLDesignDBEntities();
     var dbContext = http.RequestServices.GetService<VCLDesignDBEntities>();
-    dbContext = dbContext != null? dbContext : new VCLDesignDBEntities();
+    dbContext = dbContext != null ? dbContext : new VCLDesignDBEntities();
     //var request = http.Request;
     //request.Headers.ContentType = "application/json";
     //var jsonModel = new StringContent(JsonConvert.SerializeObject(request.Body), Encoding.UTF8, "application/json");

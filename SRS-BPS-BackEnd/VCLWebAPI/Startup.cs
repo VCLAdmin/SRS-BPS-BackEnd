@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.Authentication;
 using VCLWebAPI.Services.Handlers;
 using Microsoft.AspNetCore.Http.Features;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Routing;
+using VCLWebAPI.Utils;
 
 namespace VCLWebAPI
 {
@@ -30,6 +32,7 @@ namespace VCLWebAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            SetGlobal();
             SetConfiguration();
         }
 
@@ -39,121 +42,135 @@ namespace VCLWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            string signingkey = Configuration["SigningKey"];
-            string issuer = Configuration["Issuer"];
-            string audience = Configuration["Audience"];
-
             // 1.Add Cors
             services.AddCors(o => o.AddPolicy("VCL_Policy", builder =>
             {
                 builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
             }));
 
-            // 4. Add EF services to the services container.
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalIdentConnection")));
-
-            // 2. AddAuthentication
-            services.AddAuthentication("BasicAuthentication")
-            //    .AddOAuth2Introspection("token", options =>
-            //    {
-            //        options.Authority = Configuration.GetSection(@"Authority").Value;
-
-            //        options.ClientId = "CMACS_API";
-            //        options.ClientSecret = "secret";
-            //    });
-            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
 
-            // 3. addAuthorization
-            services.AddAuthorization();
-
-            services.AddControllersWithViews(ConfigureMvcOptions)
-                // Newtonsoft.Json is added for compatibility reasons
-                // The recommended approach is to use System.Text.Json for serialization
-                // Visit the following link for more guidance about moving away from Newtonsoft.Json to System.Text.Json
-                // https://docs.microsoft.com/dotnet/standard/serialization/system-text-json-migrate-from-newtonsoft-how-to
-                .AddNewtonsoftJson(options =>
-                {
-                    options.UseMemberCasing();
-                });
-
-            //7. physicsCore
-            services.AddMemoryCache();
-
-            //services.AddScoped<ICachingService, CachingService>();
-
-            services.AddControllers().AddJsonOptions(options =>
+            services.AddMvc().AddMvcOptions(options =>
             {
-                options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
+                options.EnableEndpointRouting = false;
             });
 
-
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LocalIdentConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultUI()
+                    .AddDefaultTokenProviders();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
 
-            //services.AddMvc().AddMvcOptions(options =>
+
+
+
+
+            // 4. Add EF services to the services container.
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("LocalIdentConnection")));
+
+            //// 2. AddAuthentication
+            //services.AddAuthentication("BasicAuthentication")
+            ////    .AddOAuth2Introspection("token", options =>
+            ////    {
+            ////        options.Authority = Configuration.GetSection(@"Authority").Value;
+
+            ////        options.ClientId = "CMACS_API";
+            ////        options.ClientSecret = "secret";
+            ////    });
+            //.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
+
+            //// 3. addAuthorization
+            //services.AddAuthorization();
+
+            //services.AddControllersWithViews(ConfigureMvcOptions)
+            //    // Newtonsoft.Json is added for compatibility reasons
+            //    // The recommended approach is to use System.Text.Json for serialization
+            //    // Visit the following link for more guidance about moving away from Newtonsoft.Json to System.Text.Json
+            //    // https://docs.microsoft.com/dotnet/standard/serialization/system-text-json-migrate-from-newtonsoft-how-to
+            //    .AddNewtonsoftJson(options =>
+            //    {
+            //        options.UseMemberCasing();
+            //    });
+
+            ////7. physicsCore
+            //services.AddMemoryCache();
+
+            ////services.AddScoped<ICachingService, CachingService>();
+
+            //services.AddControllers().AddJsonOptions(options =>
             //{
-            //    options.EnableEndpointRouting = false;
+            //    options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
             //});
+
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
+
+
 
             // 5. identity config
 
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Password settings.
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 6;
-                //options.Password.RequiredUniqueChars = 1;
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    // Password settings.
+            //    options.Password.RequireDigit = true;
+            //    options.Password.RequireLowercase = true;
+            //    options.Password.RequireNonAlphanumeric = true;
+            //    options.Password.RequireUppercase = true;
+            //    options.Password.RequiredLength = 6;
+            //    //options.Password.RequiredUniqueChars = 1;
 
-                // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
+            //    // Lockout settings.
+            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            //    options.Lockout.MaxFailedAccessAttempts = 5;
+            //    options.Lockout.AllowedForNewUsers = true;
 
-                // User settings.
-                options.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = true;
-            });
+            //    // User settings.
+            //    options.User.AllowedUserNameCharacters =
+            //    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            //    options.User.RequireUniqueEmail = true;
+            //});
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    // Cookie settings
+            //    options.Cookie.HttpOnly = true;
+            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                options.SlidingExpiration = true;
-            });
+            //    options.LoginPath = "/Identity/Account/Login";
+            //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            //    options.SlidingExpiration = true;
+            //});
 
-            // 6. add IISserver configure
-            services.Configure<IISServerOptions>(options =>
-            {
-                options.MaxRequestBodySize = int.MaxValue;
-            });
+            //// 6. add IISserver configure
+            //services.Configure<IISServerOptions>(options =>
+            //{
+            //    options.MaxRequestBodySize = int.MaxValue;
+            //});
 
-            services.Configure<FormOptions>(options =>
-            {
-                options.ValueLengthLimit = int.MaxValue;
-                options.MultipartBodyLengthLimit = int.MaxValue; // if don't set default value is: 128 MB
-                options.MultipartHeadersLengthLimit = int.MaxValue;
-            });
+            //services.Configure<FormOptions>(options =>
+            //{
+            //    options.ValueLengthLimit = int.MaxValue;
+            //    options.MultipartBodyLengthLimit = int.MaxValue; // if don't set default value is: 128 MB
+            //    options.MultipartHeadersLengthLimit = int.MaxValue;
+            //});
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -169,27 +186,33 @@ namespace VCLWebAPI
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                //endpoints.MapControllerRoute(
-                //    name: "VCLWebAPI",
-                //    pattern: "api/{controller}/{action}/{id?}",
-                //    defaults: new { controller = "Home", action = "Index" });
-            });
-            //app.UseMvc(
-            //    routes =>
-            //    {
-            //        routes.MapRoute("areaRoute", "{area:exists}/{controller=Api/Controller}/{action=Index}/{id?}");
-            //        routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
-            //    });
+            //    //endpoints.MapControllerRoute(
+            //    //    name: "VCLWebAPI",
+            //    //    pattern: "api/{controller}/{action}/{id?}",
+            //    //    defaults: new { controller = "Home", action = "Index" });
+            //});
+            app.UseMvc(ConfigureRoute);
         }
 
         private void ConfigureMvcOptions(MvcOptions mvcOptions)
         {
+        }
+
+        private void ConfigureRoute(IRouteBuilder routeBuilder)
+        {
+            //Home/Index 
+            routeBuilder.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
+        }
+
+        private void SetGlobal()
+        {
+            Globals.ConnectionString = Configuration.GetConnectionString("VCLDesignDBEntities");
         }
 
         public void SetConfiguration()

@@ -96,7 +96,7 @@ namespace VCLWebAPI.Models
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to sql server with connection string from app settings
-            options.UseSqlServer(Globals.ConnectionString);
+            options.UseSqlServer(Globals.ConnectionStringApp);
         }
 
         //public DbSet<AccountApiModel> Users { get; set; }

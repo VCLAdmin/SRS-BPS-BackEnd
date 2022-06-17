@@ -49,10 +49,8 @@ namespace VCLWebAPI.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
         /// </summary>
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController()
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
             _accountService = new AccountService();
         }
 
@@ -61,10 +59,9 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="userManager">The userManager<see cref="ApplicationUserManager"/>.</param>
         /// <param name="accessTokenFormat">The accessTokenFormat<see cref="ISecureDataFormat{AuthenticationTicket}"/>.</param>
-        public AccountController(UserManager<IdentityUser> userManager,
+        public AccountController(
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
-            _userManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
 
