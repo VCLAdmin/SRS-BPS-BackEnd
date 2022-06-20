@@ -3,27 +3,27 @@
 // This file will need updated according to the specific scenario of the application being upgraded.
 // For more information on ASP.NET Core startup files, see https://docs.microsoft.com/aspnet/core/fundamentals/startup
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VCLWebAPI.Services;
 using VCLWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
-using VCLWebAPI.Services.Handlers;
-using Microsoft.AspNetCore.Http.Features;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Routing;
 using VCLWebAPI.Utils;
+using System.Reflection;
+using VCLWebAPI.ServiceConfiguration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
+using System.IO;
+using System;
+using Newtonsoft.Json;
+using VCLWebAPI.Models.Edmx;
 
 namespace VCLWebAPI
 {
@@ -33,7 +33,6 @@ namespace VCLWebAPI
         {
             Configuration = configuration;
             SetGlobal();
-            SetConfiguration();
         }
 
         public IConfiguration Configuration { get; }
@@ -42,34 +41,74 @@ namespace VCLWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            Globals.StartupAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
             // 1.Add Cors
             services.AddCors(o => o.AddPolicy("VCL_Policy", builder =>
             {
                 builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
             }));
 
-
-
             services.AddMvc().AddMvcOptions(options =>
             {
                 options.EnableEndpointRouting = false;
-            });
+            }).AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
+            }).AddWebApiConventions(); 
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LocalIdentConnection")));
+            EntityFrameworkServiceConfiguration.ConfigureEntityFramework(services, Configuration);
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
-                    .AddDefaultUI()
                     .AddDefaultTokenProviders();
-            services.AddControllersWithViews();
-            services.AddRazorPages();
+
+            // Adding Authentication
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            // Adding Jwt Bearer
+            .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["JWT:ValidAudience"],
+                        ValidIssuer = Configuration["JWT:ValidIssuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                    };
+                });
 
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VCL Design", Version = "v1" });
 
+                // Set the comments path for the Swagger JSON and UI.
+                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //var xmlPath = Path.Join(AppContext.BaseDirectory, xmlFile);
+                //c.IncludeXmlComments(xmlPath);
+                c.CustomSchemaIds(x => x.FullName);
+            });
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = int.MaxValue;
+            });
+
+
+            #region commented code
 
 
             // 4. Add EF services to the services container.
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("LocalIdentConnection")));
 
             //// 2. AddAuthentication
             //services.AddAuthentication("BasicAuthentication")
@@ -162,19 +201,16 @@ namespace VCLWebAPI
             //    options.MultipartHeadersLengthLimit = int.MaxValue;
             //});
 
+            #endregion
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VCL Design Services v1"));
 
             //7 physicsCore
             app.UseHttpsRedirection();
@@ -212,17 +248,8 @@ namespace VCLWebAPI
 
         private void SetGlobal()
         {
-            Globals.ConnectionString = Configuration.GetConnectionString("VCLDesignDBEntities");
-        }
-
-        public void SetConfiguration()
-        {
-            //Can be removed later once the UI is ready with adding of new user.
-            AccountService accountService = new AccountService();
-            accountService.AddAspNetUsers();
-            //accountService.AddNewUsers();
-            //accountService.AddSRSData();
-            //VCLDesignDB.Util.Globals.DBConnectionString = VCLDesignDB.Util.Constants.Local_DbConnectionString;
+            Globals.VCLDesignDBConnection = Configuration.GetConnectionString("VCLDesignDBEntities");
+            Globals.ApplicationDBConnection = Configuration.GetConnectionString("LocalIdentConnection");
         }
     }
 }

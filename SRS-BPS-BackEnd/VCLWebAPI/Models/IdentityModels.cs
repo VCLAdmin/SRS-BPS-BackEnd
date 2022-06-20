@@ -72,33 +72,9 @@ namespace VCLWebAPI.Models
         {
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    //services.AddDbContext<PhysicsCoreContext>(options =>
-        //    //    options.UseSqlite(
-        //    //        Configuration.GetConnectionString("DefaultConnection")));
-        //    var configuration = new ConfigurationBuilder()
-        //        .SetBasePath(Directory.GetCurrentDirectory())
-        //        .AddJsonFile("appsettings.json")
-        //        .Build();
-
-        //    var connectionString = configuration.GetConnectionString("LocalIdentConnection");
-        //    optionsBuilder.UseSqlite(connectionString);
-        //}
-
-        //public static ApplicationDbContext Create()
-        //{
-        //    // "LocalIdentConnection", throwIfV1Schema: false??
-        //    DbContextOptions< ApplicationDbContext > options = new DbContextOptions< ApplicationDbContext >();
-        //    return new ApplicationDbContext(options);
-        //}
-
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            // connect to sql server with connection string from app settings
-            options.UseSqlServer(Globals.ConnectionStringApp);
+            
         }
-
-        //public DbSet<AccountApiModel> Users { get; set; }
     }
 }

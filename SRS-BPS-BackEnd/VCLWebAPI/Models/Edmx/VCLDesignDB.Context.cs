@@ -19,7 +19,7 @@ namespace VCLWebAPI.Models.Edmx
     public partial class VCLDesignDBEntities : DbContext
     {
         public VCLDesignDBEntities()
-            : base(Globals.ConnectionString)
+            : base(Globals.VCLDesignDBConnection)
         {
         }
     

@@ -1,18 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Owin;
-//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-//using Microsoft.AspNet.Identity.Owin;
-//using Microsoft.Owin.Security;
-//using Microsoft.Owin.Security.Cookies;
-//using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-//using System.Web;
-//using System.Web.Http;
 using VCLWebAPI.Exceptions;
 using VCLWebAPI.Models;
 using VCLWebAPI.Services;
@@ -20,11 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using VCLWebAPI.Utils;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using System.Web;
-//using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.Extensions.Configuration;
+using VCLWebAPI.Models.Account;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using VCLWebAPI.Models.Edmx;
+using System.Linq;
 
 namespace VCLWebAPI.Controllers
 {
@@ -43,26 +37,128 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         private const string LocalLoginProvider = "Local";
         private AccountService _accountService;
-        private UserManager<IdentityUser> _userManager;
-        private SignInManager<IdentityUser> _signInManager;
+        private UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
         /// </summary>
-        public AccountController()
+        public AccountController(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IConfiguration configuration)
         {
             _accountService = new AccountService();
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _configuration = configuration;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AccountController"/> class.
-        /// </summary>
-        /// <param name="userManager">The userManager<see cref="ApplicationUserManager"/>.</param>
-        /// <param name="accessTokenFormat">The accessTokenFormat<see cref="ISecureDataFormat{AuthenticationTicket}"/>.</param>
-        public AccountController(
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            AccessTokenFormat = accessTokenFormat;
+            var dbContext = new VCLDesignDBEntities();
+            if (!string.IsNullOrEmpty(model.UserName) &&
+                !string.IsNullOrEmpty(model.Password))
+            {
+                var user = dbContext.User
+                    .SingleOrDefault(x => x.Email.Equals(model.UserName, StringComparison.CurrentCultureIgnoreCase));
+                //
+                // var loggedInUser = null;
+                Boolean valid = true;
+                if (user != null)
+                {
+                    byte[] salt = new byte[16];
+                    string hashedPassword = string.Empty;
+                    byte[] hashBytes = new byte[] { };
+                    byte[] hash = new byte[] { };
+
+                    Rfc2898DeriveBytes pbkdf2;
+                    salt = user.Salt;
+                    hashedPassword = user.Hash;
+                    hashBytes = Convert.FromBase64String(hashedPassword);
+                    Array.Copy(hashBytes, 0, salt, 0, 16);
+                    pbkdf2 = new Rfc2898DeriveBytes(model.Password, salt, 10000);
+                    hash = pbkdf2.GetBytes(20);
+
+                    for (int i = 0; i < 20; i++)
+                    {
+                        if (hashBytes[i + 16] != hash[i])
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+
+                    var authClaims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, user.UserName),
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        };
+
+                    //foreach (var userRole in userRoles)
+                    //{
+                    //    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    //}
+
+                    var token = GetToken(authClaims);
+
+
+                    return Ok(new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = token.ValidTo
+                    });
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
+                //    var user = await _userManager.FindByNameAsync(model.UserName);
+                //if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+                //{
+                //    var userRoles = await _userManager.GetRolesAsync(user);
+
+                //    var authClaims = new List<Claim>
+                //    {
+                //        new Claim(ClaimTypes.Name, user.UserName),
+                //        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                //    };
+
+                //    foreach (var userRole in userRoles)
+                //    {
+                //        authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                //    }
+
+                //    var token = GetToken(authClaims);
+
+                //    return Ok(new
+                //    {
+                //        token = new JwtSecurityTokenHandler().WriteToken(token),
+                //        expiration = token.ValidTo
+                //    });
+            }
+            return Unauthorized();
+        }
+
+        private JwtSecurityToken GetToken(List<Claim> authClaims)
+        {
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return token;
         }
 
         /// <summary>
@@ -93,7 +189,7 @@ namespace VCLWebAPI.Controllers
         //    get { return Request.GetOwinContext().Authentication; }
         //}
 
-        private async Task<IdentityUser> GetUser()
+        private async Task<ApplicationUser> GetUser()
         {
             return await _userManager.FindByIdAsync(User.GetLoggedInUserId<string>());
         }
@@ -148,6 +244,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="model">The model<see cref="ChangePasswordBindingModel"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        [HttpPost]
         [Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -172,6 +269,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="model">The model<see cref="CreateContactBindingModel"/>.</param>
         /// <returns>The <see cref="Task{CreateContactBindingModel}"/>.</returns>
+        [HttpPost]
         [Route("CreateContact")]
         public async Task<CreateContactBindingModel> CreateContact(CreateContactBindingModel model)
         {
@@ -201,6 +299,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Task{CreateContactBindingModel}"/>.</returns>
+        [HttpGet]
         [Route("GetContact")]
         public async Task<CreateContactBindingModel> GetContact(int id)
         {
@@ -215,6 +314,7 @@ namespace VCLWebAPI.Controllers
         /// The GetContactList.
         /// </summary>
         /// <returns>The <see cref="Task{List{CreateContactBindingModel}}"/>.</returns>
+        [HttpGet]
         [Route("GetContactList")]
         public async Task<List<CreateContactBindingModel>> GetContactList()
         {
@@ -234,6 +334,7 @@ namespace VCLWebAPI.Controllers
         [System.Web.Mvc.OverrideAuthentication]
         [System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
+        [HttpGet]
         [Route("ExternalLogin", Name = "ExternalLogin")]
         public async Task<IActionResult> GetExternalLogin(string provider, string error = null)
         {
@@ -265,7 +366,7 @@ namespace VCLWebAPI.Controllers
             //ApplicationUser user = await _userManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
             //    externalLogin.ProviderKey));
 
-            IdentityUser user = await _userManager.FindByLoginAsync(externalLogin.LoginProvider,
+            var user = await _userManager.FindByLoginAsync(externalLogin.LoginProvider,
                 externalLogin.ProviderKey);
 
             //bool hasRegistered = user != null;
@@ -395,6 +496,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="UserInfoViewModel"/>.</returns>
         [System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalBearer)]
+        [HttpGet]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
@@ -413,6 +515,7 @@ namespace VCLWebAPI.Controllers
         /// The Logout.
         /// </summary>
         /// <returns>The <see cref="IActionResult"/>.</returns>
+        [HttpPost]
         [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
@@ -427,6 +530,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="model">The model<see cref="RegisterBindingModel"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
         [AllowAnonymous]
+        [HttpPost]
         [Route("Register")]
         public async Task<IActionResult> Register(RegisterBindingModel model)
         {
@@ -435,12 +539,12 @@ namespace VCLWebAPI.Controllers
                 throw new InvalidModelException();
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            //IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
 
             return Ok();
         }
@@ -452,6 +556,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
         [System.Web.Mvc.OverrideAuthentication]
         [System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalBearer)]
+        [HttpPost]
         [Route("RegisterExternal")]
         public async Task<IActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
@@ -469,17 +574,17 @@ namespace VCLWebAPI.Controllers
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
-            IdentityResult result = await _userManager.CreateAsync(user);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //IdentityResult result = await _userManager.CreateAsync(user);
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
 
-            result = await _userManager.AddLoginAsync(user, info);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            //result = await _userManager.AddLoginAsync(user, info);
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
             return Ok();
         }
 
@@ -488,6 +593,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="model">The model<see cref="RemoveLoginBindingModel"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        [HttpPost]
         [Route("RemoveLogin")]
         public async Task<IActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
@@ -520,6 +626,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="model">The model<see cref="SetPasswordBindingModel"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
+        [HttpPost]
         [Route("SetPassword")]
         public async Task<IActionResult> SetPassword(SetPasswordBindingModel model)
         {
@@ -543,6 +650,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="model">The model<see cref="CreateContactBindingModel"/>.</param>
         /// <returns>The <see cref="Task{CreateContactBindingModel}"/>.</returns>
+        [HttpPost]
         [Route("UpdateContact")]
         public async Task<CreateContactBindingModel> UpdateContact(CreateContactBindingModel model)
         {
@@ -573,6 +681,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="result">The result<see cref="IdentityResult"/>.</param>
         /// <returns>The <see cref="IActionResult"/>.</returns>
+        [HttpGet]
         private IActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)
@@ -675,9 +784,7 @@ namespace VCLWebAPI.Controllers
             }
         }
 
-        /// <summary>
-        /// Defines the <see cref="RandomOAuthStateGenerator" />.
-        /// </summary>
+
         private static class RandomOAuthStateGenerator
         {
             /// <summary>
@@ -703,7 +810,8 @@ namespace VCLWebAPI.Controllers
 
                 byte[] data = new byte[strengthInBytes];
                 _random.GetBytes(data);
-                return HttpUtility.UrlEncode(data);//return HttpServerUtility.UrlTokenEncode(data);
+                //return HttpUtility.UrlEncode(data);//return HttpServerUtility.UrlTokenEncode(data);
+                return "";
             }
         }
     }
