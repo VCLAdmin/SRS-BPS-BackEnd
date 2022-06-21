@@ -56,6 +56,7 @@ namespace VCLWebAPI.Controllers
             _configuration = configuration;
         }
 
+        // this function will generate the new token
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
@@ -103,7 +104,7 @@ namespace VCLWebAPI.Controllers
                     var authClaims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, user.UserName),
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                            new Claim("Language", user.Language)
                         };
 
                     // additional laims needs to be added
