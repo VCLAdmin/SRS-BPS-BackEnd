@@ -119,8 +119,8 @@ namespace VCLWebAPI.Controllers
 
                     return Ok(new
                     {
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo
+                        access_token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expires_in = token.ValidTo
                     });
                 }
                 else

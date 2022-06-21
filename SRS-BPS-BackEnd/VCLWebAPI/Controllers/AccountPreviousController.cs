@@ -123,7 +123,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="UserApiModel"/>.</returns>
         [HttpPost]
         [Route("SignIn")]
-        public async System.Threading.Tasks.Task<UserApiModel> SignIn(AccountApiModel accountApiModel)
+        public async System.Threading.Tasks.Task<UserApiModel> SignIn([FromBody]AccountApiModel accountApiModel)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
