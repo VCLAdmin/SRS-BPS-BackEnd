@@ -37,7 +37,7 @@ namespace VCLWebAPI.Services
             return user;
         }
         public User GetCurrentUser() {
-            return _db.User.Where(e => e.Email == HttpContextHelper.Current.User.Identity.Name).FirstOrDefault();
+            return _db.User.Where(e => e.UserName == HttpContextHelper.Current.User.Identity.Name).FirstOrDefault();
         }
 
         //public ApplicationUserManager UserManager
@@ -73,8 +73,12 @@ namespace VCLWebAPI.Services
                 Thread.CurrentThread.CurrentUICulture = !String.IsNullOrEmpty(user.Language) ? new CultureInfo(user.Language) : new CultureInfo("en-US");
                 userApiModel = new UserMapper().MapUserDbModelToApiModel(user);
                 // var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                var aspUser = await _userManager.FindByNameAsync(user.Email);
-                var rolesForUser = await _userManager.GetRolesAsync(aspUser);
+                //var aspUser = await _userManager.FindByNameAsync(user.Email);
+                //var rolesForUser = await _userManager.GetRolesAsync(aspUser);
+                var aspUser = _db.AspNetUsers.Where(a => a.Email.Equals(accountApiModel.UserName)).FirstOrDefault();
+                var rolesForUserList1 = aspUser.AspNetRoles;//_db.AspNetRoles.Where(a => a.AspNetUsers.Equals(aspUser));
+                var rolesForUserList = rolesForUserList1.ToList();
+                var rolesForUser = rolesForUserList.Select(a => a.Id);
                 if (rolesForUser.Contains("Dealer-Full") || rolesForUser.Contains("Dealer-Restricted"))
                 {
                     user.Language = SetLanguage(accountApiModel, user);

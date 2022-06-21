@@ -12,6 +12,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="DealerController" />.
     /// </summary>
     [Authorize]
+    [Route("api/Dealer")]
     public class DealerController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
@@ -83,6 +84,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="DealerApiModel"/>.</returns>
         [HttpGet]
+        [Route("GetUserDealer")]
         public DealerApiModel GetUserDealer()
         {
             //Guid extId = Guid.Parse(guid);
