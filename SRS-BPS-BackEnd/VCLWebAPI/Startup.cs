@@ -56,7 +56,11 @@ namespace VCLWebAPI
             }).AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
-            }).AddWebApiConventions(); 
+            }).AddWebApiConventions()
+            .AddNewtonsoftJson(options =>
+                {
+                    options.UseMemberCasing();
+                });
 
             EntityFrameworkServiceConfiguration.ConfigureEntityFramework(services, Configuration);
 
