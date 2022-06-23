@@ -315,6 +315,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="string"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
+        [Route("api/Order/GetPresignedScreenshotURL/{id}")]
         public string GetPresignedScreenshotURL(string id)
         {
             return _orderService.GeneratePreassignedScreenshotURL(id);
@@ -326,6 +327,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="OrderApiModel"/>.</returns>
         [HttpGet]
+        [Route("api/Order/GetProjectOrders/{id}")]
         public OrderApiModel GetProjectOrders(Guid id)
         {
             return _orderService.GetProjectOrders(id);
@@ -366,6 +368,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="newOrder">The newOrder<see cref="OrderApiModel"/>.</param>
         /// <returns>The <see cref="List{OrderApiModel}"/>.</returns>
         [HttpPost]
+        [Route("api/Order/PostOrders")]
         public List<OrderApiModel> PostOrders([FromBody] OrderApiModel newOrder)
         {
             _orderService.CreateOrder(newOrder);

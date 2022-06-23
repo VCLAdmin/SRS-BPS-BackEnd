@@ -66,7 +66,8 @@ namespace VCLWebAPI
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
-                    .AddDefaultTokenProviders();
+                    .AddDefaultTokenProviders()
+                    .AddRoles<IdentityRole>();
 
             // Adding Authentication
             services.AddAuthentication(options =>
@@ -254,6 +255,10 @@ namespace VCLWebAPI
         {
             Globals.VCLDesignDBConnection = Configuration.GetConnectionString("VCLDesignDBEntities");
             Globals.ApplicationDBConnection = Configuration.GetConnectionString("LocalIdentConnection");
+            Globals.accessKey = Configuration.GetSection(@"DE_AWSAccessKey").Value;
+            Globals.secretKey = Configuration.GetSection(@"DE_AWSSecretKey").Value;
+            Globals.service_url = Configuration.GetSection(@"DES3ServiceUrl").Value;
+            Globals.bucket_name = Configuration.GetSection(@"DEAWSBucket").Value;
         }
     }
 }
