@@ -28,7 +28,7 @@ namespace VCLWebAPI.Services
             string excelPath = baseUrl + "Article_Library_Phase 1A_With_Duplicates.xlsx";
             Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(excelPath);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
@@ -53,7 +53,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     if (column.Value2 == null)
                     {
@@ -179,7 +179,7 @@ namespace VCLWebAPI.Services
             string excelPath = baseUrl + "InsulatingBar_Phase 1A.xlsx";
             Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(excelPath);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
@@ -202,7 +202,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     if (column.Value2 == null)
                     {
@@ -302,7 +302,7 @@ namespace VCLWebAPI.Services
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(excelPath);
 
             // read standard data
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
@@ -324,7 +324,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     if (column.Value2 == null)
                     {
@@ -382,7 +382,7 @@ namespace VCLWebAPI.Services
             }
 
             // read block data
-            xlWorksheet = xlWorkbook.Sheets[2];
+            xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[2];
             xlRange = xlWorksheet.UsedRange;
 
             rowCount = xlRange.Rows.Count;
@@ -396,7 +396,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     if (column.Value2 == null)
                     {
@@ -454,7 +454,7 @@ namespace VCLWebAPI.Services
             }
 
             // read direct data
-            xlWorksheet = xlWorkbook.Sheets[3];
+            xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[3];
             xlRange = xlWorksheet.UsedRange;
 
             rowCount = xlRange.Rows.Count;
@@ -469,7 +469,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     if (column.Value2 == null)
                     {
@@ -585,7 +585,7 @@ namespace VCLWebAPI.Services
             string excelPath = baseUrl + "Users.xlsx";
             Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(excelPath);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
@@ -606,7 +606,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     string value = column.Value2?.ToString();
 
@@ -693,7 +693,7 @@ namespace VCLWebAPI.Services
             string excelPath = baseUrl + "UserAccess.xlsx";
             Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(excelPath);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
@@ -709,7 +709,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     string value = column.Value2?.ToString();
 
@@ -717,7 +717,7 @@ namespace VCLWebAPI.Services
                     {
                         accessRoles.Add(new AccessRole
                         {
-                            AccessRoleId = Int32.Parse(xlRange.Cells[i, j + 1])
+                            AccessRoleId = Int32.Parse((string)xlRange.Cells[i, j + 1])
                         });
 
                         continue;
@@ -757,7 +757,7 @@ namespace VCLWebAPI.Services
             string excelPath = baseUrl + "AccessRole.xlsx";
             Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(excelPath);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
@@ -775,7 +775,7 @@ namespace VCLWebAPI.Services
 
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
                     value = column.Value2?.ToString();
 
                     switch (j)
@@ -832,7 +832,7 @@ namespace VCLWebAPI.Services
             string excelPath = baseUrl + "AccessRole.xlsx";
             Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(excelPath);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
@@ -848,7 +848,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     string value = column.Value2?.ToString();
 
@@ -903,7 +903,7 @@ namespace VCLWebAPI.Services
             string excelPath = baseUrl + "ProductType.xlsx";
             Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(excelPath);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
@@ -920,7 +920,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     string value = column.Value2.ToString();
 
@@ -1058,7 +1058,7 @@ namespace VCLWebAPI.Services
             string excelPath = baseUrl + "StaticWindSnowZoneGermany.xlsx";
             Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(excelPath);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
             int rowCount = xlRange.Rows.Count;
@@ -1079,7 +1079,7 @@ namespace VCLWebAPI.Services
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    column = xlRange.Cells[i, j];
+                    column = (Excel.Range)xlRange.Cells[i, j];
 
                     if (column.Value2 == null)
                     {

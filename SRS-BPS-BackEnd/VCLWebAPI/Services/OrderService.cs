@@ -7,7 +7,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
+//using System.Web;
 using VCLWebAPI.Mappers;
 using VCLWebAPI.Models.Edmx;
 using VCLWebAPI.Models.QueuingServer;
@@ -15,7 +15,7 @@ using VCLWebAPI.Models.SRS;
 using VCLWebAPI.Utils;
 using Amazon;
 using Amazon.S3;
-using Amazon.S3.IO;
+//using Amazon.S3.IO;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using System.Text.RegularExpressions;
@@ -612,20 +612,16 @@ namespace VCLWebAPI.Services
                 return "";
             }
 
-            string accessKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
-            string secrectKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
-            string service_url = System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
-            string bucket_name = System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
             string localFileFullPath = "screenshots/" + key + ".png";
 
             var _s3client = new AmazonS3Client(
-                       accessKey,
-                       secrectKey,
+                       Globals.accessKey,
+                       Globals.secretKey,
                        new AmazonS3Config
                        {
-                           ServiceURL = service_url
+                           ServiceURL = Globals.service_url
                        });
-            var signedURL = GeneratePreSignedURL(localFileFullPath, -1, bucket_name, _s3client); //"Orders/XXXX/Design.pdf"
+            var signedURL = GeneratePreSignedURL(localFileFullPath, -1, Globals.bucket_name, _s3client); //"Orders/XXXX/Design.pdf"
             return signedURL;
         }
 

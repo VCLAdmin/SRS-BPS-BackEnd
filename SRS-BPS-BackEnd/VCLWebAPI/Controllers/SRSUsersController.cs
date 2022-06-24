@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web.Http;
+//using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VCLWebAPI.Models;
 using VCLWebAPI.Services;
 
@@ -42,11 +44,11 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="usr">The usr<see cref="SRSUserApiModel"/>.</param>
         /// <returns>The <see cref="Task{bool}"/>.</returns>
-        [HttpPost]
-        public async Task<string> ChangePassword([FromBody] SRSUserApiModel usr)
-        {
-            return await _srsuserService.ChangePassword(usr);
-        }
+        //[HttpPost]
+        //public async Task<string> ChangePassword([FromBody] SRSUserApiModel usr)
+        //{
+        //    return await _srsuserService.ChangePassword(usr);
+        //}
 
         /// <summary>
         /// The Delete.

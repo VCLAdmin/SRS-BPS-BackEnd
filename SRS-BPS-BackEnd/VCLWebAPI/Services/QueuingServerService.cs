@@ -5,8 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
+//using System.Web;
 using VCLWebAPI.Models.Edmx;
+using Microsoft.AspNetCore.Http;
 
 namespace VCLWebAPI.Services
 {
@@ -35,12 +36,12 @@ namespace VCLWebAPI.Services
             _db.SaveChanges();
         }
 
-        public async Task<string> SnsNewMessage(HttpRequestMessage request, string id = "")
+        public async Task<string> SnsNewMessage(HttpRequest request, string id = "")
         {
             try
             {
                 var jsonData = "";
-                Stream req = await request.Content.ReadAsStreamAsync();
+                Stream req = request.Body;//await request.Content.ReadAsStreamAsync();
                 req.Seek(0, System.IO.SeekOrigin.Begin);
                 String json = new StreamReader(req).ReadToEnd();
                 var sm = Amazon.SimpleNotificationService.Util.Message.ParseMessage(json);

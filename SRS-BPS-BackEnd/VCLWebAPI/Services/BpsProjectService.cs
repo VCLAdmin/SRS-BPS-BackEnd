@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web;
+//using System.Web;
 using VCLWebAPI.Mappers;
 using VCLWebAPI.Models.BPS;
 using VCLWebAPI.Models.Edmx;
@@ -20,6 +20,7 @@ using VCLWebAPI.Models;
 using Amazon.S3.Model;
 using System.Threading.Tasks;
 using Amazon.S3;
+using Microsoft.AspNetCore.Http;
 
 namespace VCLWebAPI.Services
 {
@@ -121,7 +122,7 @@ namespace VCLWebAPI.Services
         {
             List<BpsProject> projects = new List<BpsProject>();
             User currentUser = _accountService.GetCurrentUser();
-            string role = _accountService.GetUserRole(currentUser.Email);
+            //string role = _accountService.GetUserRole(currentUser.Email);
             var dealer = currentUser.Dealer.FirstOrDefault();
             if (dealer != null)
             {
@@ -1533,13 +1534,13 @@ namespace VCLWebAPI.Services
             DeleteOrderByGuid(project.ProblemGuid);
             return _db.Order.Where(e => e.OrderDetails.Count > 0).ToList().Select(s => _projectMapper.ProjectDbToApiModel(s)).ToList();
         }
-        public List<OrderApiModel> DeleteProblemById(int problemId)
+        public async Task<List<OrderApiModel>> DeleteProblemById(int problemId)
         {
             BpsUnifiedProblem project = _db.BpsUnifiedProblem.Where(x => x.ProblemId == problemId).SingleOrDefault();
-            DeleteProblemByGuid(project.ProblemGuid);
+            await DeleteProblemByGuid(project.ProblemGuid);
             return _db.Order.Where(e => e.OrderDetails.Count > 0).ToList().Select(s => _projectMapper.ProjectDbToApiModel(s)).ToList();
         }
-        public Guid? DeleteProblemByGuid(Guid problemGuid)
+        public async Task<Guid?> DeleteProblemByGuid(Guid problemGuid)
         {
             BpsUnifiedProblem problem = GetProblemByGuid(problemGuid);
             if (problem is null)
@@ -1554,18 +1555,19 @@ namespace VCLWebAPI.Services
             string pdfFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Content\\structural-result\\{userGuid}\\{projectGuid}\\{problemGuid}\\");
             if (Directory.Exists(pdfFolderPath)) Directory.Delete(pdfFolderPath, true);
 
-            DeleteFile(problemGuid.ToString());
+            await DeleteFile(problemGuid.ToString());
 
             DeleteProblem(problem, "child");
             return problemGuid;
         }
 
 
-        public bool CheckFileExist(string key, string bucketName, AmazonS3Client s3Client)
+        public async Task<bool> CheckFileExist(string key, string bucketName, AmazonS3Client s3Client)
         {
             try
             {
-                var fileObject = s3Client.GetObject(bucketName, key);
+                //var fileObject = s3Client.GetObject(bucketName, key);
+                var fileObject = await s3Client.GetObjectAsync(bucketName, key);
                 if (fileObject != null)
                     return true;
                 else
@@ -1577,7 +1579,7 @@ namespace VCLWebAPI.Services
                 //throw new NullReferenceException("File not present on s3.");
             }
         }
-        public bool DeleteFile(string key)
+        public async Task<bool> DeleteFile(string key)
         {
             if (String.IsNullOrEmpty(key))
             {
@@ -1597,9 +1599,11 @@ namespace VCLWebAPI.Services
             {
                 ServiceURL = service_url
             });
-            if (CheckFileExist(localFileFullPath, bucket_name, s3Client))
+            bool fileExist = await CheckFileExist(localFileFullPath, bucket_name, s3Client);
+            //if (CheckFileExist(localFileFullPath, bucket_name, s3Client))
+            if (fileExist)
             {
-                s3Client.DeleteObject(bucket_name, localFileFullPath);
+                await s3Client.DeleteObjectAsync(bucket_name, localFileFullPath);
             }
             return true;
         }
@@ -2021,7 +2025,7 @@ namespace VCLWebAPI.Services
             return response;
         }
 
-        public BpsUnifiedModel UploadResults(string strUnifiedModel, HttpFileCollection hfc)
+        public BpsUnifiedModel UploadResults(string strUnifiedModel, IFormFileCollection hfc)
         {
             BpsUnifiedModel unifiedModel = JsonConvert.DeserializeObject<BpsUnifiedModel>(strUnifiedModel);
 
@@ -2052,17 +2056,26 @@ namespace VCLWebAPI.Services
                     ThermalReportFileName = Path.GetFileName(unifiedModel.AnalysisResult.ThermalResult.reportFileUrl);
                 }
 
+                List<string> uploadedFiles = new List<string>();
                 for (int i = 0; i <= hfc.Count - 1; i++)
                 {
-                    HttpPostedFile hpf = hfc[i];
-                    if (hpf.ContentLength > 0)
+                    IFormFile hpf = hfc[i];
+                    if (hpf.Length > 0)
                     {
                         if (hpf.FileName == StructuralFullReportFileName)
                         {
                             StructuralFullReportFileName = unifiedModel.ProblemSetting.ProjectName + " Structural_Report.pdf";
                             string StructuralFullReportURL = $"/Content/structural-result/{ unifiedModel.ProblemSetting.UserGuid}/{ unifiedModel.ProblemSetting.ProjectGuid}/{ unifiedModel.ProblemSetting.ProblemGuid}/{StructuralFullReportFileName}";
                             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralFullReportURL));
-                            hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + StructuralFullReportURL);
+                            //hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralFullReportURL));
+
+
+                            string fileName = Path.GetFileName(hpf.FileName);
+                            FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralFullReportURL), FileMode.Create);
+                            hpf.CopyTo(stream);
+                            uploadedFiles.Add(fileName);
+
+
                             if (unifiedModel.ProblemSetting.ProductType == "Window")
                                 unifiedModel.AnalysisResult.StructuralResult.reportFileUrl = StructuralFullReportURL;
                             else if(!(unifiedModel.AnalysisResult.FacadeStructuralResult is null))
@@ -2075,7 +2088,13 @@ namespace VCLWebAPI.Services
                             StructuralSummaryReportFileName = unifiedModel.ProblemSetting.ProjectName + " Structural_SummaryReport.pdf";
                             string StructuralSummaryReportURL = $"/Content/structural-result/{ unifiedModel.ProblemSetting.UserGuid}/{ unifiedModel.ProblemSetting.ProjectGuid}/{ unifiedModel.ProblemSetting.ProblemGuid}/{StructuralSummaryReportFileName}";
                             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralSummaryReportURL));
-                            hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + StructuralSummaryReportURL);
+                            //hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + StructuralSummaryReportURL);
+
+                            string fileName = Path.GetFileName(hpf.FileName);
+                            FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralSummaryReportURL), FileMode.Create);
+                            hpf.CopyTo(stream);
+                            uploadedFiles.Add(fileName);
+
                             if (unifiedModel.ProblemSetting.ProductType == "Window")
                                 unifiedModel.AnalysisResult.StructuralResult.summaryFileUrl = StructuralSummaryReportURL;
                             else if(!(unifiedModel.AnalysisResult.FacadeStructuralResult is null))
@@ -2088,7 +2107,13 @@ namespace VCLWebAPI.Services
                             AcousticReportFileName = unifiedModel.ProblemSetting.ProjectName + " Acoustic_Report.pdf";
                             string AcousticReportURL = $"/Content/structural-result/{ unifiedModel.ProblemSetting.UserGuid}/{ unifiedModel.ProblemSetting.ProjectGuid}/{ unifiedModel.ProblemSetting.ProblemGuid}/{AcousticReportFileName}";
                             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(AcousticReportURL));
-                            hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + AcousticReportURL);
+                            //hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + AcousticReportURL);
+
+                            string fileName = Path.GetFileName(hpf.FileName);
+                            FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(AcousticReportURL), FileMode.Create);
+                            hpf.CopyTo(stream);
+                            uploadedFiles.Add(fileName);
+
                             unifiedModel.AnalysisResult.AcousticResult.reportFileUrl = AcousticReportURL;
                         }
                         else if (hpf.FileName == ThermalReportFileName)
@@ -2096,7 +2121,13 @@ namespace VCLWebAPI.Services
                             ThermalReportFileName = unifiedModel.ProblemSetting.ProjectName + " Thermal_Report.pdf";
                             string ThermalReportURL = $"/Content/structural-result/{ unifiedModel.ProblemSetting.UserGuid}/{ unifiedModel.ProblemSetting.ProjectGuid}/{ unifiedModel.ProblemSetting.ProblemGuid}/{ThermalReportFileName}";
                             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(ThermalReportURL));
-                            hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + ThermalReportURL);
+                            //hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + ThermalReportURL);
+
+                            string fileName = Path.GetFileName(hpf.FileName);
+                            FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(ThermalReportURL), FileMode.Create);
+                            hpf.CopyTo(stream);
+                            uploadedFiles.Add(fileName);
+
                             unifiedModel.AnalysisResult.ThermalResult.reportFileUrl = ThermalReportURL;
                         }
                     }

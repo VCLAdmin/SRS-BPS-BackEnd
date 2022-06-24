@@ -1,4 +1,7 @@
-﻿using System.Web.Http;
+﻿//using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace VCLWebAPI.Controllers
 {
