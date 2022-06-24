@@ -79,7 +79,7 @@ namespace VCLWebAPI.Controllers
             //var user = UserService.GetUser(_dbContext, ApiUtil.GetActiveUserExternalId());
             var versionModel = new VersionInformationApiModel
             {
-                VersionNumber = "3.6.0",
+                VersionNumber = "3.7.0",
                 BuildNumber = this.GetType().Assembly.GetName().Version.Build.ToString(),
                 DeployedDateInfo = deployedInfo,
                 Date = fileInfo.LastWriteTimeUtc
