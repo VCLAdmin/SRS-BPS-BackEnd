@@ -24,6 +24,7 @@ using System.IO;
 using System;
 using Newtonsoft.Json;
 using VCLWebAPI.Models.Edmx;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace VCLWebAPI
 {
@@ -50,17 +51,19 @@ namespace VCLWebAPI
                 builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
             }));
 
-            services.AddMvc().AddMvcOptions(options =>
+            services.AddMvc(options =>
+            {
+                // using Microsoft.AspNetCore.Mvc.Formatters;
+                options.OutputFormatters.RemoveType<StringOutputFormatter>();
+                options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+            }).AddMvcOptions(options =>
             {
                 options.EnableEndpointRouting = false;
             }).AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
-            }).AddWebApiConventions()
-            .AddNewtonsoftJson(options =>
-                {
-                    options.UseMemberCasing();
-                });
+                options.UseMemberCasing();
+            }).AddWebApiConventions();
 
             EntityFrameworkServiceConfiguration.ConfigureEntityFramework(services, Configuration);
 

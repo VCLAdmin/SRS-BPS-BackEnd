@@ -137,7 +137,8 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="accountApiModel">The accountApiModel<see cref="AccountApiModel"/>.</param>
         /// <returns>The <see cref="Boolean"/>.</returns>
-        public Boolean ValidateHash(AccountApiModel accountApiModel)
+        [Route("ValidateHash")]
+        public Boolean ValidateHash([FromBody]AccountApiModel accountApiModel)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
             {

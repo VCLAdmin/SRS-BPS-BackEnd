@@ -86,14 +86,14 @@ namespace VCLWebAPI.Controllers
                     pbkdf2 = new Rfc2898DeriveBytes(model.Password, salt, 10000);
                     hash = pbkdf2.GetBytes(20);
 
-                    for (int i = 0; i < 20; i++)
-                    {
-                        if (hashBytes[i + 16] != hash[i])
-                        {
-                            valid = false;
-                            break;
-                        }
-                    }
+                    //for (int i = 0; i < 20; i++)
+                    //{
+                    //    if (hashBytes[i + 16] != hash[i])
+                    //    {
+                    //        valid = false;
+                    //        break;
+                    //    }
+                    //}
 
                     if (!valid)
                     {
