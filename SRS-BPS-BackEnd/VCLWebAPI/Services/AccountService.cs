@@ -13,6 +13,7 @@ using VCLWebAPI.Models;
 using VCLWebAPI.Models.Account;
 using VCLWebAPI.Models.Edmx;
 using VCLWebAPI;
+using System.Text;
 
 namespace VCLWebAPI.Services
 {
@@ -78,7 +79,7 @@ namespace VCLWebAPI.Services
                 var aspUser = _db.AspNetUsers.Where(a => a.Email.Equals(accountApiModel.UserName)).FirstOrDefault();
                 var rolesForUserList1 = aspUser.AspNetRoles;//_db.AspNetRoles.Where(a => a.AspNetUsers.Equals(aspUser));
                 var rolesForUserList = rolesForUserList1.ToList();
-                var rolesForUser = rolesForUserList.Select(a => a.Id);
+                var rolesForUser = rolesForUserList.Select(a => a.Name);
                 if (rolesForUser.Contains("Dealer-Full") || rolesForUser.Contains("Dealer-Restricted"))
                 {
                     user.Language = SetLanguage(accountApiModel, user);
@@ -567,20 +568,22 @@ namespace VCLWebAPI.Services
             //}
         }
 
-        public void AddAspNetUsers()
+        public async void AddAspNetUsers()
         {
-            //Seed Database here for now
-            // var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+            ////Seed Database here for now
+            //// var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
             //var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
-            //if (!RoleManager.RoleExists("SRSAdministrator"))
+            //var RoleExist = await RoleManager.RoleExistsAsync("SRSAdministrator");
+            //if (!RoleExist)
             //{
-            //    string[] roleNames = { "SRSAdministrator", "Fabricator", "Dealer-Full","Dealer-Restricted","Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator", "External" };
+            //    string[] roleNames = { "SRSAdministrator", "Fabricator", "Dealer-Full", "Dealer-Restricted", "Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator", "External" };
             //    IdentityResult roleResult;
             //    foreach (var roleName in roleNames)
             //    {
-            //        if (!RoleManager.RoleExists(roleName))
+            //        var RoleNameExist = await RoleManager.RoleExistsAsync(roleName);
+            //        if (!RoleNameExist)
             //        {
-            //            roleResult = RoleManager.Create(new IdentityRole(roleName));
+            //            roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
             //        }
             //    }
 
@@ -590,7 +593,7 @@ namespace VCLWebAPI.Services
             //        AllowOnlyAlphanumericUserNames = false
             //    };
             //    //AWSUtils awsUtil = new AWSUtils();
-            //    string[] userNames = { "SRSAdministrator","Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator" };
+            //    string[] userNames = { "SRSAdministrator", "Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator" };
             //    //var userManager = GetUserManager<ApplicationUserManager>();
             //    foreach (var userName in userNames)
             //    {

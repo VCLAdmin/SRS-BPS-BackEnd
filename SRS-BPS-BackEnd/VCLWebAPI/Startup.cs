@@ -24,6 +24,7 @@ using System.IO;
 using System;
 using Newtonsoft.Json;
 using VCLWebAPI.Models.Edmx;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace VCLWebAPI
 {
@@ -50,23 +51,26 @@ namespace VCLWebAPI
                 builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
             }));
 
-            services.AddMvc().AddMvcOptions(options =>
+            services.AddMvc(options =>
+            {
+                // using Microsoft.AspNetCore.Mvc.Formatters;
+                options.OutputFormatters.RemoveType<StringOutputFormatter>();
+                options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+            }).AddMvcOptions(options =>
             {
                 options.EnableEndpointRouting = false;
             }).AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
-            }).AddWebApiConventions()
-            .AddNewtonsoftJson(options =>
-                {
-                    options.UseMemberCasing();
-                });
+                options.UseMemberCasing();
+            }).AddWebApiConventions();
 
             EntityFrameworkServiceConfiguration.ConfigureEntityFramework(services, Configuration);
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
-                    .AddDefaultTokenProviders();
+                    .AddDefaultTokenProviders()
+                    .AddRoles<IdentityRole>();
 
             // Adding Authentication
             services.AddAuthentication(options =>
@@ -254,6 +258,10 @@ namespace VCLWebAPI
         {
             Globals.VCLDesignDBConnection = Configuration.GetConnectionString("VCLDesignDBEntities");
             Globals.ApplicationDBConnection = Configuration.GetConnectionString("LocalIdentConnection");
+            Globals.accessKey = Configuration.GetSection(@"DE_AWSAccessKey").Value;
+            Globals.secretKey = Configuration.GetSection(@"DE_AWSSecretKey").Value;
+            Globals.service_url = Configuration.GetSection(@"DES3ServiceUrl").Value;
+            Globals.bucket_name = Configuration.GetSection(@"DEAWSBucket").Value;
         }
     }
 }
