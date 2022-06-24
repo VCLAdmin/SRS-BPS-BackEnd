@@ -94,7 +94,6 @@ namespace Services.Helpers
         {
             ControllerActionDescriptor actionDescriptor = (ControllerActionDescriptor)context.ActionDescriptor;
 
-            var userClaims = ApiUtil.ExtractUserClaims(context.HttpContext.User.Claims);
 
             var exceptionLog = new ExceptionLog
             {
@@ -107,15 +106,13 @@ namespace Services.Helpers
                 ExceptionLogExternalId = Guid.NewGuid(),
                 InnerException = context.Exception.InnerException != null ? context.Exception.InnerException.Message : null,
                 RequestUrl = context.HttpContext.Request.Path.Value,
-                User = userClaims.Email,
-                UserExternalId = userClaims.UserId,
                 URI = context.HttpContext.Request.Path.Value,
                 RequestUrlReferrer = context.HttpContext.Request.Headers["Origin"],
                 RequestUserAgent = context.HttpContext.Request.Headers["User-Agent"]
             };
 
             var msg = exceptionLog.ErrorCode + " ; " + exceptionLog.DateTime + " ; " + exceptionLog.Controller + " ; " + exceptionLog.Action + " ; " +
-                exceptionLog + " ; " + exceptionLog.UserExternalId + " ; " + exceptionLog.URI + " ; " + exceptionLog.ExceptionDetail + " ; " +
+                exceptionLog + " ; " + exceptionLog.URI + " ; " + exceptionLog.ExceptionDetail + " ; " +
                 exceptionLog.RequestUrl + " ; " + exceptionLog.RequestUrlReferrer + " ; " + exceptionLog.RequestUserAgent;
 
             LogToTextFile(msg);
