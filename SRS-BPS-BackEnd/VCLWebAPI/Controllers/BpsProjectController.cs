@@ -202,7 +202,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsProjectApiModel))]
         [Route("api/BpsProject/CreateProject/")]
-        public IActionResult CreateProject(BpsProjectApiModel project)
+        public IActionResult CreateProject([FromBody]BpsProjectApiModel project)
         {
             try
             {
@@ -636,7 +636,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsSimplifiedProblemApiModel))]
         [Route("api/BpsProject/RenameProblem/")]
-        public IActionResult RenameProblem(BpsUnifiedModel unifiedModel)
+        public IActionResult RenameProblem([FromBody]BpsUnifiedModel unifiedModel)
         {
             try
             {
@@ -656,7 +656,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [Route("api/BpsProject/SaveProblemScreenShot/")]
-        public IActionResult SaveProblemScreenShot(SaveScreenShotRequest request)
+        public IActionResult SaveProblemScreenShot([FromBody]SaveScreenShotRequest request)
         {
             try
             {
@@ -671,7 +671,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [Route("api/BpsProject/SaveProblemScreenShotS3/")]
-        public async Task<bool> SaveProblemScreenShotS3(SaveScreenShotRequest request)
+        public async Task<bool> SaveProblemScreenShotS3([FromBody]SaveScreenShotRequest request)
         {
             try
             {
@@ -691,7 +691,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
         [Route("api/BpsProject/UpdateProblem/")]
-        public IActionResult UpdateProblem(BpsUnifiedModel unifiedModel)
+        public IActionResult UpdateProblem([FromBody]BpsUnifiedModel unifiedModel)
         {
             try
             {
