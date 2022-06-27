@@ -536,10 +536,10 @@ namespace VCLWebAPI.Services
                 return "";
             }
 
-            string accessKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
-            string secrectKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
-            string service_url = System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
-            string bucket_name = System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
+            string accessKey = Globals.accessKey; // System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
+            string secrectKey = Globals.secretKey; // System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
+            string service_url = Globals.service_url; // System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
+            string bucket_name = Globals.bucket_name; // System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
 
             var _s3client = new AmazonS3Client(
                        accessKey,
@@ -560,10 +560,10 @@ namespace VCLWebAPI.Services
                 var base64Data = Regex.Match(imageData, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
                 var bytes = Convert.FromBase64String(base64Data);
 
-                string accessKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
-                string secrectKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
-                string service_url = System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
-                string bucket_name = System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
+                string accessKey = Globals.accessKey; //System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
+                string secrectKey = Globals.secretKey; //System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
+                string service_url = Globals.service_url; //System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
+                string bucket_name = Globals.bucket_name; //System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
                 string localFileFullPath = "screenshots/" + problemGuid + ".png";
 
                 AmazonS3Client client = new AmazonS3Client(
