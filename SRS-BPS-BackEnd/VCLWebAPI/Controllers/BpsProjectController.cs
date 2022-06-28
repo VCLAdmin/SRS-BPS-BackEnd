@@ -343,10 +343,11 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
         [Route("api/BpsProject/GetDefaultASEProblem/{projectGuid}/{problemGuid}/{Type}")]
-        public IActionResult GetDefaultASEProblem([FromQuery] string projectGuid, [FromQuery] string problemGuid, [FromQuery] string Type)
+        public IActionResult GetDefaultASEProblem([FromRoute] string projectGuid, [FromRoute] string problemGuid, [FromRoute] string Type)
         {
             try
             {
+
                 return Ok(_bpsProjectService.GetDefaultASEProblem(Guid.Parse(projectGuid), Guid.Parse(problemGuid), Type));
             }
             catch (Exception e)
