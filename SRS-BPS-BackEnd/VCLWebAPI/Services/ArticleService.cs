@@ -188,7 +188,7 @@ namespace VCLWebAPI.Services
             return InsulatingBarList;
         }
 
-        public string GetDoorHandleHingeForSystem()
+        public List<DoorHandleHingeApiModel> GetDoorHandleHingeForSystem()
         {
             List<DoorHandleHinge> dhhArticles = _db.DoorHandleHinge.ToList();
             if (dhhArticles == null)
@@ -196,8 +196,8 @@ namespace VCLWebAPI.Services
                 throw new InvalidDataException();
             }
             List<DoorHandleHingeApiModel> articles = dhhArticles.Select(x => new DoorHandleHingeApiModel(x)).ToList();
-            string response = JsonConvert.SerializeObject(articles);
-            return response;
+            //string response = JsonConvert.SerializeObject(articles);
+            return articles;
         }
 
         #region IDisposable Support
