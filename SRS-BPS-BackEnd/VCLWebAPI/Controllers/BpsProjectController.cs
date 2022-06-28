@@ -130,7 +130,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
         [Route("api/BpsProject/CreateDefaultProblemForFacadeProject/{projectGuid}")]
-        public IActionResult CreateDefaultProblemForFacadeProject([FromQuery] string projectGuid, [FromBody] FacadeLayout fl)
+        public IActionResult CreateDefaultProblemForFacadeProject([FromRoute] string projectGuid, [FromBody] FacadeLayout fl)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace VCLWebAPI.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
         [Route("api/BpsProject/CreateDefaultProblemForFacadeUDCProject/{projectGuid}")]
-        public IActionResult CreateDefaultProblemForFacadeUDCProject([FromQuery] string projectGuid)
+        public IActionResult CreateDefaultProblemForFacadeUDCProject([FromRoute] string projectGuid)
         {
             try
             {
@@ -366,7 +366,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
         [Route("api/BpsProject/GetDefaultFacadeProblem/{projectGuid}/{problemGuid}")]
-        public IActionResult GetDefaultFacadeProblem([FromQuery] string projectGuid, [FromQuery] string problemGuid, [FromBody] FacadeLayout fl)
+        public IActionResult GetDefaultFacadeProblem([FromRoute] string projectGuid, [FromRoute] string problemGuid, [FromBody] FacadeLayout fl)
         {
             try
             {
@@ -387,7 +387,7 @@ namespace VCLWebAPI.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
         [Route("api/BpsProject/GetDefaultFacadeUDCProblem/{projectGuid}/{problemGuid}")]
-        public IActionResult GetDefaultFacadeUDCProblem([FromQuery] string projectGuid, [FromQuery] string problemGuid)
+        public IActionResult GetDefaultFacadeUDCProblem([FromRoute] string projectGuid, [FromRoute] string problemGuid)
         {
             try
             {
