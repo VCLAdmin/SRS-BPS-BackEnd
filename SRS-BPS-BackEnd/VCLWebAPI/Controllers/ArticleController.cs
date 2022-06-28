@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
+using System.Collections.Generic;
 //using System.Web.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VCLWebAPI.Services;
+using VCLWebAPI.Models.Systems;
 
 namespace VCLWebAPI.Controllers
 {
@@ -167,10 +169,9 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
         [Route("api/Article/GetDoorHandleHingeForSystem/")]
-        public string GetDoorHandleHingeForSystem()
+        public List<DoorHandleHingeApiModel> GetDoorHandleHingeForSystem()
         {
-            string response = _articleService.GetDoorHandleHingeForSystem();
-            return response;
+            return _articleService.GetDoorHandleHingeForSystem();
         }
     }
 }
