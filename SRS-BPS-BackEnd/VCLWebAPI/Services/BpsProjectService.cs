@@ -1534,13 +1534,13 @@ namespace VCLWebAPI.Services
             DeleteOrderByGuid(project.ProblemGuid);
             return _db.Order.Where(e => e.OrderDetails.Count > 0).ToList().Select(s => _projectMapper.ProjectDbToApiModel(s)).ToList();
         }
-        public async Task<List<OrderApiModel>> DeleteProblemById(int problemId)
+        public List<OrderApiModel> DeleteProblemById(int problemId)
         {
             BpsUnifiedProblem project = _db.BpsUnifiedProblem.Where(x => x.ProblemId == problemId).SingleOrDefault();
-            await DeleteProblemByGuid(project.ProblemGuid);
+            DeleteProblemByGuid(project.ProblemGuid);
             return _db.Order.Where(e => e.OrderDetails.Count > 0).ToList().Select(s => _projectMapper.ProjectDbToApiModel(s)).ToList();
         }
-        public async Task<Guid?> DeleteProblemByGuid(Guid problemGuid)
+        public Guid? DeleteProblemByGuid(Guid problemGuid)
         {
             BpsUnifiedProblem problem = GetProblemByGuid(problemGuid);
             if (problem is null)
@@ -1555,19 +1555,20 @@ namespace VCLWebAPI.Services
             string pdfFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Content\\structural-result\\{userGuid}\\{projectGuid}\\{problemGuid}\\");
             if (Directory.Exists(pdfFolderPath)) Directory.Delete(pdfFolderPath, true);
 
-            await DeleteFile(problemGuid.ToString());
+            DeleteFile(problemGuid.ToString());
 
             DeleteProblem(problem, "child");
             return problemGuid;
         }
 
 
-        public async Task<bool> CheckFileExist(string key, string bucketName, AmazonS3Client s3Client)
+        public bool CheckFileExist(string key, string bucketName, AmazonS3Client s3Client)
         {
             try
             {
                 //var fileObject = s3Client.GetObject(bucketName, key);
-                var fileObject = await s3Client.GetObjectAsync(bucketName, key);
+                var fileObject = s3Client.GetObjectAsync(bucketName, key);
+
                 if (fileObject != null)
                     return true;
                 else
@@ -1579,17 +1580,17 @@ namespace VCLWebAPI.Services
                 //throw new NullReferenceException("File not present on s3.");
             }
         }
-        public async Task<bool> DeleteFile(string key)
+        public bool DeleteFile(string key)
         {
             if (String.IsNullOrEmpty(key))
             {
                 return false;
             }
 
-            string accessKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
-            string secretKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
-            string service_url = System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
-            string bucket_name = System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
+            string accessKey = Globals.accessKey; //System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
+            string secretKey = Globals.secretKey; //System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
+            string service_url = Globals.service_url; //System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
+            string bucket_name = Globals.bucket_name; //System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
             string localFileFullPath = "screenshots/" + key + ".png";
 
             AmazonS3Client s3Client = new AmazonS3Client(
@@ -1599,11 +1600,11 @@ namespace VCLWebAPI.Services
             {
                 ServiceURL = service_url
             });
-            bool fileExist = await CheckFileExist(localFileFullPath, bucket_name, s3Client);
+            bool fileExist = CheckFileExist(localFileFullPath, bucket_name, s3Client);
             //if (CheckFileExist(localFileFullPath, bucket_name, s3Client))
             if (fileExist)
             {
-                await s3Client.DeleteObjectAsync(bucket_name, localFileFullPath);
+                s3Client.DeleteObjectAsync(bucket_name, localFileFullPath);
             }
             return true;
         }
