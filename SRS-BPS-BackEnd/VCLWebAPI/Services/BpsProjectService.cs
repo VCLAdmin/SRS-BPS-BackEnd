@@ -1567,9 +1567,10 @@ namespace VCLWebAPI.Services
             try
             {
                 //var fileObject = s3Client.GetObject(bucketName, key);
-                var fileObject = s3Client.GetObjectAsync(bucketName, key);
+                var taskFileObject = s3Client.GetObjectAsync(bucketName, key);
+                taskFileObject.Wait();
 
-                if (fileObject != null)
+                if (taskFileObject.Result != null)
                     return true;
                 else
                     return false;
