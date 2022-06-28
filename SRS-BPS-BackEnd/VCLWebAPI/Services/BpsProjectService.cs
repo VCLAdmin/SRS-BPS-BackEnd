@@ -1605,7 +1605,8 @@ namespace VCLWebAPI.Services
             //if (CheckFileExist(localFileFullPath, bucket_name, s3Client))
             if (fileExist)
             {
-                s3Client.DeleteObjectAsync(bucket_name, localFileFullPath);
+                var task = s3Client.DeleteObjectAsync(bucket_name, localFileFullPath);
+                task.Wait();
             }
             return true;
         }
