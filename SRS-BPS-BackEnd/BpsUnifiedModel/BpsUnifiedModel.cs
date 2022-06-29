@@ -528,14 +528,14 @@ namespace BpsUnifiedModelLib
         public double E;                      // Optional, for future use
         public double alpha;                  // Optional, for future use
 
-        public double Woyp = 0;          // Section Modulus about the positive semi-axis of the y-axis 
-        public double Woyn = 0;          // Section Modulus about the negative semi-axis of the y-axis 
-        public double Wozp = 0;          // Section Modulus about the positive semi-axis of the z-axis 
-        public double Wozn = 0;          // Section Modulus about the negative semi-axis of the z-axis 
-        public double Wuyp = 0;          // Section Modulus about the positive semi-axis of the y-axis 
-        public double Wuyn = 0;          // Section Modulus about the negative semi-axis of the y-axis 
-        public double Wuzp = 0;          // Section Modulus about the positive semi-axis of the z-axis 
-        public double Wuzn = 0;          // Section Modulus about the negative semi-axis of the z-axis 
+        //public double Woyp = 0;          // Section Modulus about the positive semi-axis of the y-axis 
+        //public double Woyn = 0;          // Section Modulus about the negative semi-axis of the y-axis 
+        //public double Wozp = 0;          // Section Modulus about the positive semi-axis of the z-axis 
+        //public double Wozn = 0;          // Section Modulus about the negative semi-axis of the z-axis 
+        //public double Wuyp = 0;          // Section Modulus about the positive semi-axis of the y-axis 
+        //public double Wuyn = 0;          // Section Modulus about the negative semi-axis of the y-axis 
+        //public double Wuzp = 0;          // Section Modulus about the positive semi-axis of the z-axis 
+        //public double Wuzn = 0;          // Section Modulus about the negative semi-axis of the z-axis 
 
         public double gammaM; //Optional, Partial factor for material property (added 2021.10.20)
 
