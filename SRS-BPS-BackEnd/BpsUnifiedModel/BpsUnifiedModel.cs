@@ -31,32 +31,6 @@ namespace BpsUnifiedModelLib
         public bool Panel_Thermal;
         public bool Panel_Load;
         public bool Panel_SlidingUnit;
-
-        public string LastModifiedDateForUM;
-        public bool IsValid_Configure;
-        public bool IsValid_Operability;
-        public bool Panel_Operability_OuterFrame;
-        public bool Panel_Operability_VentFrame;
-        public bool Panel_Operability_HandleColor;
-        public bool IsValid_SlidingUnit;
-        public bool IsValid_Framing;
-        public bool Panel_Framing_MullionDepth;
-        public bool Panel_Framing_TransomDepth;
-        public bool Panel_Framing_IntMullionDepth;
-        public bool Panel_Framing_IntTransomDepth;
-        public bool Panel_Framing_Reinforcement;
-        public bool Panel_Framing_Custom;
-        public bool IsValid_Glass;
-        public bool Panel_Glass_Library;
-        public bool Panel_Glass_Library_Custom;
-        public bool Panel_Glass_Spacer;
-        public bool IsValid_Acoustic;
-        public bool IsValid_Structural;
-        public bool Panel_Structural_WindLoad;
-        public bool Panel_Structural_ProfileColor;
-        public bool IsValid_Thermal;
-        public bool IsValid_Load;
-        public bool IsAllowed_Compile;
     }
 
     public class ProblemSetting
@@ -81,7 +55,6 @@ namespace BpsUnifiedModelLib
         public string LastModifiedDate;     
         public List<string> DrawingNames;
         // for BPS and SRS
-        public Boolean isAcousticEnabled;
         public string SlidingDoorType;      //Added 2022.03.21, moved 2022.03.23, can be "Classic", "Panorama", or "Bi-fold"
     }
 
@@ -103,7 +76,6 @@ namespace BpsUnifiedModelLib
         public string Language;
         public string UserName;
         public string ApplicationType;      //added 2021.08.31
-        public string UserAccessRole;
     }
 
     public class ModelInput
@@ -140,7 +112,7 @@ namespace BpsUnifiedModelLib
         public string AluminumColor;         
 
         //Remove this for next release. Due to some issue in UI we are using below property
-        //public string InsulationZone;
+        public string InsulationZone;
     }
 
     public class Geometry
@@ -224,7 +196,6 @@ namespace BpsUnifiedModelLib
         public int MemberID;
         public string AnchorType;           // "Fixed" or "Sliding"
         public double Y;
-        public double X;
     }
 
     public class Reinforcement
@@ -240,7 +211,6 @@ namespace BpsUnifiedModelLib
         public int MemberID;
         public string JointType;           // "Hinged" or "Ridgid"
         public double Y;
-        public double X;
     }
 
     public class Infill
@@ -261,13 +231,6 @@ namespace BpsUnifiedModelLib
         public double InsertOuterFrameDepth;               // Angular User only
         public string InsertWindowSystem;                  // Angular User only
         public string InsertWindowSystemType;              // Angular User only
-
-
-        public string UvalueType;
-        public string InsulationType;
-        public double centerX;
-        public double centerY;
-
 
         public string GlazingBeadProfileArticleName;        // UnifiedInputVersion2.0. For SRS.
         public string GlazingGasketArticleName;             // UnifiedInputVersion2.0. For SRS.
@@ -292,7 +255,6 @@ namespace BpsUnifiedModelLib
         public double InsertOuterFrameDistBetweenIsoBars;   // Facade Only. read from database Article table; -1 if we don't have any operabiltity for that particular glass
         public string InsertUvalueType;                     // Facade Thermal: for inserted window 
         public string InsertInsulationType;                 // Facade Thermal: for inserted window, PA or PT
-        public string InsertInsulationTypeName;
         public string VentOpeningDirection;                 // Options: "Inward", "Outward"
         public string VentOperableType;                     // NOTE : Please update all "Tilt-Turn" to proper name "Turn-Tilt"
                                                             // NOTE : Left/Right indicates position when viewed from interior. So "Side-Hung-Left" has hinges on left side from interior. "Double-Door-Active-Right" has active vent on right side when viewed from interior
@@ -304,9 +266,8 @@ namespace BpsUnifiedModelLib
 
         //  For SRS     
         public string RebateGasketArticleName;             
-        public string CenterGasketArticleName;   
-        public string InsideHandleArticleName;
-        public string InsideHandleArticleDescription;
+        public string CenterGasketInsulationArticleName;   
+        public string InsideHandleArticleName;                                
         public string InsideHandleColor;                    //renamed from "HandleColor" 2021.11.02                        
 
         //this is for internal use only in Angular UI
@@ -333,14 +294,11 @@ namespace BpsUnifiedModelLib
         public string DoorSidelightSillArticleName;      //renamed from "DoorSideLiteSillArticleName" on 2021.08.31
         public string OutsideHandleArticleName;
         public string OutsideHandleColor;               //added 2021.11.02
-        public string OutsideHandleArticleDescription;
         public string InsideHandleArticleName;
         public string InsideHandleColor;                //added 2021.11.02
-        public string InsideHandleArticleDescription;
         //public string HingeCount;                     //omitted 2021.11.18
         public int HingeCondition;                      //added 2021.11.18 to replace HingeCount. 0 = error (not valid door configuration), 1 = two hinges (one at top, one at bottom), 2 = three hinges (one at top, one at bottom, one at center), 3 = three hinges (one at top, one at bottom, and one near top), 4 = four hinges (one at top, one at bottom, one at center, and one near top).
         public string HingeArticleName;                 //added 2021.11.02
-        public string HingeArticleDescription;
         public string HingeColor;                       //added 2021.11.02
         //public string DoorOpeningDirection;                 // Options: "Inward", "Outward" (omitted 2021.10.19)
         //public string DoorOperableType;                     // Options: "Single", "Double"  (omitted 2021.10.19)
@@ -363,7 +321,6 @@ namespace BpsUnifiedModelLib
         public string DoubleVentArticleName;        //Added 2022.02.22, this article is not assigned by user, but is required for Type 2D/1.i in SRS 3.0 release, as well as Type 3F in BPS 4.0 release (i.e. any Type that has a double vent interlock at middle)
         public string MovingVent;                   //Added 2022.03.14, string to choose whether moving vent is on inside/outside/inside and outside
         public List<VentFrame> VentFrames;          //Added 2022.02.01, list vents based on outside view, left to right
-        public string SlidingDoorType;
     }
 
     public class VentFrame  //Added 2022.02.01
@@ -380,7 +337,6 @@ namespace BpsUnifiedModelLib
         public double H;
         public string InterMaterial;
         public double InterH;
-        public string UDF1;
     }
     public class Cavity
     {
@@ -472,17 +428,8 @@ namespace BpsUnifiedModelLib
         public double Zy = 0;           // Plastic Property 
         public double Zz = 0;           // Plastic Property 
 
-        public double ReinforcementEIy;
-        public double ReinforcementEIz;
-        public double ReinforcementWeight;
-
         //this is for internal use only in Angular UI
         public double Depth;
-
-        public string Name;
-        public string Description;
-        public string transomArticleId;
-
     }
 
     public class Section
@@ -528,21 +475,17 @@ namespace BpsUnifiedModelLib
         public double E;                      // Optional, for future use
         public double alpha;                  // Optional, for future use
 
-        //public double Woyp = 0;          // Section Modulus about the positive semi-axis of the y-axis 
-        //public double Woyn = 0;          // Section Modulus about the negative semi-axis of the y-axis 
-        //public double Wozp = 0;          // Section Modulus about the positive semi-axis of the z-axis 
-        //public double Wozn = 0;          // Section Modulus about the negative semi-axis of the z-axis 
-        //public double Wuyp = 0;          // Section Modulus about the positive semi-axis of the y-axis 
-        //public double Wuyn = 0;          // Section Modulus about the negative semi-axis of the y-axis 
-        //public double Wuzp = 0;          // Section Modulus about the positive semi-axis of the z-axis 
-        //public double Wuzn = 0;          // Section Modulus about the negative semi-axis of the z-axis 
+        public double Woyp = 0;          // Section Modulus about the positive semi-axis of the y-axis 
+        public double Woyn = 0;          // Section Modulus about the negative semi-axis of the y-axis 
+        public double Wozp = 0;          // Section Modulus about the positive semi-axis of the z-axis 
+        public double Wozn = 0;          // Section Modulus about the negative semi-axis of the z-axis 
+        public double Wuyp = 0;          // Section Modulus about the positive semi-axis of the y-axis 
+        public double Wuyn = 0;          // Section Modulus about the negative semi-axis of the y-axis 
+        public double Wuzp = 0;          // Section Modulus about the positive semi-axis of the z-axis 
+        public double Wuzn = 0;          // Section Modulus about the negative semi-axis of the z-axis 
 
         public double gammaM; //Optional, Partial factor for material property (added 2021.10.20)
 
-        public string Name;
-        public string Description;
-        public double InsideDimension;
-        public double OutsideDimension;
         //this is for internal use only in Angular UI
         public double Depth;
         
@@ -567,7 +510,6 @@ namespace BpsUnifiedModelLib
         public double WindLoad;                     // wind pressure, user defined or calculated when WindLoadInputType =2;
         public double Cpp;                          // user positive Cp 
         public double Cpn;                          // user negative Cp
-        public double Cp;
         public double HorizontalLiveLoad;           // kN/m
         public double HorizontalLiveLoadHeight;     // mm                     
         public LoadFactor LoadFactor;
@@ -581,7 +523,6 @@ namespace BpsUnifiedModelLib
         public string PositiveWindPressure;
         public string NegativeWindPressure;
 
-        public string PostCodeValue;
     }
 
     public class DinWindLoadInput
@@ -651,7 +592,7 @@ namespace BpsUnifiedModelLib
     public class SRSExtendedData // UnifiedInputVersion2.0. For SRS.
     {
         public List<Hardware> Hardwares { get; set; }       // UnifiedInputVersion2.0
-        public MachiningInfo MachiningInfo { get; set; }    // UnifiedInputVersion2.0
+        public Machining MachiningInfo { get; set; }    // UnifiedInputVersion2.0
     }
 
     public class Hardware // UnifiedInputVersion2.0
@@ -663,7 +604,7 @@ namespace BpsUnifiedModelLib
         public string HardwareFinishes;
     }
 
-    public class MachiningInfo // UnifiedInputVersion2.0
+    public class Machining // UnifiedInputVersion2.0
     {
         public double GlueHoleOffsetsfromLeftTopCorner;
         public double NailHoleOffsetsfromLeftTopCorner;
@@ -680,11 +621,11 @@ namespace BpsUnifiedModelLib
 
     public class AcousticResult
     {
-        public AcousticUIOutput AcousticUIOutput { get; set; }
+        public AcousticOutput AcousticUIOutput { get; set; }
         public string reportFileUrl { get; set; }
     }
 
-    public class AcousticUIOutput
+    public class AcousticOutput
     {
         public Classification classification { get; set; }
         public List<LossDistributionPoint[]> LossDistributions { get; set; }
