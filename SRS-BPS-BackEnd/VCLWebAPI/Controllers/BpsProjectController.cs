@@ -280,11 +280,11 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpDelete]
         [Route("api/BpsProject/DeleteProblemById/{problemId}")]
-        public async Task<List<OrderApiModel>> DeleteProblemById(int problemId)
+        public List<OrderApiModel> DeleteProblemById(int problemId)
         {
             try
             {
-                return await _bpsProjectService.DeleteProblemById(problemId);
+                return _bpsProjectService.DeleteProblemById(problemId);
             }
             catch (Exception)
             {
