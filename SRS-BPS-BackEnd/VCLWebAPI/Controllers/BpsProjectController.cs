@@ -129,7 +129,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
-        [Route("api/BpsProject/CreateDefaultProblemForFacadeProject/{projectGuid}")]
+        [Route("api/BpsProject/CreateDefaultProblemForFacadeProject/{projectGuid}")] 
         public IActionResult CreateDefaultProblemForFacadeProject([FromRoute] string projectGuid, [FromBody] FacadeLayout fl)
         {
             try
@@ -202,7 +202,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsProjectApiModel))]
         [Route("api/BpsProject/CreateProject/")]
-        public IActionResult CreateProject([FromBody]BpsProjectApiModel project)
+        public IActionResult CreateProject(BpsProjectApiModel project)
         {
             try
             {
@@ -637,7 +637,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsSimplifiedProblemApiModel))]
         [Route("api/BpsProject/RenameProblem/")]
-        public IActionResult RenameProblem([FromBody]BpsUnifiedModel unifiedModel)
+        public IActionResult RenameProblem(BpsUnifiedModel unifiedModel)
         {
             try
             {
@@ -657,7 +657,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [Route("api/BpsProject/SaveProblemScreenShot/")]
-        public IActionResult SaveProblemScreenShot([FromBody]SaveScreenShotRequest request)
+        public IActionResult SaveProblemScreenShot(SaveScreenShotRequest request)
         {
             try
             {
@@ -672,7 +672,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [Route("api/BpsProject/SaveProblemScreenShotS3/")]
-        public async Task<bool> SaveProblemScreenShotS3([FromBody]SaveScreenShotRequest request)
+        public async Task<bool> SaveProblemScreenShotS3(SaveScreenShotRequest request)
         {
             try
             {
@@ -692,7 +692,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
         [Route("api/BpsProject/UpdateProblem/")]
-        public IActionResult UpdateProblem([FromBody]BpsUnifiedModel unifiedModel)
+        public IActionResult UpdateProblem(BpsUnifiedModel unifiedModel)
         {
             try
             {

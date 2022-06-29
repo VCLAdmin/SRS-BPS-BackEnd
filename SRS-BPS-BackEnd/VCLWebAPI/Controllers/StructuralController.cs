@@ -110,7 +110,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Section))]
         [Route("api/Structural/ReadSectionProperties/")]
-        public IActionResult ReadSectionProperties([FromBody]BpsUnifiedModel unifiedModel)
+        public IActionResult ReadSectionProperties(BpsUnifiedModel unifiedModel)
         {
             try
             {
