@@ -14,6 +14,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="ArticleController" />.
     /// </summary>
     [Authorize]
+    [Route("api/Article")]
     public class ArticleController : BaseController
     {
         /// <summary>
@@ -35,7 +36,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="name">The name<see cref="string"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
-        [Route("api/Article/GetArticleByName/{name}")]
+        [Route("GetArticleByName/{name}")]
         public string GetArticleByName(string name)
         {
             var article = _articleService.GetArticleByName(name);
@@ -53,7 +54,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="systemName">The systemName<see cref="string"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
-        [Route("api/Article/GetArticlesForSystem/{systemName}")]
+        [Route("GetArticlesForSystem/{systemName}")]
         public string GetArticlesForSystem(string systemName)
         {
             string response = _articleService.GetArticlesForSystem(systemName);
@@ -101,7 +102,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
-        [Route("api/Article/GetInsulatingBarsForArticle/")]
+        [Route("GetInsulatingBarsForArticle/")]
         public string GetInsulatingBarsForArticle()
         {
             var insulatingBarList = _articleService.GetInsulatingBarsForArticle();
@@ -115,7 +116,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="systemName">The systemName<see cref="string"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
-        [Route("api/Article/GetMullionTransomForSystem/{systemName}")]
+        [Route("GetMullionTransomForSystem/{systemName}")]
         public string GetMullionTransomForSystem(string systemName)
         {
             var articles = _articleService.GetMullionTransomForSystem(systemName);
@@ -133,7 +134,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="systemName">The systemName<see cref="string"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
-        [Route("api/Article/GetOuterFramesForSystem/{systemName}")]
+        [Route("GetOuterFramesForSystem/{systemName}")]
         public string GetOuterFramesForSystem(string systemName)
         {
             var articles = _articleService.GetOuterFramesForSystem(systemName);
@@ -151,7 +152,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="systemName">The systemName<see cref="string"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
-        [Route("api/Article/GetVentFramesForSystem/{systemName}")]
+        [Route("GetVentFramesForSystem/{systemName}")]
         public string GetVentFramesForSystem(string systemName)
         {
             var articles = _articleService.GetVentFramesForSystem(systemName);
@@ -168,7 +169,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
-        [Route("api/Article/GetDoorHandleHingeForSystem/")]
+        [Route("GetDoorHandleHingeForSystem/")]
         public List<DoorHandleHingeApiModel> GetDoorHandleHingeForSystem()
         {
             return _articleService.GetDoorHandleHingeForSystem();

@@ -25,6 +25,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="BpsProjectController" />.
     /// </summary>
     [Authorize]
+    [Route("api/BpsProject")]
     public class BpsProjectController : BaseController
     {
         /// <summary>
@@ -47,7 +48,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
-        [Route("api/BpsProject/CancelAllOrders/{projectGuid}")]
+        [Route("CancelAllOrders/{projectGuid}")]
         public IActionResult CancelAllOrders(string projectGuid)
         {
             try
@@ -67,7 +68,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
-        [Route("api/BpsProject/CancelAllProjectOrders/{projectId}")]
+        [Route("CancelAllProjectOrders/{projectId}")]
         public IActionResult CancelAllProjectOrders(int projectId)
         {
             try
@@ -87,7 +88,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
-        [Route("api/BpsProject/CopyProblemByGuid/{problemGuid}")]
+        [Route("CopyProblemByGuid/{problemGuid}")]
         public IActionResult CopyProblemByGuid(string problemGuid)
         {
             try
@@ -108,7 +109,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
-        [Route("api/BpsProject/CreateDefaultProblemForASEProject/{projectGuid}/{ASEType}")]
+        [Route("CreateDefaultProblemForASEProject/{projectGuid}/{ASEType}")]
         public IActionResult CreateDefaultProblemForASEProject(string projectGuid, string ASEType)
         {
             try
@@ -129,7 +130,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
-        [Route("api/BpsProject/CreateDefaultProblemForFacadeProject/{projectGuid}")] 
+        [Route("CreateDefaultProblemForFacadeProject/{projectGuid}")] 
         public IActionResult CreateDefaultProblemForFacadeProject([FromRoute] string projectGuid, [FromBody] FacadeLayout fl)
         {
             try
@@ -149,7 +150,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
-        [Route("api/BpsProject/CreateDefaultProblemForFacadeUDCProject/{projectGuid}")]
+        [Route("CreateDefaultProblemForFacadeUDCProject/{projectGuid}")]
         public IActionResult CreateDefaultProblemForFacadeUDCProject([FromRoute] string projectGuid)
         {
             try
@@ -170,7 +171,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
-        [Route("api/BpsProject/CreateDefaultProblemForProject/{projectGuid}/{applicationType}")]
+        [Route("CreateDefaultProblemForProject/{projectGuid}/{applicationType}")]
         public IActionResult CreateDefaultProblemForProject(string projectGuid, string applicationType)
         {
             try
@@ -201,7 +202,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsProjectApiModel))]
-        [Route("api/BpsProject/CreateProject/")]
+        [Route("CreateProject/")]
         public IActionResult CreateProject(BpsProjectApiModel project)
         {
             try
@@ -221,7 +222,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
-        [Route("api/BpsProject/DeleteOrderByGuid/{problemGuid}")]
+        [Route("DeleteOrderByGuid/{problemGuid}")]
         public IActionResult DeleteOrderByGuid(string problemGuid)
         {
             try
@@ -240,7 +241,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="problemId">The problemId<see cref="int"/>.</param>
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpDelete]
-        [Route("api/BpsProject/DeleteOrderById/{problemId}")]
+        [Route("DeleteOrderById/{problemId}")]
         public List<OrderApiModel> DeleteOrderById(int problemId)
         {
             try
@@ -260,7 +261,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
-        [Route("api/BpsProject/DeleteProblemByGuid/{problemGuid}")]
+        [Route("DeleteProblemByGuid/{problemGuid}")]
         public IActionResult DeleteProblemByGuid(string problemGuid)
         {
             try
@@ -279,7 +280,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="problemId">The problemId<see cref="int"/>.</param>
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpDelete]
-        [Route("api/BpsProject/DeleteProblemById/{problemId}")]
+        [Route("DeleteProblemById/{problemId}")]
         public List<OrderApiModel> DeleteProblemById(int problemId)
         {
             try
@@ -299,7 +300,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
-        [Route("api/BpsProject/DeleteAllProjects/{projectGuid}")]
+        [Route("DeleteAllProjects/{projectGuid}")]
         public IActionResult DeleteAllProjects(string projectGuid)
         {
            try
@@ -320,7 +321,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
-        [Route("api/BpsProject/DeleteProject/{projectGuid}")]
+        [Route("DeleteProject/{projectGuid}")]
         public IActionResult DeleteProject(string projectGuid)
         {
             try
@@ -342,7 +343,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
-        [Route("api/BpsProject/GetDefaultASEProblem/{projectGuid}/{problemGuid}/{Type}")]
+        [Route("GetDefaultASEProblem/{projectGuid}/{problemGuid}/{Type}")]
         public IActionResult GetDefaultASEProblem([FromRoute] string projectGuid, [FromRoute] string problemGuid, [FromRoute] string Type)
         {
             try
@@ -365,7 +366,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
-        [Route("api/BpsProject/GetDefaultFacadeProblem/{projectGuid}/{problemGuid}")]
+        [Route("GetDefaultFacadeProblem/{projectGuid}/{problemGuid}")]
         public IActionResult GetDefaultFacadeProblem([FromRoute] string projectGuid, [FromRoute] string problemGuid, [FromBody] FacadeLayout fl)
         {
             try
@@ -386,7 +387,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
-        [Route("api/BpsProject/GetDefaultFacadeUDCProblem/{projectGuid}/{problemGuid}")]
+        [Route("GetDefaultFacadeUDCProblem/{projectGuid}/{problemGuid}")]
         public IActionResult GetDefaultFacadeUDCProblem([FromRoute] string projectGuid, [FromRoute] string problemGuid)
         {
             try
@@ -408,7 +409,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblem))]
-        [Route("api/BpsProject/GetDefaultWindowProblem/{projectGuid}/{problemGuid}/{applicationType}")]
+        [Route("GetDefaultWindowProblem/{projectGuid}/{problemGuid}/{applicationType}")]
         public IActionResult GetDefaultWindowProblem(string projectGuid, string problemGuid, string applicationType)
         {
             try
@@ -439,7 +440,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedProblemApiModel))]
-        [Route("api/BpsProject/GetProblemByGuid/{problemGuid}")]
+        [Route("GetProblemByGuid/{problemGuid}")]
         public IActionResult GetProblemByGuid(string problemGuid)
         {
             try
@@ -460,7 +461,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="projectGuid">The projectGuid<see cref="string"/>.</param>
         /// <returns>The <see cref="List{BpsUnifiedProblem}"/>.</returns>
         [HttpGet]
-        [Route("api/BpsProject/GetProblemsForProject/{projectGuid}")]
+        [Route("GetProblemsForProject/{projectGuid}")]
         public List<BpsUnifiedProblemApiModel> GetProblemsForProject(string projectGuid)
         {
             try
@@ -485,7 +486,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="projectGuid">The projectGuid<see cref="string"/>.</param>
         /// <returns>The <see cref="List{BpsUnifiedProblem}"/>.</returns>
         [HttpGet]
-        [Route("api/BpsProject/GetProblemsForProjectLite/{projectGuid}")]
+        [Route("GetProblemsForProjectLite/{projectGuid}")]
         public List<BpsUnifiedProblemApiModelLite> GetProblemsForProjectLite(string projectGuid)
         {
             try
@@ -511,7 +512,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="projectGuid">The projectGuid<see cref="string"/>.</param>
         /// <returns>The <see cref="BpsProjectApiModel"/>.</returns>
         [HttpGet]
-        [Route("api/BpsProject/GetProjectByGuid/{projectGuid}")]
+        [Route("GetProjectByGuid/{projectGuid}")]
         public BpsProjectApiModel GetProjectByGuid(string projectGuid)
         {
             try
@@ -531,7 +532,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BpsProjectApiModel>))]
-        [Route("api/BpsProject/GetProjectsForCurrentUser")]
+        [Route("GetProjectsForCurrentUser")]
         public IActionResult GetProjectsForCurrentUser()
         {
             try
@@ -551,7 +552,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="HttpResponseMessage"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MemoryStream))]
-        [Route("api/BpsProject/GetReport/")]
+        [Route("GetReport/")]
         public HttpResponseMessage GetReport(ReportRequest reportRequest)
         {
             try
@@ -584,7 +585,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BpsProjectApiModel>))]
-        [Route("api/BpsProject/GetSRSProjectsForCurrentUser/{status}/{dateValue}")]
+        [Route("GetSRSProjectsForCurrentUser/{status}/{dateValue}")]
         public IActionResult GetSRSProjectsForCurrentUser(string status, string dateValue)
         {
             try
@@ -602,7 +603,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="List{JsonResponse}"/>.</returns>
         [HttpGet]
-        [Route("api/BpsProject/MigrateUnifiedModelToV2")]
+        [Route("MigrateUnifiedModelToV2")]
         public List<JsonResponse> MigrateUnifiedModelToV2()
         {
             try
@@ -616,7 +617,7 @@ namespace VCLWebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/BpsProject/GetStateTax/{zipcode}")]
+        [Route("GetStateTax/{zipcode}")]
         public StateTax GetStateTax(string zipcode)
         {
             try
@@ -636,7 +637,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsSimplifiedProblemApiModel))]
-        [Route("api/BpsProject/RenameProblem/")]
+        [Route("RenameProblem/")]
         public IActionResult RenameProblem(BpsUnifiedModel unifiedModel)
         {
             try
@@ -656,7 +657,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [Route("api/BpsProject/SaveProblemScreenShot/")]
+        [Route("SaveProblemScreenShot/")]
         public IActionResult SaveProblemScreenShot(SaveScreenShotRequest request)
         {
             try
@@ -671,7 +672,7 @@ namespace VCLWebAPI.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [Route("api/BpsProject/SaveProblemScreenShotS3/")]
+        [Route("SaveProblemScreenShotS3/")]
         public async Task<bool> SaveProblemScreenShotS3(SaveScreenShotRequest request)
         {
             try
@@ -691,7 +692,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid?))]
-        [Route("api/BpsProject/UpdateProblem/")]
+        [Route("UpdateProblem/")]
         public IActionResult UpdateProblem(BpsUnifiedModel unifiedModel)
         {
             try
@@ -711,7 +712,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<BpsSimplifiedProblemApiModel>))]
-        [Route("api/BpsProject/UpdateProjectInfo/")]
+        [Route("UpdateProjectInfo/")]
         public IActionResult UpdateProjectInfo(ProjectInfo projectInfo)
         {
             try
@@ -731,7 +732,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsSimplifiedProblemApiModel))]
-        [Route("api/BpsProject/UpdateUserNotes/")]
+        [Route("UpdateUserNotes/")]
         public IActionResult UpdateUserNotes(BpsUnifiedModel unifiedModel)
         {
             try
@@ -750,7 +751,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BpsUnifiedModel))]
-        [Route("api/BpsProject/UploadResults/")]
+        [Route("UploadResults/")]
         public IActionResult UploadResults()
         {
             try
