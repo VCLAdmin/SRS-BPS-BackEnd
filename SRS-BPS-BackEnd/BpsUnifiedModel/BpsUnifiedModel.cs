@@ -50,9 +50,9 @@ namespace BpsUnifiedModelLib
         public string ConfigurationName;
         public string UserNotes;
         // for SRS
-        public string Client;              
-        public string ProjectNumber;        
-        public string LastModifiedDate;     
+        public string Client;
+        public string ProjectNumber;
+        public string LastModifiedDate;
         public List<string> DrawingNames;
         // for BPS and SRS
         public string SlidingDoorType;      //Added 2022.03.21, moved 2022.03.23, can be "Classic", "Panorama", or "Bi-fold"
@@ -104,12 +104,12 @@ namespace BpsUnifiedModelLib
         public double MajorMullionBottomRecess;            //UnifiedInputVersion2.0. For SRS.
 
         // for UDC only
-        public double VerticalJointWidth;   
-        public double HorizontalJointWidth;  
+        public double VerticalJointWidth;
+        public double HorizontalJointWidth;
 
         // for SRS
-        public string AluminumFinish;          
-        public string AluminumColor;         
+        public string AluminumFinish;
+        public string AluminumColor;
 
         //Remove this for next release. Due to some issue in UI we are using below property
         public string InsulationZone;
@@ -182,7 +182,7 @@ namespace BpsUnifiedModelLib
         public int MemberType;                  // same as SectionType. 1: Outer Frame, 2: Mullion, 3: transom,  4: Facade Major Mullion, 5: Facade Transom, 6 Facade Minor Mullion, 7: Facade Mullion Reinforcement; 
                                                 // 21:UDC Top Frame; 22: UDC Vertical;  23: UDC Bottom Frame; 24: UDC Vertical Glazing Bar; 25: UDC Horizontal Glazing Bar; 31: Door Threshold; 33: Door Sidelight Sill;
                                                 // 41: Sliding Door Outer Frame; 42: Interlock Vent Frame (will match Type 43 in SRS 3.0); 43: Sliding Door Vent Frame; 45: Sliding Door Bottom Outer Frame;
-        // for physics core internal use
+                                                // for physics core internal use
         public double Length_cm;
 
         public double TributaryArea;            // mm2
@@ -238,7 +238,7 @@ namespace BpsUnifiedModelLib
         public string GlazingRebateInsulationArticleName;   // UnifiedInputVersion2.0. For SRS.
     }
 
-    public class OperabilitySystem          
+    public class OperabilitySystem
     {
         public int OperabilitySystemID;
         public int DoorSystemID;                            // UnifiedInputVersion2.0, -1 if it's not a door
@@ -255,6 +255,7 @@ namespace BpsUnifiedModelLib
         public double InsertOuterFrameDistBetweenIsoBars;   // Facade Only. read from database Article table; -1 if we don't have any operabiltity for that particular glass
         public string InsertUvalueType;                     // Facade Thermal: for inserted window 
         public string InsertInsulationType;                 // Facade Thermal: for inserted window, PA or PT
+        public string InsertInsulationTypeName;             // Added 2022.06.30 Angular use only
         public string VentOpeningDirection;                 // Options: "Inward", "Outward"
         public string VentOperableType;                     // NOTE : Please update all "Tilt-Turn" to proper name "Turn-Tilt"
                                                             // NOTE : Left/Right indicates position when viewed from interior. So "Side-Hung-Left" has hinges on left side from interior. "Double-Door-Active-Right" has active vent on right side when viewed from interior
@@ -265,9 +266,10 @@ namespace BpsUnifiedModelLib
                                                             // Options (continued): TRIPLE TEACK: "SlidingDoor-Type-3E-Left"; "SlidingDoor-Type-3E-Right"; "SlidingDoor-Type-3E1-Left"; "SlidingDoor-Type-3E1-Right";"SlidingDoor-Type-3F";
 
         //  For SRS     
-        public string RebateGasketArticleName;             
-        public string CenterGasketInsulationArticleName;   
-        public string InsideHandleArticleName;                                
+        public string RebateGasketArticleName;
+        public string CenterGasketInsulationArticleName;
+        public string InsideHandleArticleName;
+        public string InsideHandleArticleDescription;       // Added 2022.06.30 Angular use only
         public string InsideHandleColor;                    //renamed from "HandleColor" 2021.11.02                        
 
         //this is for internal use only in Angular UI
@@ -277,7 +279,7 @@ namespace BpsUnifiedModelLib
         public int PickerIndex;                            // Angular Use only
     }
 
-    public class DoorSystem                           
+    public class DoorSystem
     {
         public int DoorSystemID;
         public string DoorSystemType;
@@ -294,11 +296,14 @@ namespace BpsUnifiedModelLib
         public string DoorSidelightSillArticleName;      //renamed from "DoorSideLiteSillArticleName" on 2021.08.31
         public string OutsideHandleArticleName;
         public string OutsideHandleColor;               //added 2021.11.02
+        public string OutsideHandleArticleDescription;  // Added 2022.06.30 Angular Use only
         public string InsideHandleArticleName;
         public string InsideHandleColor;                //added 2021.11.02
+        public string InsideHandleArticleDescription;   // Added 2022.06.30 Angular Use only
         //public string HingeCount;                     //omitted 2021.11.18
         public int HingeCondition;                      //added 2021.11.18 to replace HingeCount. 0 = error (not valid door configuration), 1 = two hinges (one at top, one at bottom), 2 = three hinges (one at top, one at bottom, one at center), 3 = three hinges (one at top, one at bottom, and one near top), 4 = four hinges (one at top, one at bottom, one at center, and one near top).
         public string HingeArticleName;                 //added 2021.11.02
+        public string HingeArticleDescription;          // Added 2022.06.30 Angular Use only
         public string HingeColor;                       //added 2021.11.02
         //public string DoorOpeningDirection;                 // Options: "Inward", "Outward" (omitted 2021.10.19)
         //public string DoorOperableType;                     // Options: "Single", "Double"  (omitted 2021.10.19)
@@ -337,6 +342,7 @@ namespace BpsUnifiedModelLib
         public double H;
         public string InterMaterial;
         public double InterH;
+        public string UDF1;         // Added 2022.06.30 
     }
     public class Cavity
     {
@@ -488,7 +494,7 @@ namespace BpsUnifiedModelLib
 
         //this is for internal use only in Angular UI
         public double Depth;
-        
+
     }
 
     public class Acoustic
