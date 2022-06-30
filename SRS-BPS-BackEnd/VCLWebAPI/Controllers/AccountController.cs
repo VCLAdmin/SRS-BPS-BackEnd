@@ -535,6 +535,59 @@ namespace VCLWebAPI.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task PasswordMigrationforBPSSSO()
+        {
+            string newPassword = "4nEX25CjFvQw8bOjB59Y3xuA9Tnv5j!";
+            await _accountService.PasswordMigrationforBPSSSO(newPassword);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("LoginToken")]
+        public async Task<object> Get(string token = "")
+        {
+            var tokenHandler = new TokenHandler();
+
+            if (token.StartsWith("token="))
+            {
+                token = token.Remove(0, 6);
+            }
+
+            var res = tokenHandler.DecodeHexString(token);
+            DecryptedToken decryptedToken = JsonConvert.DeserializeObject<DecryptedToken>(res);
+
+            var response = await tokenHandler.RequestValidation(decryptedToken.loginName, decryptedToken.securitytoken);
+
+            // if user exists
+            ApplicationUser existingUser = await UserManager.FindByEmailAsync(decryptedToken.email);
+
+            if (existingUser == null)
+            {
+                // if user doesn't exist
+                var user = new ApplicationUser() { UserName = decryptedToken.email, Email = decryptedToken.email };
+                var defaultPassword = "4nEX25CjFvQw8bOjB59Y3xuA9Tnv5j!";
+                IdentityResult result = await UserManager.CreateAsync(user, defaultPassword);
+
+                // Create a user in the table
+                var name = decryptedToken.givenName.Split(' ');
+                _accountService.CreateUser(decryptedToken.givenName, decryptedToken.name, decryptedToken.email);
+            }
+
+            if (((int)response) == 200)
+            {
+                return decryptedToken;
+            }
+            else
+            {
+                DecryptedToken returnToken = new DecryptedToken();
+                returnToken.email = "Validationfailed";
+                //return "Validation failed";
+                return returnToken;
+            }
+        }
+
         /// <summary>
         /// The RegisterExternal.
         /// </summary>
