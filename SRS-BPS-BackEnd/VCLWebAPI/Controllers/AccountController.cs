@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VCLWebAPI.Models.Edmx;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace VCLWebAPI.Controllers
 {
@@ -548,7 +549,7 @@ namespace VCLWebAPI.Controllers
         [Route("LoginToken")]
         public async Task<object> Get(string token = "")
         {
-            var tokenHandler = new TokenHandler();
+            var tokenHandler = new Services.TokenHandler();
 
             if (token.StartsWith("token="))
             {
@@ -561,14 +562,15 @@ namespace VCLWebAPI.Controllers
             var response = await tokenHandler.RequestValidation(decryptedToken.loginName, decryptedToken.securitytoken);
 
             // if user exists
-            ApplicationUser existingUser = await UserManager.FindByEmailAsync(decryptedToken.email);
+            //ApplicationUser existingUser = await UserManager.FindByEmailAsync(decryptedToken.email);
+            User existingUser = _accountService.GetUserByEmail(decryptedToken.email);
 
             if (existingUser == null)
             {
                 // if user doesn't exist
                 var user = new ApplicationUser() { UserName = decryptedToken.email, Email = decryptedToken.email };
                 var defaultPassword = "4nEX25CjFvQw8bOjB59Y3xuA9Tnv5j!";
-                IdentityResult result = await UserManager.CreateAsync(user, defaultPassword);
+                IdentityResult result = await _userManager.CreateAsync(user, defaultPassword);
 
                 // Create a user in the table
                 var name = decryptedToken.givenName.Split(' ');
