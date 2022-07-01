@@ -60,7 +60,7 @@ namespace VCLWebAPI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login(LoginModel model)
         {
             var dbContext = new VCLDesignDBEntities();
             if (!string.IsNullOrEmpty(model.UserName) &&

@@ -9,6 +9,8 @@ namespace VCLWebAPI.Controllers
     /// <summary>
     /// Defines the <see cref="BaseController" />.
     /// </summary>
+    [ApiController]
+    [Route("api")]
     public class BaseController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
     }

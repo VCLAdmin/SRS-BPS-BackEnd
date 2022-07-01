@@ -79,7 +79,7 @@ namespace VCLWebAPI.Controllers
             //var user = UserService.GetUser(_dbContext, ApiUtil.GetActiveUserExternalId());
             var versionModel = new VersionInformationApiModel
             {
-                VersionNumber = "3.6.0",
+                VersionNumber = "3.7.0",
                 BuildNumber = this.GetType().Assembly.GetName().Version.Build.ToString(),
                 DeployedDateInfo = deployedInfo,
                 Date = fileInfo.LastWriteTimeUtc
@@ -123,7 +123,7 @@ namespace VCLWebAPI.Controllers
         /// <returns>The <see cref="UserApiModel"/>.</returns>
         [HttpPost]
         [Route("SignIn")]
-        public async System.Threading.Tasks.Task<UserApiModel> SignIn([FromBody]AccountApiModel accountApiModel)
+        public async System.Threading.Tasks.Task<UserApiModel> SignIn(AccountApiModel accountApiModel)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
@@ -137,7 +137,8 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="accountApiModel">The accountApiModel<see cref="AccountApiModel"/>.</param>
         /// <returns>The <see cref="Boolean"/>.</returns>
-        public Boolean ValidateHash(AccountApiModel accountApiModel)
+        [Route("ValidateHash")]
+        public Boolean ValidateHash([FromBody]AccountApiModel accountApiModel)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
             {

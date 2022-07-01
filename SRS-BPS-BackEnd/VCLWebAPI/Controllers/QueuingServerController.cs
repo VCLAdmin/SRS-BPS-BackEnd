@@ -12,6 +12,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="QueuingServerController" />.
     /// </summary>
     [Authorize]
+    [Route("api/QueuingServer")]
     public class QueuingServerController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
@@ -34,7 +35,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="orderId">The orderId<see cref="string"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
-        [Route("api/QueuingServer/ConversionCompleted/{orderId}")]
+        [Route("ConversionCompleted/{orderId}")]
         public string ConversionCompleted(string orderId)
         {
             try
