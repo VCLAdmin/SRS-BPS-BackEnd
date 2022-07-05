@@ -25,6 +25,7 @@ using System;
 using Newtonsoft.Json;
 using VCLWebAPI.Models.Edmx;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Services.Filters;
 
 namespace VCLWebAPI
 {
@@ -56,6 +57,7 @@ namespace VCLWebAPI
                 // using Microsoft.AspNetCore.Mvc.Formatters;
                 options.OutputFormatters.RemoveType<StringOutputFormatter>();
                 options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+                options.Filters.Add(typeof(GlobalExceptionFilterAttribute));
             }).AddMvcOptions(options =>
             {
                 options.EnableEndpointRouting = false;
