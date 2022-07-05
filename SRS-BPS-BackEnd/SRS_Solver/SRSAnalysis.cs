@@ -18,8 +18,8 @@ namespace SRS_Solver
         {
             try
             {
-                string inputData = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\DefaultModels\ASE\2D1i_DefaultModel.json");
-                string _resourceFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\");
+                string inputData = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\DefaultModels\ASE\2D1i_DefaultModel.json");
+                string _resourceFolderPath = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\");
                 string template = _resourceFolderPath + @"srs-templates\SRS_Proposal_AWS75SI+.PDF";
                 var model = Proposal.LoadNewModelFromFile(inputData);
 
@@ -70,7 +70,7 @@ namespace SRS_Solver
             {
                 //string problemGuid = unifiedProblem.ProblemGuid.ToString();
                 //string jsonString = unifiedProblem.UnifiedModel;
-                string _resourceFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\");
+                string _resourceFolderPath = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\");
                 string template = _resourceFolderPath + @"srs-templates\SRS_Proposal_AWS75SI+.PDF";
                 // Load the Unified Model  
                 var model = Proposal.LoadModelFromJsonString(jsonString);
@@ -212,12 +212,12 @@ namespace SRS_Solver
             //Check for Door Systems to decide whether to switch to ADS template for PDF
             if (model.ModelInput.Geometry.DoorSystems != null)
             {
-                string _resourceFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\");
+                string _resourceFolderPath = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\");
                 template = _resourceFolderPath + @"srs-templates\SRS_Proposal_ADS75SI+.PDF";
             }
             else if (model.ModelInput.Geometry.SlidingDoorSystems != null)
             {
-                string _resourceFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\");
+                string _resourceFolderPath = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\");
                 template = _resourceFolderPath + @"srs-templates\SRS_Proposal_ASE.PDF";
 
                 foreach (var v in td.Vents)
