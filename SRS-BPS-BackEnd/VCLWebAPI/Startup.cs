@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using VCLWebAPI.Models.Edmx;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Services.Filters;
+using Services.Loggers;
 
 namespace VCLWebAPI
 {
@@ -218,6 +219,10 @@ namespace VCLWebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Added logging middleware to log http request and response data
+            app.UseMiddleware<LoggingMiddleware>();
+
+
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VCL Design Services v1"));
