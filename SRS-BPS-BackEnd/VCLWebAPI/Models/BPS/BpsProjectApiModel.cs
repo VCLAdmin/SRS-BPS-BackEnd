@@ -6,7 +6,7 @@ namespace VCLWebAPI.Models.BPS
     public class BpsProjectApiModel
     {
         public int ProjectId { get; set; }
-        public Guid ProjectGuid { get; set; }
+        public Nullable<Guid> ProjectGuid { get; set; }
         public int UserId { get; set; }
         public string ProjectName { get; set; }
         public string ProjectLocation { get; set; }

@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
-using System.Web.Http;
+//using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VCLWebAPI.Services;
 
 namespace VCLWebAPI.Controllers
@@ -10,6 +12,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="GlassController" />.
     /// </summary>
     [Authorize]
+    [Route("api/Glass")]
     public class GlassController : BaseController
     {
         /// <summary>
@@ -31,7 +34,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="applicationName">The name<see cref="string"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
-        [Route("api/Glass/GetGlassInfo/{applicationName}")]
+        [Route("GetGlassInfo/{applicationName}")]
         public string GetGlassInfo(string applicationName)
         {
             string response = _glassService.GetGlassInfo(applicationName);

@@ -1,8 +1,11 @@
 ﻿using BpsUnifiedModelLib;
 using StructuralSolverSBA;
 using System;
-using System.Web.Http;
-using System.Web.Http.Description;
+//using System.Web.Http;
+//using System.Web.Http.Description;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using VCLWebAPI.Services;
 
 namespace VCLWebAPI.Controllers
@@ -11,17 +14,18 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="StructuralController" />.
     /// </summary>
     [Authorize]
+    [Route("api/Structural")]
     public class StructuralController : BaseController
     {
         /// <summary>
         /// The CalculateDXFSectionProperties.
         /// </summary>
         /// <param name="input">The input<see cref="DXFInput"/>.</param>
-        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
+        /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
-        [ResponseType(typeof(Section))]
-        [Route("api/Structural/CalculateDXFSectionProperties/")]
-        public IHttpActionResult CalculateDXFSectionProperties(DXFInput input)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Section))]
+        [Route("CalculateDXFSectionProperties/")]
+        public IActionResult CalculateDXFSectionProperties(DXFInput input)
         {
             try
             {
@@ -39,11 +43,11 @@ namespace VCLWebAPI.Controllers
         /// The CalculateWindLoadDIN.
         /// </summary>
         /// <param name="input">The input<see cref="DinWindLoadInput"/>.</param>
-        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
+        /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
-        [ResponseType(typeof(WindLoadOutput))]
-        [Route("api/Structural/CalculateWindLoadDIN/")]
-        public IHttpActionResult CalculateWindLoadDIN(DinWindLoadInput input)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(WindLoadOutput))]
+        [Route("CalculateWindLoadDIN/")]
+        public IActionResult CalculateWindLoadDIN(DinWindLoadInput input)
         {
             try
             {
@@ -60,11 +64,11 @@ namespace VCLWebAPI.Controllers
         /// The GetWindZone.
         /// </summary>
         /// <param name="PostCode">The PostCode<see cref="string"/>.</param>
-        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
+        /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpGet]
-        [ResponseType(typeof(WindZoneOutput))]
-        [Route("api/Structural/GetWindZone/{PostCode}")]
-        public IHttpActionResult GetWindZone(string PostCode)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(WindZoneOutput))]
+        [Route("GetWindZone/{PostCode}")]
+        public IActionResult GetWindZone(string PostCode)
         {
             try
             {
@@ -81,11 +85,11 @@ namespace VCLWebAPI.Controllers
         /// The ReadFacadeSectionProperties.
         /// </summary>
         /// <param name="unifiedModel">The unifiedModel<see cref="BpsUnifiedModel"/>.</param>
-        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
+        /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
-        [ResponseType(typeof(Section))]
-        [Route("api/Structural/ReadFacadeSectionProperties/")]
-        public IHttpActionResult ReadFacadeSectionProperties(BpsUnifiedModel unifiedModel)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Section))]
+        [Route("ReadFacadeSectionProperties/")]
+        public IActionResult ReadFacadeSectionProperties(BpsUnifiedModel unifiedModel)
         {
             try
             {
@@ -103,11 +107,11 @@ namespace VCLWebAPI.Controllers
         /// The ReadSectionProperties.
         /// </summary>
         /// <param name="unifiedModel">The unifiedModel<see cref="BpsUnifiedModel"/>.</param>
-        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
+        /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
-        [ResponseType(typeof(Section))]
-        [Route("api/Structural/ReadSectionProperties/")]
-        public IHttpActionResult ReadSectionProperties(BpsUnifiedModel unifiedModel)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Section))]
+        [Route("ReadSectionProperties/")]
+        public IActionResult ReadSectionProperties(BpsUnifiedModel unifiedModel)
         {
             try
             {
@@ -125,11 +129,11 @@ namespace VCLWebAPI.Controllers
         /// The ReadSectionProperties.
         /// </summary>
         /// <param name="unifiedModel">The unifiedModel<see cref="BpsUnifiedModel"/>.</param>
-        /// <returns>The <see cref="IHttpActionResult"/>.</returns>
+        /// <returns>The <see cref="IActionResult"/>.</returns>
         [HttpPost]
-        [ResponseType(typeof(Section))]
-        [Route("api/Structural/ReadSectionPropertiesFromDXF/")]
-        public IHttpActionResult ReadSectionPropertiesFromDXF(BpsUnifiedModel unifiedModel)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Section))]
+        [Route("ReadSectionPropertiesFromDXF/")]
+        public IActionResult ReadSectionPropertiesFromDXF(BpsUnifiedModel unifiedModel)
         {
             try
             {

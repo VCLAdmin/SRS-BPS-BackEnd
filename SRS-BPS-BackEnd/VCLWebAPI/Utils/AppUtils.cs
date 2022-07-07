@@ -5,8 +5,6 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
 
 namespace VCLWebAPI.Utils
 {
@@ -25,7 +23,7 @@ namespace VCLWebAPI.Utils
                 var body = new ObjectContent<T>(modelObject, new JsonMediaTypeFormatter());
                 var response = await client.PostAsync(uriActionString, body);
                 if (!response.IsSuccessStatusCode)
-                    throw new HttpResponseException(response);
+                    throw new HttpRequestException(response.Content.ToString());
                 return response;
             }
         }

@@ -7,7 +7,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
+//using System.Web;
 using VCLWebAPI.Mappers;
 using VCLWebAPI.Models.Edmx;
 using VCLWebAPI.Models.QueuingServer;
@@ -15,7 +15,7 @@ using VCLWebAPI.Models.SRS;
 using VCLWebAPI.Utils;
 using Amazon;
 using Amazon.S3;
-using Amazon.S3.IO;
+//using Amazon.S3.IO;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using System.Text.RegularExpressions;
@@ -536,10 +536,10 @@ namespace VCLWebAPI.Services
                 return "";
             }
 
-            string accessKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
-            string secrectKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
-            string service_url = System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
-            string bucket_name = System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
+            string accessKey = Globals.accessKey; // System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
+            string secrectKey = Globals.secretKey; // System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
+            string service_url = Globals.service_url; // System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
+            string bucket_name = Globals.bucket_name; // System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
 
             var _s3client = new AmazonS3Client(
                        accessKey,
@@ -560,10 +560,10 @@ namespace VCLWebAPI.Services
                 var base64Data = Regex.Match(imageData, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
                 var bytes = Convert.FromBase64String(base64Data);
 
-                string accessKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
-                string secrectKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
-                string service_url = System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
-                string bucket_name = System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
+                string accessKey = Globals.accessKey; //System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
+                string secrectKey = Globals.secretKey; //System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
+                string service_url = Globals.service_url; //System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
+                string bucket_name = Globals.bucket_name; //System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
                 string localFileFullPath = "screenshots/" + problemGuid + ".png";
 
                 AmazonS3Client client = new AmazonS3Client(
@@ -612,20 +612,16 @@ namespace VCLWebAPI.Services
                 return "";
             }
 
-            string accessKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
-            string secrectKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
-            string service_url = System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
-            string bucket_name = System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
             string localFileFullPath = "screenshots/" + key + ".png";
 
             var _s3client = new AmazonS3Client(
-                       accessKey,
-                       secrectKey,
+                       Globals.accessKey,
+                       Globals.secretKey,
                        new AmazonS3Config
                        {
-                           ServiceURL = service_url
+                           ServiceURL = Globals.service_url
                        });
-            var signedURL = GeneratePreSignedURL(localFileFullPath, -1, bucket_name, _s3client); //"Orders/XXXX/Design.pdf"
+            var signedURL = GeneratePreSignedURL(localFileFullPath, -1, Globals.bucket_name, _s3client); //"Orders/XXXX/Design.pdf"
             return signedURL;
         }
 

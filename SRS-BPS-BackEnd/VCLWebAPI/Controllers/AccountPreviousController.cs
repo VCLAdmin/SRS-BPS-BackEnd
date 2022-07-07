@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+//using System.Web;
+//using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using VCLWebAPI.Models;
 using VCLWebAPI.Models.Account;
 using VCLWebAPI.Models.Edmx;
@@ -15,6 +17,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="AccountPreviousController" />.
     /// </summary>
     [Authorize]
+    [Route("api/AccountPrevious")]
     public class AccountPreviousController : BaseController
     {
         /// <summary>
@@ -51,7 +54,8 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="VersionInformationApiModel"/>.</returns>
         [HttpGet]
-        [OverrideActionFilters]
+        [Route("GetVersionInformation")]
+        [AllowAnonymous]
         public VersionInformationApiModel GetVersionInformation()
         {
             var fileInfo = new FileInfo(GetType().Assembly.Location);
@@ -75,7 +79,7 @@ namespace VCLWebAPI.Controllers
             //var user = UserService.GetUser(_dbContext, ApiUtil.GetActiveUserExternalId());
             var versionModel = new VersionInformationApiModel
             {
-                VersionNumber = "3.6.0",
+                VersionNumber = "3.7.0",
                 BuildNumber = this.GetType().Assembly.GetName().Version.Build.ToString(),
                 DeployedDateInfo = deployedInfo,
                 Date = fileInfo.LastWriteTimeUtc
@@ -118,10 +122,10 @@ namespace VCLWebAPI.Controllers
         /// <param name="accountApiModel">The accountApiModel<see cref="AccountApiModel"/>.</param>
         /// <returns>The <see cref="UserApiModel"/>.</returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Route("SignIn")]
         public async System.Threading.Tasks.Task<UserApiModel> SignIn(AccountApiModel accountApiModel)
         {
-            if (!HttpContextHelper.Current.User.Identity.IsAuthenticated)
+            if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 throw new UnauthorizedAccessException();
             }
@@ -133,9 +137,10 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="accountApiModel">The accountApiModel<see cref="AccountApiModel"/>.</param>
         /// <returns>The <see cref="Boolean"/>.</returns>
-        public Boolean ValidateHash(AccountApiModel accountApiModel)
+        [Route("ValidateHash")]
+        public Boolean ValidateHash([FromBody]AccountApiModel accountApiModel)
         {
-            if (!HttpContextHelper.Current.User.Identity.IsAuthenticated)
+            if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 throw new UnauthorizedAccessException();
             }

@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web;
+//using System.Web;
 using VCLWebAPI.Mappers;
 using VCLWebAPI.Models.BPS;
 using VCLWebAPI.Models.Edmx;
@@ -20,6 +20,7 @@ using VCLWebAPI.Models;
 using Amazon.S3.Model;
 using System.Threading.Tasks;
 using Amazon.S3;
+using Microsoft.AspNetCore.Http;
 
 namespace VCLWebAPI.Services
 {
@@ -121,7 +122,7 @@ namespace VCLWebAPI.Services
         {
             List<BpsProject> projects = new List<BpsProject>();
             User currentUser = _accountService.GetCurrentUser();
-            string role = _accountService.GetUserRole(currentUser.Email);
+            //string role = _accountService.GetUserRole(currentUser.Email);
             var dealer = currentUser.Dealer.FirstOrDefault();
             if (dealer != null)
             {
@@ -1565,8 +1566,11 @@ namespace VCLWebAPI.Services
         {
             try
             {
-                var fileObject = s3Client.GetObject(bucketName, key);
-                if (fileObject != null)
+                //var fileObject = s3Client.GetObject(bucketName, key);
+                var taskFileObject = s3Client.GetObjectAsync(bucketName, key);
+                taskFileObject.Wait();
+
+                if (taskFileObject.Result != null)
                     return true;
                 else
                     return false;
@@ -1584,10 +1588,10 @@ namespace VCLWebAPI.Services
                 return false;
             }
 
-            string accessKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
-            string secretKey = System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
-            string service_url = System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
-            string bucket_name = System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
+            string accessKey = Globals.accessKey; //System.Configuration.ConfigurationManager.AppSettings["DE_AWSAccessKey"];
+            string secretKey = Globals.secretKey; //System.Configuration.ConfigurationManager.AppSettings["DE_AWSSecretKey"];
+            string service_url = Globals.service_url; //System.Configuration.ConfigurationManager.AppSettings["DES3ServiceUrl"];
+            string bucket_name = Globals.bucket_name; //System.Configuration.ConfigurationManager.AppSettings["DEAWSBucket"];
             string localFileFullPath = "screenshots/" + key + ".png";
 
             AmazonS3Client s3Client = new AmazonS3Client(
@@ -1597,9 +1601,12 @@ namespace VCLWebAPI.Services
             {
                 ServiceURL = service_url
             });
-            if (CheckFileExist(localFileFullPath, bucket_name, s3Client))
+            bool fileExist = CheckFileExist(localFileFullPath, bucket_name, s3Client);
+            //if (CheckFileExist(localFileFullPath, bucket_name, s3Client))
+            if (fileExist)
             {
-                s3Client.DeleteObject(bucket_name, localFileFullPath);
+                var task = s3Client.DeleteObjectAsync(bucket_name, localFileFullPath);
+                task.Wait();
             }
             return true;
         }
@@ -2021,7 +2028,7 @@ namespace VCLWebAPI.Services
             return response;
         }
 
-        public BpsUnifiedModel UploadResults(string strUnifiedModel, HttpFileCollection hfc)
+        public BpsUnifiedModel UploadResults(string strUnifiedModel, IFormFileCollection hfc)
         {
             BpsUnifiedModel unifiedModel = JsonConvert.DeserializeObject<BpsUnifiedModel>(strUnifiedModel);
 
@@ -2052,17 +2059,26 @@ namespace VCLWebAPI.Services
                     ThermalReportFileName = Path.GetFileName(unifiedModel.AnalysisResult.ThermalResult.reportFileUrl);
                 }
 
+                List<string> uploadedFiles = new List<string>();
                 for (int i = 0; i <= hfc.Count - 1; i++)
                 {
-                    HttpPostedFile hpf = hfc[i];
-                    if (hpf.ContentLength > 0)
+                    IFormFile hpf = hfc[i];
+                    if (hpf.Length > 0)
                     {
                         if (hpf.FileName == StructuralFullReportFileName)
                         {
                             StructuralFullReportFileName = unifiedModel.ProblemSetting.ProjectName + " Structural_Report.pdf";
                             string StructuralFullReportURL = $"/Content/structural-result/{ unifiedModel.ProblemSetting.UserGuid}/{ unifiedModel.ProblemSetting.ProjectGuid}/{ unifiedModel.ProblemSetting.ProblemGuid}/{StructuralFullReportFileName}";
                             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralFullReportURL));
-                            hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + StructuralFullReportURL);
+                            //hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralFullReportURL));
+
+
+                            string fileName = Path.GetFileName(hpf.FileName);
+                            FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralFullReportURL), FileMode.Create);
+                            hpf.CopyTo(stream);
+                            uploadedFiles.Add(fileName);
+
+
                             if (unifiedModel.ProblemSetting.ProductType == "Window")
                                 unifiedModel.AnalysisResult.StructuralResult.reportFileUrl = StructuralFullReportURL;
                             else if(!(unifiedModel.AnalysisResult.FacadeStructuralResult is null))
@@ -2075,7 +2091,13 @@ namespace VCLWebAPI.Services
                             StructuralSummaryReportFileName = unifiedModel.ProblemSetting.ProjectName + " Structural_SummaryReport.pdf";
                             string StructuralSummaryReportURL = $"/Content/structural-result/{ unifiedModel.ProblemSetting.UserGuid}/{ unifiedModel.ProblemSetting.ProjectGuid}/{ unifiedModel.ProblemSetting.ProblemGuid}/{StructuralSummaryReportFileName}";
                             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralSummaryReportURL));
-                            hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + StructuralSummaryReportURL);
+                            //hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + StructuralSummaryReportURL);
+
+                            string fileName = Path.GetFileName(hpf.FileName);
+                            FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(StructuralSummaryReportURL), FileMode.Create);
+                            hpf.CopyTo(stream);
+                            uploadedFiles.Add(fileName);
+
                             if (unifiedModel.ProblemSetting.ProductType == "Window")
                                 unifiedModel.AnalysisResult.StructuralResult.summaryFileUrl = StructuralSummaryReportURL;
                             else if(!(unifiedModel.AnalysisResult.FacadeStructuralResult is null))
@@ -2088,7 +2110,13 @@ namespace VCLWebAPI.Services
                             AcousticReportFileName = unifiedModel.ProblemSetting.ProjectName + " Acoustic_Report.pdf";
                             string AcousticReportURL = $"/Content/structural-result/{ unifiedModel.ProblemSetting.UserGuid}/{ unifiedModel.ProblemSetting.ProjectGuid}/{ unifiedModel.ProblemSetting.ProblemGuid}/{AcousticReportFileName}";
                             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(AcousticReportURL));
-                            hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + AcousticReportURL);
+                            //hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + AcousticReportURL);
+
+                            string fileName = Path.GetFileName(hpf.FileName);
+                            FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(AcousticReportURL), FileMode.Create);
+                            hpf.CopyTo(stream);
+                            uploadedFiles.Add(fileName);
+
                             unifiedModel.AnalysisResult.AcousticResult.reportFileUrl = AcousticReportURL;
                         }
                         else if (hpf.FileName == ThermalReportFileName)
@@ -2096,7 +2124,13 @@ namespace VCLWebAPI.Services
                             ThermalReportFileName = unifiedModel.ProblemSetting.ProjectName + " Thermal_Report.pdf";
                             string ThermalReportURL = $"/Content/structural-result/{ unifiedModel.ProblemSetting.UserGuid}/{ unifiedModel.ProblemSetting.ProjectGuid}/{ unifiedModel.ProblemSetting.ProblemGuid}/{ThermalReportFileName}";
                             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(ThermalReportURL));
-                            hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + ThermalReportURL);
+                            //hpf.SaveAs(AppDomain.CurrentDomain.BaseDirectory + ThermalReportURL);
+
+                            string fileName = Path.GetFileName(hpf.FileName);
+                            FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Path.GetDirectoryName(ThermalReportURL), FileMode.Create);
+                            hpf.CopyTo(stream);
+                            uploadedFiles.Add(fileName);
+
                             unifiedModel.AnalysisResult.ThermalResult.reportFileUrl = ThermalReportURL;
                         }
                     }

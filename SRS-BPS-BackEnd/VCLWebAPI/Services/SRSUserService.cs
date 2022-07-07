@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Web;
+//using System.Web;
 using VCLWebAPI.Mappers;
 using VCLWebAPI.Models;
 using VCLWebAPI.Models.Edmx;
 using VCLWebAPI.Models.SRS;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using System.Web.Security;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Owin;
+//using System.Web.Security;
 using System.Threading.Tasks;
 
 namespace VCLWebAPI.Services
@@ -205,66 +205,66 @@ namespace VCLWebAPI.Services
 
         public void ChangeRolesAspTable(string email, string role)
         {
-            // User existingUser = _db.User.First(x => x.Email == email);
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            //// User existingUser = _db.User.First(x => x.Email == email);
+            //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             
-            var aspUser =  userManager.FindByEmail(email);
-            var rolesForUser = userManager.GetRoles(aspUser.Id);
+            //var aspUser =  userManager.FindByEmail(email);
+            //var rolesForUser = userManager.GetRoles(aspUser.Id);
             
-            if (!rolesForUser.Contains(role))
-            {
-                userManager.RemoveFromRoles(aspUser.Id, rolesForUser.ToArray());
-                userManager.AddToRole(aspUser.Id, role);
-            }
+            //if (!rolesForUser.Contains(role))
+            //{
+            //    userManager.RemoveFromRoles(aspUser.Id, rolesForUser.ToArray());
+            //    userManager.AddToRole(aspUser.Id, role);
+            //}
 
-            try
-            {
-                _db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            //try
+            //{
+            //    _db.SaveChanges();
+            //}
+            //catch (Exception e)
+            //{
+            //    throw;
+            //}
         }
         public void AddUsersToAspNet(string email, string role, string password = "bps2019!")
         {
-            User newUser = _db.User.First(x => x.Email == email);
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
-                {
-                    AllowOnlyAlphanumericUserNames = false
-                };
-                var user = new ApplicationUser { UserName = newUser.Email, Email = newUser.Email };
-                var result = userManager.Create(user, password);
-                result = userManager.SetLockoutEnabled(user.Id, false);
-                // Add user admin to Role Admin if not already added
-                var rolesForUser = userManager.GetRoles(user.Id);
-                if (!rolesForUser.Contains(newUser.Email))
-                {
-                    result = userManager.AddToRole(user.Id, role);
-                }
+            //User newUser = _db.User.First(x => x.Email == email);
+            //    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            //    userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
+            //    {
+            //        AllowOnlyAlphanumericUserNames = false
+            //    };
+            //    var user = new ApplicationUser { UserName = newUser.Email, Email = newUser.Email };
+            //    var result = userManager.Create(user, password);
+            //    result = userManager.SetLockoutEnabled(user.Id, false);
+            //    // Add user admin to Role Admin if not already added
+            //    var rolesForUser = userManager.GetRoles(user.Id);
+            //    if (!rolesForUser.Contains(newUser.Email))
+            //    {
+            //        result = userManager.AddToRole(user.Id, role);
+            //    }
             
-            try
-            {
-                _db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            //try
+            //{
+            //    _db.SaveChanges();
+            //}
+            //catch (Exception e)
+            //{
+            //    throw;
+            //}
         }
         public void DeleteUsersFromAspNet(string email)
         {
-            try
-            {
-                Models.ApplicationDbContext context = new Models.ApplicationDbContext();
-                var userMgr = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                userMgr.Delete(userMgr.FindByName(email));
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            //try
+            //{
+            //    Models.ApplicationDbContext context = new Models.ApplicationDbContext();
+            //    var userMgr = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            //    userMgr.Delete(userMgr.FindByName(email));
+            //}
+            //catch (Exception e)
+            //{
+            //    throw;
+            //}
         }
 
         //public DealerApiModel Get(Guid guid)
