@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
+using System.IO;
 
 namespace VCLWebAPI
 {
@@ -18,6 +20,10 @@ namespace VCLWebAPI
     {
         public static void Main(string[] args)
         {
+            //log4net configuration initial setup
+            var log4netRepository = log4net.LogManager.GetRepository(Assembly.GetEntryAssembly());
+            log4net.Config.XmlConfigurator.Configure(log4netRepository, new FileInfo("log4net.config"));
+
             CreateHostBuilder(args).Build().Run();
         }
 

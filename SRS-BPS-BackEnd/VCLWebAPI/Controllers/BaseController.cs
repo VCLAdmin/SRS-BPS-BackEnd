@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using log4net;
 
 namespace VCLWebAPI.Controllers
 {
@@ -13,5 +14,6 @@ namespace VCLWebAPI.Controllers
     [Route("api")]
     public class BaseController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
+        public static readonly ILog log = log4net.LogManager.GetLogger(nameof(BaseController));
     }
 }
