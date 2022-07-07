@@ -130,7 +130,7 @@ namespace VCLWebAPI.Controllers
                 throw new UnauthorizedAccessException();
             }
             var ResponseProfile = await _accountService.SignIn(accountApiModel);
-            log.Info("SignIn response: " + ResponseProfile);
+            log.Info("SignIn response: user id: " + ResponseProfile.UserId + ", email: " + ResponseProfile.Email);
             return ResponseProfile;
         }
 
