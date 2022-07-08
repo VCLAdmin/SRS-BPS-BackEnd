@@ -25,6 +25,8 @@ using System;
 using Newtonsoft.Json;
 using VCLWebAPI.Models.Edmx;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Services.Filters;
+using Services.Loggers;
 
 namespace VCLWebAPI
 {
@@ -56,6 +58,7 @@ namespace VCLWebAPI
                 // using Microsoft.AspNetCore.Mvc.Formatters;
                 options.OutputFormatters.RemoveType<StringOutputFormatter>();
                 options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+                options.Filters.Add(typeof(GlobalExceptionFilterAttribute));
             }).AddMvcOptions(options =>
             {
                 options.EnableEndpointRouting = false;
@@ -216,6 +219,10 @@ namespace VCLWebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Added logging middleware to log http request and response data
+            app.UseMiddleware<LoggingMiddleware>();
+
+
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VCL Design Services v1"));
@@ -262,6 +269,7 @@ namespace VCLWebAPI
             Globals.secretKey = Configuration.GetSection(@"DE_AWSSecretKey").Value;
             Globals.service_url = Configuration.GetSection(@"DES3ServiceUrl").Value;
             Globals.bucket_name = Configuration.GetSection(@"DEAWSBucket").Value;
+            Globals.SENDGRID_API_KEY = Configuration.GetSection(@"SENDGRID_API_KEY").Value;
         }
     }
 }

@@ -21,6 +21,7 @@ namespace VCLWebAPI.Utils
         public static string secretKey { get; set; }
         public static string service_url { get; set; }
         public static string bucket_name { get; set; }
+        public static string SENDGRID_API_KEY { get; set; }
 
 
     }
