@@ -34,6 +34,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="bool"/>.</returns>
         [HttpGet]
+        [Route("CanDelete")]
         public bool CanDelete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -47,6 +48,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="List{DealerApiModel}"/>.</returns>
         [HttpDelete]
+        [Route("Delete")]
         public List<DealerApiModel> Delete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -60,6 +62,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="List{DealerApiModel}"/>.</returns>
         [HttpGet]
+        [Route("Get")]
         public List<DealerApiModel> Get()
         {
             //return new string[] { "value1", "value2" };
@@ -73,6 +76,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="DealerApiModel"/>.</returns>
         [HttpGet]
+        [Route("Get/{id}")]
         public DealerApiModel Get(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -98,6 +102,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fab">The fab<see cref="DealerApiModel"/>.</param>
         /// <returns>The <see cref="List{DealerApiModel}"/>.</returns>
         [HttpPost]
+        [Route("Post")]
         public List<DealerApiModel> Post([FromBody] DealerApiModel fab)
         {
             _dealerService.Create(fab);
@@ -112,6 +117,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fab">The fab<see cref="DealerApiModel"/>.</param>
         /// <returns>The <see cref="List{DealerApiModel}"/>.</returns>
         [HttpPut]
+        [Route("Put")]
         public List<DealerApiModel> Put(Guid id, [FromBody] DealerApiModel fab)
         {
             _dealerService.Update(id, fab);

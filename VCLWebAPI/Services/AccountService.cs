@@ -103,9 +103,11 @@ namespace VCLWebAPI.Services
 
         public async Task<string> GetRoleForSRS(string email)
         {
-            var aspUser = await _userManager.FindByNameAsync(email);
-            var rolesForUser = await _userManager.GetRolesAsync(aspUser);
-            return rolesForUser[0] != null ? rolesForUser[0] : string.Empty;
+            //var aspUser = await _userManager.FindByNameAsync(email);
+            var aspUser = _db.AspNetUsers.Where(a => a.Email.Equals(email)).FirstOrDefault();
+            //var rolesForUser = await _userManager.GetRolesAsync(aspUser);
+            var rolesForUser = aspUser.AspNetRoles.ToList();
+            return rolesForUser[0] != null ? rolesForUser.Select(a => a.Name).FirstOrDefault() : string.Empty;
         }
         public async Task<string> GetUserRoleAsync(string email)
         {

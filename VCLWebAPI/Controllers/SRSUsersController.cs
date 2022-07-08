@@ -13,6 +13,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="SRSUsersController" />.
     /// </summary>
     [Authorize]
+    [Route("api/SRSUsers")]
     public class SRSUsersController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
@@ -34,6 +35,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="bool"/>.</returns>
         [HttpGet]
+        [Route("CanDelete")]
         public bool CanDelete(Guid id)
         {
             return _srsuserService.CanDelete(id);
@@ -56,6 +58,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="Task{List{SRSUserApiModel}}"/>.</returns>
         [HttpDelete]
+        [Route("Delete")]
         public async Task<List<SRSUserApiModel>> Delete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -68,6 +71,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="Task{List{SRSUserApiModel}}"/>.</returns>
         [HttpGet]
+        [Route("Get")]
         public async Task<List<SRSUserApiModel>> Get()
         {
             //return new string[] { "value1", "value2" };
@@ -80,6 +84,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="Task{string}"/>.</returns>
         [HttpGet]
+        [Route("GetEmail")]
         public async Task<string> GetEmail(Guid id)
         {
             return _srsuserService.GetEmail(id);
@@ -91,6 +96,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="email">The email<see cref="string"/>.</param>
         /// <returns>The <see cref="Task{bool}"/>.</returns>
         [HttpGet]
+        [Route("IsEmailDuplicate")]
         public async Task<bool> IsEmailDuplicate(string email)
         {
             return _srsuserService.IsEmailDuplicate(email);
@@ -108,6 +114,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="usr">The usr<see cref="SRSUserApiModel"/>.</param>
         /// <returns>The <see cref="Task{List{SRSUserApiModel}}"/>.</returns>
         [HttpPost]
+        [Route("Post")]
         public async Task<List<SRSUserApiModel>> Post([FromBody] SRSUserApiModel usr)
         {
             _srsuserService.Create(usr);
@@ -121,6 +128,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fab">The fab<see cref="SRSUserApiModel"/>.</param>
         /// <returns>The <see cref="Task{List{SRSUserApiModel}}"/>.</returns>
         [HttpPut]
+        [Route("Put")]
         public async Task<List<SRSUserApiModel>> Put(Guid id, [FromBody] SRSUserApiModel fab)
         {
             _srsuserService.Update(id, fab);

@@ -12,6 +12,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="FabricatorController" />.
     /// </summary>
     [Authorize]
+    [Route("api/Fabricator")]
     public class FabricatorController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
@@ -33,6 +34,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="bool"/>.</returns>
         [HttpGet]
+        [Route("CanDelete")]
         public bool CanDelete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -46,6 +48,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="List{FabricatorApiModel}"/>.</returns>
         [HttpDelete]
+        [Route("Delete")]
         public List<FabricatorApiModel> Delete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -59,6 +62,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="List{FabricatorApiModel}"/>.</returns>
         [HttpGet]
+        [Route("Get")]
         public List<FabricatorApiModel> Get()
         {
             //return new string[] { "value1", "value2" };
@@ -72,6 +76,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="FabricatorApiModel"/>.</returns>
         [HttpGet]
+        [Route("Get/{id}")]
         public FabricatorApiModel Get(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -85,6 +90,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fab">The fab<see cref="FabricatorApiModel"/>.</param>
         /// <returns>The <see cref="List{FabricatorApiModel}"/>.</returns>
         [HttpPost]
+        [Route("Post")]
         public List<FabricatorApiModel> Post([FromBody] FabricatorApiModel fab)
         {
             _fabricatorService.Create(fab);
@@ -99,6 +105,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fab">The fab<see cref="FabricatorApiModel"/>.</param>
         /// <returns>The <see cref="List{FabricatorApiModel}"/>.</returns>
         [HttpPut]
+        [Route("Put")]
         public List<FabricatorApiModel> Put(Guid id, [FromBody] FabricatorApiModel fab)
         {
             _fabricatorService.Update(id, fab);
@@ -112,6 +119,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fab">The fab<see cref="FabricatorApiModel"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpPut]
+        [Route("ValidateUpdate")]
         public string ValidateUpdate(Guid id, [FromBody] FabricatorApiModel fab)
         {
             return _fabricatorService.ValidateUpdate(id, fab);

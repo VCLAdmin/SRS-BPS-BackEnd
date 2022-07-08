@@ -12,6 +12,7 @@ namespace VCLWebAPI.Controllers
     /// Defines the <see cref="FinancialController" />.
     /// </summary>
     [Authorize]
+    [Route("api/Financial")]
     public class FinancialController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
@@ -33,6 +34,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="List{FinancialApiModel}"/>.</returns>
         [HttpGet]
+        [Route("Get")]
         public List<FinancialApiModel> Get()
         {
             //return new string[] { "value1", "value2" };
@@ -46,6 +48,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="FinancialApiModel"/>.</returns>
         [HttpGet]
+        [Route("Get/{id}")]
         public FinancialApiModel Get(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -60,6 +63,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fin">The fin<see cref="FinancialApiModel"/>.</param>
         /// <returns>The <see cref="List{FinancialApiModel}"/>.</returns>
         [HttpPut]
+        [Route("Put/{id}")]
         public List<FinancialApiModel> Put(Guid id, [FromBody] FinancialApiModel fin)
         {
             _dealerService.UpdateFinancial(id, fin);

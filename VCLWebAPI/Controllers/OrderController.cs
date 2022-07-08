@@ -49,6 +49,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="List{OrderApiModel}"/>.</returns>
         [HttpDelete]
+        [Route("Delete/{id}")]
         public List<OrderApiModel> Delete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -236,6 +237,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="List{OrderApiModel}"/>.</returns>
         [HttpGet]
+        [Route("Get")]
         public List<OrderApiModel> Get()
         {
             return _orderService.GetAll();
@@ -248,6 +250,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="OrderApiModel"/>.</returns>
         [HttpGet]
+        [Route("Get/{id}")]
         public OrderApiModel Get(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -259,6 +262,7 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <returns>The <see cref="List{OrderApiModel}"/>.</returns>
         [HttpGet]
+        [Route("GetCompleteList")]
         public List<OrderApiModel> GetCompleteList()
         {
             return _orderService.GetCompleteList();
@@ -294,6 +298,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
+        [Route("GetPresignedExcelURL/{id}")]
         public string GetPresignedExcelURL(int id)
         {
             return _orderService.GeneratePreassignedExcelURL(id);
@@ -305,6 +310,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpGet]
+        [Route("GetPresignedURL/{id}")]
         public string GetPresignedURL(int id)
         {
             return _orderService.GeneratePreassignedURL(id);
@@ -392,6 +398,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="order">The order<see cref="OrderApiModel"/>.</param>
         /// <returns>The <see cref="List{OrderApiModel}"/>.</returns>
         [HttpPut]
+        [Route("Put/{id}")]
         public List<OrderApiModel> Put(Guid id, [FromBody] OrderApiModel order)
         {
             _orderService.UpdateOrderStatus(id, order);
@@ -416,6 +423,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="order">The order<see cref="OrderApiModel"/>.</param>
         /// <returns>The <see cref="List{OrderApiModel}"/>.</returns>
         [HttpPut]
+        [Route("UpdateOrder/{id}")]
         public List<OrderApiModel> UpdateOrder(Guid id, [FromBody] OrderApiModel order)
         {
             _orderService.UpdateOrder(id, order);
