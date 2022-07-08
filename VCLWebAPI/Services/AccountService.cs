@@ -37,12 +37,6 @@ namespace VCLWebAPI.Services
             User user = _db.User.Where(x => x.UserId == userId).SingleOrDefault();
             return user;
         }
-
-        public User GetUserByEmail(string email)
-        {
-            User user = _db.User.Where(x => x.Email == email).SingleOrDefault();
-            return user;
-        }
         public User GetCurrentUser() {
             return _db.User.Where(e => e.UserName == HttpContextHelper.Current.User.Identity.Name).FirstOrDefault();
         }
@@ -467,75 +461,6 @@ namespace VCLWebAPI.Services
             }
             AddUsersToAspNet();
             return model;
-        }
-
-        public async Task PasswordMigrationforBPSSSO(string newPassword)
-        {
-
-
-            var allUsers = _db.User.Where(x => x.Email != null && x.Email != "SRSAdmin@vcldesign.com" && x.Email != "SRSAdministrator@vcldesign.com").ToList(); //x.Email == model.Email && 
-            foreach (User user in allUsers)
-            {
-
-                //if (updateUser != null)
-                {
-
-                    if (newPassword != null && newPassword != string.Empty)
-                    {
-                        byte[] salt;
-                        new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-                        var pbkdf2 = new Rfc2898DeriveBytes(newPassword, salt, 10000);
-                        byte[] hash = pbkdf2.GetBytes(20);
-                        byte[] hashBytes = new byte[36];
-                        Array.Copy(salt, 0, hashBytes, 0, 16);
-                        Array.Copy(hash, 0, hashBytes, 16, 20);
-                        string savedPasswordHash = Convert.ToBase64String(hashBytes);
-                        user.Hash = savedPasswordHash;
-                        user.Salt = salt;
-                        _db.Entry(user).State = EntityState.Modified;
-                        _db.SaveChanges();
-                        await PasswordReset(user.Email, newPassword);
-                    }
-                }
-            }
-            return;
-        }
-
-        public void CreateUser(string firstName, string Lastname, string email)
-        {
-            string language = "en-US";
-            string company = "Schuco";
-            User user = new User
-            {
-                UserName = firstName + " " + Lastname,
-                UserGuid = Guid.NewGuid(),
-                NameFirst = firstName,
-                NameLast = Lastname,
-                Email = email,
-                Language = language,
-                Company = company
-            };
-
-            if (_db.User.Where(x => x.Email == user.Email).SingleOrDefault() == null)
-            {
-                _db.User.Add(user);
-                _db.SaveChanges();
-                var password = "4nEX25CjFvQw8bOjB59Y3xuA9Tnv5j!";
-                byte[] salt;
-                new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-                var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
-                byte[] hash = pbkdf2.GetBytes(20);
-                byte[] hashBytes = new byte[36];
-                Array.Copy(salt, 0, hashBytes, 0, 16);
-                Array.Copy(hash, 0, hashBytes, 16, 20);
-                string savedPasswordHash = Convert.ToBase64String(hashBytes);
-                user.Hash = savedPasswordHash;
-                user.Salt = salt;
-                _db.Entry(user).State = EntityState.Modified;
-                _db.SaveChanges();
-            }
-            // AddUsersToAspNet();
-            return;
         }
 
         public void AddNewUsers()
