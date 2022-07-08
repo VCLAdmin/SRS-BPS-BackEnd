@@ -19,6 +19,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using System.Text.RegularExpressions;
+using SendGrid.Helpers.Mail;
 
 namespace VCLWebAPI.Services
 {
@@ -337,6 +338,9 @@ namespace VCLWebAPI.Services
 
                 #region Create Order based on number of OrderDetails
                 var sluStatus = _db.SLU_Status.ToList();
+                var proj = _db.BpsProject.Where(p => p.ProjectId == newOrderApi.ProjectId).FirstOrDefault();
+               
+                List<string> productIds = new List<string>();
                 foreach (var orderApi in newOrderApi.OrderDetails)
                 {
                     //if (newOrderApi.OrderDetails.Count() == 1) {
@@ -368,6 +372,8 @@ namespace VCLWebAPI.Services
 
                     OrderDetails od = _pm.ApiModelToOrderDetailsDb(orderApi);
                     od.OrderDetailExternalId = Guid.NewGuid();
+                    productIds.Add(proj.ProjectId + " - " + od.ProductId.ToString());
+                     
                     _db.OrderDetails.Add(od);
                     _db.SaveChanges();
 
@@ -400,12 +406,363 @@ namespace VCLWebAPI.Services
                         await appUtil.Post(QueuingServerUrl + "/VCL/RhinoGenerate", rhinoQueuingMessage);
                     }
                 }
+
+
+                // email notification to send to the dealer saying thanks for placing an order
+
+                var subject = "Order Placed";
+                var header = "Order Placed";
+                var content = "Thanks for your order of project <b>" + proj.ProjectName + "</b>, it will be activated along with the 50% first payment.";
+                var orderNumbers = "Order Numbers: " + "<ul>";
+                foreach (var item in productIds)
+                {
+                    orderNumbers += "<li>"+ item + "</li>";
+                }
+                orderNumbers += "</ul>";
+
+                // the below is the actual mailId which needs to be enable for production
+                // var test = await IMailService.SendEmailAsync(dealer.PrimaryContactEmail, subject, content, header);
+               
+               // string DealerMailId = WebConfigurationManager.AppSettings["Default_MailId"];
+                string DealerMailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                if (DealerMailId != null)
+                {
+                    await IMailService.SendEmailAsync(DealerMailId, subject, content, header, orderNumbers);
+                } else
+                {
+                    await IMailService.SendEmailAsync(dealer.PrimaryContactEmail, subject, content, header);
+                }
+                
+
+                //email notifiation to send to SRS admin that dealer has placed an order and 50% initial payment funds are pending.
+                var receivedSubject = "Order Received";
+                var receivedHeader = "Order Received";
+                var receivedContent = "Dealer <b>" + dealer.Name + "</b> has placed an order for <b>" + proj.ProjectName + "</b>, 50% initial payment funds pending.";
+                var tos = new List<EmailAddress>();                  
+
+                string AKmailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                string JaviermailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+
+
+                // need to add AK's email and Javier email before push it to Production Server 
+                if (AKmailId != null)
+                {
+                    tos.Add(new EmailAddress(AKmailId, "VCL Design"));
+                } else
+                {
+                    // needs to add  AK's mailId for Production server
+                    tos.Add(new EmailAddress("akbean@schuco-usa.com", "AK Bean"));
+                }
+                if(JaviermailId != null)
+                {
+                    tos.Add(new EmailAddress(JaviermailId, "VCL Design"));
+                } else
+                {
+                    // needs to add  Javier's mailId for Production server
+                    tos.Add(new EmailAddress("jdelacalle@schuco-usa.com", "Javier Delacalle"));
+                }
+
+                await IMailService.SendMultipleEmailAsync(tos, receivedSubject, receivedContent, receivedHeader, orderNumbers);
+
+                // email notification to SRS admin that the dealer has placed an order and to confirm funds have been wired to Schuco's account
+                var confirmFundSubject = "Order Received";
+                var confirmFundHeader = "Order Received";
+                var confirmFundContent = "Dealer <b>" + dealer.Name + "</b> has placed an order for <b>" + proj.ProjectName + "</b>, please confirm funds have been wired to Schuco’s account.";
+
+                // the below email is for testing in local and change it to Gabriela's email before pushing it to Production Server
+               
+                string GabrielaMailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                if (GabrielaMailId != null)
+                {
+                    await IMailService.SendEmailAsync(GabrielaMailId, confirmFundSubject, confirmFundContent, confirmFundHeader, orderNumbers);
+                } else
+                {
+                    //needs to Gabriela's mailId for Production server
+                    tos.Add(new EmailAddress("gprescott@schuco-usa.com", "Gabriela"));
+                }
+                
                 #endregion
             }
             else
             {
                 throw new InvalidDataException();
             }
+        }
+
+ public async void sendMail(Guid guid, int statusId, int projectId, int productId)
+        {
+            var dbOrder = _db.Order.Where(u => u.OrderExternalId == guid).FirstOrDefault();
+            var sluStatus = _db.SLU_Status.ToList();
+          //  Order_Status orderStatus = _pm.ApiModelToOrderStatusDb(orderApi.OrderId, orderApi, sluStatus);
+
+            var dbDealer = _db.Dealer.Where(d => d.DealerId == dbOrder.DealerId).FirstOrDefault();
+            var dbProject = _db.BpsProject.Where(p => p.ProjectId == dbOrder.ProjectId).FirstOrDefault();
+            List<string> productIds = new List<string>();
+            foreach (var o in dbOrder.OrderDetails)
+            {
+                productIds.Add(dbProject.ProjectId + " - " + o.ProductId.ToString());
+            }
+            var orderNumbers = "Order Numbers: " + "<ul>";
+            foreach (var item in productIds)
+            {
+                orderNumbers += "<li>" + item + "</li>";
+            }
+            orderNumbers += "</ul>";
+
+            // the below code is to send the email notification when the status is chnages to Payment Received
+            if (statusId == 2)
+            {
+                var subject = "Thank you for your payment";
+                if (dbOrder != null)
+                {
+                    // email notification to dealer when the initial 50% payment is done and SRS admin is changed Status to Payment Received
+                    if (dbDealer != null)
+                    {
+                        var content = "Project <b>" + dbProject.ProjectName + "</b> funds for the 50% first payment received.";
+                        var header = "Thank you for your payment";
+                        // await IMailService.SendEmailAsync(dbDealer.PrimaryContactEmail, subject, content, header);
+                        string DealerMailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                        if (DealerMailId != null)
+                        {
+                            await IMailService.SendEmailAsync(DealerMailId, subject, content, header, orderNumbers);
+                        }
+                        else
+                        {
+                            // this is actual dealers mailId when it is in Production
+                            await IMailService.SendEmailAsync(dbDealer.PrimaryContactEmail, subject, content, header);
+                        }
+                    }
+
+                    // email notification to SRS Fabricator when the initial 50% payment is done
+                    var dbFabricator = _db.Fabricator.Where(f => f.FabricatorId == dbDealer.AWSFabricatorId || f.FabricatorId == dbDealer.ADSFabricatorId || f.FabricatorId == dbDealer.ASSFabricatorId).Distinct().ToList();
+                    var fabricatorsListTos = new List<EmailAddress>();
+                    var receivedFabricatorSubject = "Order Received";
+                    var receivedFabricatorContent = "Please proceed to production of the units for dealer <b>" + dbDealer.Name + "</b> project <b>" + dbProject.ProjectName + "</b>.";
+                    var receivedFabricatorHeader = "Order Received";
+                    if (dbFabricator.Count > 0)
+                    {
+                        
+                        string fabricatorMailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                        if (fabricatorMailId != null)
+                        {
+                            fabricatorsListTos.Add(new EmailAddress(fabricatorMailId, "VCL Design"));
+                        }
+                        else
+                        {
+                            // MailIds of Actual Fabricators in Production server
+                            foreach (var fab in dbFabricator)
+                            {
+                                fabricatorsListTos.Add(new EmailAddress(fab.PrimaryContactEmail, fab.PrimaryContactName));
+                            }
+                        }
+
+                        await IMailService.SendMultipleEmailAsync(fabricatorsListTos, receivedFabricatorSubject, receivedFabricatorContent, receivedFabricatorHeader, orderNumbers);
+
+                    }
+
+                }
+            }
+
+            // the below code is to send the email notifications when the order has shipped 
+            if (statusId == 6)
+            {
+
+                var subject1 = "Order Shipped";
+                if (dbOrder != null)
+                {
+                    // email notification to send to dealer when the order has shipped
+                    if (dbDealer != null)
+                    {
+                        var content = "Units for project <b>" + dbProject.ProjectName + "</b> have been sent to the address you indicated when placing the order.";
+                        var header = "Order Shipped";
+                       
+                            string DealerMailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                        if (DealerMailId != null)
+                            {
+                                await IMailService.SendEmailAsync(DealerMailId, subject1, content, header, orderNumbers);
+                            }
+                            else
+                            {
+                                // this is actual dealers mailId when it is in Production
+                                await IMailService.SendEmailAsync(dbDealer.PrimaryContactEmail, subject1, content, header);
+                            }
+                        }
+                }
+
+                // email notification to send to SRS Admin when the order has shipped
+
+                var shippedSubject = "Order Shipped";
+                var shippedContent = "Order for project <b>" + dbProject.ProjectName + "</b> for dealer has been shipped.";
+                var shippedHeader = "Order Shipped";
+
+                var tos = new List<EmailAddress>();              
+
+                // need to add AK's email and Javier email before push it to Production Server 
+
+                string AKmailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                string JaviermailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+
+
+                // need to add AK's email and Javier email before push it to Production Server 
+                if (AKmailId != null)
+                {
+                    tos.Add(new EmailAddress(AKmailId, "VCL Design"));
+                }
+                else
+                {
+                    // needs to add  AK's mailId for Production server
+                    tos.Add(new EmailAddress("akbean@schuco-usa.com", "AK Bean"));
+                }
+                if (JaviermailId != null)
+                {
+                    tos.Add(new EmailAddress(JaviermailId, "VCL Design"));
+                }
+                else
+                {
+                    // needs to add  Javier's mailId for Production server
+                    tos.Add(new EmailAddress("jdelacalle@schuco-usa.com", "Javier Delacalle"));
+                }
+
+                await IMailService.SendMultipleEmailAsync(tos, shippedSubject, shippedContent, shippedHeader, orderNumbers);
+
+
+                // email notification to send to SRS fabricator when the order has shipped
+
+                var shippedFabricatorSubject = "Order Shipped";
+                var shippedFabricatorContent = "Your order <b>" + dbProject.ProjectName + "</b> has been shipped";
+                var shippedFabricatorHeader = "Order Shipped";
+
+                var dbFabricatorShipped = _db.Fabricator.Where(f => f.FabricatorId == dbDealer.AWSFabricatorId || f.FabricatorId == dbDealer.ADSFabricatorId || f.FabricatorId == dbDealer.ASSFabricatorId).Distinct().ToList();
+                var fabricatorsListShippedTos = new List<EmailAddress>();
+
+                if (dbFabricatorShipped.Count > 0)
+                {     
+                    string fabricatorMailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                    if (fabricatorMailId != null)
+                    {
+                        fabricatorsListShippedTos.Add(new EmailAddress(fabricatorMailId, "VCL Design"));
+                    }
+                    else
+                    {
+                        // MailIds of Actual Fabricators in Production server
+                        foreach (var fab in dbFabricatorShipped)
+                        {
+                            fabricatorsListShippedTos.Add(new EmailAddress(fab.PrimaryContactEmail, fab.PrimaryContactName));
+                        }
+                    }
+                    await IMailService.SendMultipleEmailAsync(fabricatorsListShippedTos, shippedFabricatorSubject, shippedFabricatorContent, shippedFabricatorHeader, orderNumbers);
+
+                }
+
+
+
+            }
+
+            // the below code is to send email notification when the order has delivered
+            if (statusId == 7)
+            {
+                var subjectDelivered = "Order Delivered";
+                if (dbOrder != null)
+                {
+                    // email notification to send to dealer when the order has delivered
+                    if (dbDealer != null)
+                    {
+                        var content = "Units for project <b>" + dbProject.ProjectName + "</b> have been delivered.";
+                        var header = "Order Delivered";
+                       
+
+                        string DealerMailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                        if (DealerMailId != null)
+                        {
+                            await IMailService.SendEmailAsync(DealerMailId, subjectDelivered, content, header, orderNumbers);
+                        }
+                        else
+                        {
+                            // this is actual dealers mailId when it is in Production
+                            await IMailService.SendEmailAsync(dbDealer.PrimaryContactEmail, subjectDelivered, content, header);
+                        }
+                    }
+                }
+
+                // email notification to send to SRS Admin(to Ak, Javier) when the order has delivered
+                var deliveredSubject = "Order Delivered";
+                var deliveredContent = "Order <b>" + dbDealer.Name + "</b> project <b>" + dbProject.ProjectName + "</b> has been delivered.";
+                var deliveredHeader = "Order Delivered";
+
+                var Deliveredtos = new List<EmailAddress>();             
+
+                // need to add AK's email and Javier email before push it to Production Server 
+                string AKmailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                string JaviermailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+
+
+                // need to add AK's email and Javier email before push it to Production Server 
+                if (AKmailId != null)
+                {
+                    Deliveredtos.Add(new EmailAddress(AKmailId, "VCL Design"));
+                }
+                else
+                {
+                    // needs to add  AK's mailId for Production server
+                    Deliveredtos.Add(new EmailAddress("akbean@schuco-usa.com", "AK Bean"));
+                }
+                if (JaviermailId != null)
+                {
+                    Deliveredtos.Add(new EmailAddress(JaviermailId, "VCL Design"));
+                }
+                else
+                {
+                    // needs to add  Javier's mailId for Production server
+                    Deliveredtos.Add(new EmailAddress("jdelacalle@schuco-usa.com", "Javier Delacalle"));
+                }
+
+                await IMailService.SendMultipleEmailAsync(Deliveredtos, deliveredSubject, deliveredContent, deliveredHeader, orderNumbers);
+
+                // email notification to send to SRS Admin(to Gabriel) when the order has delivered and request for second Payment
+                var secondRequestSubject = "Order Delivered";
+                var secondRequestContent = "Order by <b>" + dbDealer.Name + "</b> project <b>" + dbProject.ProjectName + "</b> has been delivered, please send request for second 50 % payment.";
+                var secondRequestHeader = "Order Delivered";               
+
+                string GabrielaMailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                if (GabrielaMailId != null)
+                {
+                    await IMailService.SendEmailAsync(GabrielaMailId, secondRequestSubject, secondRequestContent, secondRequestHeader, orderNumbers);
+                }
+                else
+                {
+                    //needs to Gabriela's mailId for Production server
+                    await IMailService.SendEmailAsync("gprescott@schuco-usa.com", secondRequestSubject, secondRequestContent, secondRequestHeader, orderNumbers);
+                }
+
+                // email notification to send to SRS Fabricator when the order has delivered
+                var deliveredFabricatorSubject = "Order Delivered";
+                var deliveredFabricatorContent = "Your order <b>" + dbProject.ProjectName + "</b> has been delivered.";
+                var deliveredFabricatorHeader = "Order Delivered";
+
+                var dbFabricatorDelivered = _db.Fabricator.Where(f => f.FabricatorId == dbDealer.AWSFabricatorId || f.FabricatorId == dbDealer.ADSFabricatorId || f.FabricatorId == dbDealer.ASSFabricatorId).Distinct().ToList();
+                var fabricatorsListDeliveredTos = new List<EmailAddress>();
+
+                if (dbFabricatorDelivered.Count > 0)
+                {
+                    string fabricatorMailId = System.Configuration.ConfigurationManager.AppSettings["Default_MailId"];
+                    if (fabricatorMailId != null)
+                    {
+                        fabricatorsListDeliveredTos.Add(new EmailAddress(fabricatorMailId, "VCL Design"));
+                    }
+                    else
+                    {
+                        // MailIds of Actual Fabricators in Production server
+                        foreach (var fab in dbFabricatorDelivered)
+                        {
+                            fabricatorsListDeliveredTos.Add(new EmailAddress(fab.PrimaryContactEmail, fab.PrimaryContactName));
+                        }
+                    }
+                    await IMailService.SendMultipleEmailAsync(fabricatorsListDeliveredTos, deliveredFabricatorSubject, deliveredFabricatorContent, deliveredFabricatorHeader, orderNumbers);
+
+                }
+
+            }
+
         }
         public void UpdateOrderStatus(Guid guid, OrderApiModel orderApi)
         {

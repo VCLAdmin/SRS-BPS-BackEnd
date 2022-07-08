@@ -269,6 +269,7 @@ namespace VCLWebAPI
             Globals.secretKey = Configuration.GetSection(@"DE_AWSSecretKey").Value;
             Globals.service_url = Configuration.GetSection(@"DES3ServiceUrl").Value;
             Globals.bucket_name = Configuration.GetSection(@"DEAWSBucket").Value;
+            Globals.SENDGRID_API_KEY = Configuration.GetSection(@"SENDGRID_API_KEY").Value;
         }
     }
 }

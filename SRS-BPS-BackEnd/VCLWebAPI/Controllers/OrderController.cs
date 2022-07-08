@@ -398,6 +398,16 @@ namespace VCLWebAPI.Controllers
             return _orderService.GetAll();
         }
 
+        
+        [Route("api/Order/SendMail/{id}/{sId}/{projectId}/{productId}")]
+        [HttpGet]
+        public bool SendMail(Guid id, int sId, int projectId, int productId)
+        {
+            
+             _orderService.sendMail(id, sId, projectId, productId);
+            return true;
+        }
+
         // PUT: api/Fabricator/5
         /// <summary>
         /// The UpdateOrder.
