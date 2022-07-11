@@ -34,7 +34,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="bool"/>.</returns>
         [HttpGet]
-        [Route("CanDelete")]
+        [Route("CanDelete/{id}")]
         public bool CanDelete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -48,7 +48,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="List{FabricatorApiModel}"/>.</returns>
         [HttpDelete]
-        [Route("Delete")]
+        [Route("Delete/{id}")]
         public List<FabricatorApiModel> Delete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -105,7 +105,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fab">The fab<see cref="FabricatorApiModel"/>.</param>
         /// <returns>The <see cref="List{FabricatorApiModel}"/>.</returns>
         [HttpPut]
-        [Route("Put")]
+        [Route("Put/{id}")]
         public List<FabricatorApiModel> Put(Guid id, [FromBody] FabricatorApiModel fab)
         {
             _fabricatorService.Update(id, fab);
@@ -119,7 +119,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fab">The fab<see cref="FabricatorApiModel"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
         [HttpPut]
-        [Route("ValidateUpdate")]
+        [Route("ValidateUpdate/{id}")]
         public string ValidateUpdate(Guid id, [FromBody] FabricatorApiModel fab)
         {
             return _fabricatorService.ValidateUpdate(id, fab);

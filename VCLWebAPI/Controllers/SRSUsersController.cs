@@ -35,7 +35,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="bool"/>.</returns>
         [HttpGet]
-        [Route("CanDelete")]
+        [Route("CanDelete/{id}")]
         public bool CanDelete(Guid id)
         {
             return _srsuserService.CanDelete(id);
@@ -58,7 +58,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="Task{List{SRSUserApiModel}}"/>.</returns>
         [HttpDelete]
-        [Route("Delete")]
+        [Route("Delete/{id}")]
         public async Task<List<SRSUserApiModel>> Delete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
@@ -84,7 +84,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="id">The id<see cref="Guid"/>.</param>
         /// <returns>The <see cref="Task{string}"/>.</returns>
         [HttpGet]
-        [Route("GetEmail")]
+        [Route("GetEmail/{id}")]
         public async Task<string> GetEmail(Guid id)
         {
             return _srsuserService.GetEmail(id);
@@ -128,7 +128,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="fab">The fab<see cref="SRSUserApiModel"/>.</param>
         /// <returns>The <see cref="Task{List{SRSUserApiModel}}"/>.</returns>
         [HttpPut]
-        [Route("Put")]
+        [Route("Put/{id}")]
         public async Task<List<SRSUserApiModel>> Put(Guid id, [FromBody] SRSUserApiModel fab)
         {
             _srsuserService.Update(id, fab);
