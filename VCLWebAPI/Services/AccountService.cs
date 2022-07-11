@@ -106,8 +106,13 @@ namespace VCLWebAPI.Services
             //var aspUser = await _userManager.FindByNameAsync(email);
             var aspUser = _db.AspNetUsers.Where(a => a.Email.Equals(email)).FirstOrDefault();
             //var rolesForUser = await _userManager.GetRolesAsync(aspUser);
-            var rolesForUser = aspUser.AspNetRoles.ToList();
-            return rolesForUser[0] != null ? rolesForUser.Select(a => a.Name).FirstOrDefault() : string.Empty;
+            if (aspUser != null)
+            {
+                var rolesForUser = aspUser.AspNetRoles.ToList();
+
+                return rolesForUser[0] != null ? rolesForUser.Select(a => a.Name).FirstOrDefault() : string.Empty;
+            }
+            return string.Empty;
         }
         public async Task<string> GetUserRoleAsync(string email)
         {
@@ -263,7 +268,7 @@ namespace VCLWebAPI.Services
                     continue;
                 }
 
-                var password = "SchucoUSA";
+                var password = "bps2019!";
 
                 byte[] salt;
                 new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);

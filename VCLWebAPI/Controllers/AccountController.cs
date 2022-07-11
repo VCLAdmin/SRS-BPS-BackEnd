@@ -20,6 +20,7 @@ using System.Text;
 using VCLWebAPI.Models.Edmx;
 using System.Linq;
 using Newtonsoft.Json;
+using VCLWebAPI.Mappers;
 
 namespace VCLWebAPI.Controllers
 {
@@ -67,6 +68,7 @@ namespace VCLWebAPI.Controllers
             if (!string.IsNullOrEmpty(model.UserName) &&
                 !string.IsNullOrEmpty(model.Password))
             {
+                //SaltAndHashAllUsers();
                 var user = dbContext.User
                     .SingleOrDefault(x => x.Email.Equals(model.UserName, StringComparison.CurrentCultureIgnoreCase));
                 //
@@ -74,18 +76,18 @@ namespace VCLWebAPI.Controllers
                 Boolean valid = true;
                 if (user != null)
                 {
-                    byte[] salt = new byte[16];
-                    string hashedPassword = string.Empty;
-                    byte[] hashBytes = new byte[] { };
-                    byte[] hash = new byte[] { };
+                    //byte[] salt = new byte[16];
+                    //string hashedPassword = string.Empty;
+                    //byte[] hashBytes = new byte[] { };
+                    //byte[] hash = new byte[] { };
 
-                    Rfc2898DeriveBytes pbkdf2;
-                    salt = user.Salt;
-                    hashedPassword = user.Hash;
-                    hashBytes = Convert.FromBase64String(hashedPassword);
-                    Array.Copy(hashBytes, 0, salt, 0, 16);
-                    pbkdf2 = new Rfc2898DeriveBytes(model.Password, salt, 10000);
-                    hash = pbkdf2.GetBytes(20);
+                    //Rfc2898DeriveBytes pbkdf2;
+                    //salt = user.Salt;
+                    //hashedPassword = user.Hash;
+                    //hashBytes = Convert.FromBase64String(hashedPassword);
+                    //Array.Copy(hashBytes, 0, salt, 0, 16);
+                    //pbkdf2 = new Rfc2898DeriveBytes(model.Password, salt, 10000);
+                    //hash = pbkdf2.GetBytes(20);
 
                     //for (int i = 0; i < 20; i++)
                     //{
@@ -96,7 +98,7 @@ namespace VCLWebAPI.Controllers
                     //    }
                     //}
 
-                    if (!valid)
+                    if (!ValidateHash(user, model.Password))
                     {
                         // password verification failed so we throw unauthorized error
                         return Unauthorized();
@@ -132,6 +134,46 @@ namespace VCLWebAPI.Controllers
             }
             return Unauthorized();
         }
+
+        private void SaltAndHashAllUsers()
+        {
+            _accountService.SaltAndHashAllUsers();
+        }
+
+        internal Boolean ValidateHash(User user, string password)
+        {
+            UserApiModel userApiModel = new UserApiModel();
+            userApiModel = new UserMapper().MapUserDbModelToApiModel(user);
+
+
+            string hashedPassword = string.Empty;
+            byte[] hashBytes = new byte[] { };
+            byte[] hash = new byte[] { };
+            byte[] salt = new byte[16];
+            Rfc2898DeriveBytes pbkdf2;
+            Boolean valid = true;
+
+            salt = userApiModel.Salt;
+            hashedPassword = userApiModel.Hash;
+            hashBytes = Convert.FromBase64String(hashedPassword);
+            Array.Copy(hashBytes, 0, salt, 0, 16);
+            pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+            hash = pbkdf2.GetBytes(20);
+
+            for (int i = 0; i < 20; i++)
+            {
+                if (hashBytes[i + 16] != hash[i])
+                {
+                    valid = false;
+                    break;
+                }
+            }
+
+            //valid = true; // for debugging user login only; remember to comment!
+
+            return valid;
+        }
+
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
