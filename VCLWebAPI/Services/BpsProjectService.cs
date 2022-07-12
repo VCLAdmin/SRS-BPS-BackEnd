@@ -740,7 +740,7 @@ namespace VCLWebAPI.Services
             }
             SetCurrentCulture(dbProject);
             // get new default problemName
-            int problemCount = GetProblemIdsForProject(projectGuid).Count();
+            int problemCount = Math.Max(GetProblemIdsForProject(projectGuid).Count(),1);
             List<BpsUnifiedProblem> allProblems = GetProblemsByName(dbProject.ProjectId, "");
             String[] allProblemNames = allProblems.Select(problem => problem.ProblemName).ToArray();
             string cteName = "";
