@@ -18,6 +18,13 @@
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Antlr4 Remove="App_Data\**" />
+    <Compile Remove="App_Data\**" />
+    <Content Remove="App_Data\**" />
+    <EmbeddedResource Remove="App_Data\**" />
+    <None Remove="App_Data\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="AcousticSolver, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AcousticSolver\bin\Debug\AcousticSolver.dll</HintPath>
@@ -191,7 +198,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\Structural\" />
     <Folder Include="Models\Thermal\" />
     <Folder Include="Views\AccountOld\" />
