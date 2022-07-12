@@ -269,7 +269,7 @@
     <PackageReference Include="Modernizr" Version="2.8.3" />
     <PackageReference Include="MySql.Web" Version="8.0.29" />
     <PackageReference Include="MySqlConnector" Version="2.1.10" />
-    <PackageReference Include="NAudio.Lame" Version="2.0.1" />
+    <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="netDXF" Version="2.2.0.1" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="PDFsharp" Version="1.50.5147" />
