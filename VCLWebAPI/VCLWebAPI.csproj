@@ -18,6 +18,13 @@
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Antlr4 Remove="App_Data\**" />
+    <Compile Remove="App_Data\**" />
+    <Content Remove="App_Data\**" />
+    <EmbeddedResource Remove="App_Data\**" />
+    <None Remove="App_Data\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="AcousticSolver, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AcousticSolver\bin\Debug\AcousticSolver.dll</HintPath>
@@ -191,7 +198,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\Structural\" />
     <Folder Include="Models\Thermal\" />
     <Folder Include="Views\AccountOld\" />
@@ -226,7 +232,7 @@
   </ItemGroup>-->
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.9.16" />
-    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.3.72" />
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.3.78" />
     <PackageReference Include="bootstrap" Version="5.1.3" />
     <PackageReference Include="IronPdf" Version="2022.6.6115" />
     <PackageReference Include="jQuery" Version="3.6.0" />
@@ -263,6 +269,7 @@
     <PackageReference Include="Modernizr" Version="2.8.3" />
     <PackageReference Include="MySql.Web" Version="8.0.29" />
     <PackageReference Include="MySqlConnector" Version="2.1.10" />
+    <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="netDXF" Version="2.2.0.1" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="PDFsharp" Version="1.50.5147" />
@@ -284,14 +291,10 @@
     <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageReference Include="ztools.other.MySql.Data" Version="6.9.8" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.330701">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Antlr4" Version="4.6.6" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.9" />
     <PackageReference Include="MySql.Data.EntityFramework" Version="8.0.29" />
-    <PackageReference Include="NAudio.Lame" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
   </ItemGroup>
   <ItemGroup>
