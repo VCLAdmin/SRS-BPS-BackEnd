@@ -19,16 +19,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Antlr4 Remove="App_Data\**" />
-    <Antlr4 Remove="Properties\PublishProfiles\**" />
     <Compile Remove="App_Data\**" />
-    <Compile Remove="Properties\PublishProfiles\**" />
     <Content Remove="App_Data\**" />
-    <Content Remove="Properties\PublishProfiles\**" />
     <EmbeddedResource Remove="App_Data\**" />
-    <EmbeddedResource Remove="Properties\PublishProfiles\**" />
     <None Remove="App_Data\**" />
-    <None Remove="Properties\PublishProfiles\**" />
-    <_WebToolingArtifacts Remove="Properties\PublishProfiles\**" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AcousticSolver, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -351,6 +345,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="C:\Users\hippolyte Morillon\.nuget\packages\mysql.data.entityframework\8.0.29\contentFiles\any\netstandard2.1\web.config.transform" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.Local.json">
