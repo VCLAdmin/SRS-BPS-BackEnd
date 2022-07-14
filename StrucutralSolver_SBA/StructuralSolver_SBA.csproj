@@ -28,7 +28,7 @@
     <PackageReference Include="PDFsharp" Version="1.50.5147" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
+  </ItemGroup>-->
 </Project>
