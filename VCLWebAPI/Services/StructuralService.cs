@@ -576,7 +576,7 @@ namespace VCLWebAPI.Services
             target.Beta_torsion = result.Beta_torsion;
             target.Zy = result.Zy;
             target.Zz = result.Zz;
-            target.Depth = result.Depth;
+            target.Depth = result.BTDepth;
         }
 
         internal void LoadFacadeSectionPropertyFromDB(FacadeArticleSectionalProperty result, ref FacadeSection target)
@@ -619,7 +619,7 @@ namespace VCLWebAPI.Services
             target.Beta_torsion = result.Beta_torsion;
             target.Zy = result.Zy;
             target.Zz = result.Zz;
-            target.Depth = result.Depth;
+            target.Depth = result.BTDepth;
         }
 
         internal void UpdateFacadeMaterialProperties(BpsUnifiedModel unifiedModel)
