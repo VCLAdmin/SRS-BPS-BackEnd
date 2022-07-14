@@ -210,7 +210,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>VCLDesignDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Properties\PublishProfiles\VCLWebAPI_Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -346,6 +345,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="C:\Users\hippolyte Morillon\.nuget\packages\mysql.data.entityframework\8.0.29\contentFiles\any\netstandard2.1\web.config.transform" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.Local.json">
