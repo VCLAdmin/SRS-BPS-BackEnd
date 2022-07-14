@@ -239,7 +239,6 @@
     <PackageReference Include="jQuery.Validation" Version="1.19.4" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.Web" Version="2.20.0" />
-    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNet.WebApi.HelpPage" Version="5.2.9" />
@@ -260,24 +259,15 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.12" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
-    <PackageReference Include="Microsoft.Owin.Cors" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Owin.Security.Facebook" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Owin.Security.Google" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Owin.Security.MicrosoftAccount" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Owin.Security.Twitter" Version="4.2.2" />
     <PackageReference Include="Modernizr" Version="2.8.3" />
-    <PackageReference Include="MySql.Web" Version="8.0.29" />
     <PackageReference Include="MySqlConnector" Version="2.1.10" />
     <PackageReference Include="NAudio" Version="2.0.1" />
-    <PackageReference Include="netDXF" Version="2.2.0.1" />
     <PackageReference Include="NUnit" Version="3.13.3" />
-    <PackageReference Include="PDFsharp" Version="1.50.5147" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
     <PackageReference Include="Pomelo.JsonObject" Version="2.2.1" />
     <PackageReference Include="popper.js" Version="1.16.1" />
     <PackageReference Include="Respond" Version="1.4.2" />
     <PackageReference Include="SendGrid" Version="9.28.0" />
-    <PackageReference Include="SendGrid.CSharp.HTTP.Client" Version="3.4.12" />
     <PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.3.1" />
@@ -289,10 +279,7 @@
     <PackageReference Include="System.Management" Version="6.0.0" />
     <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-    <PackageReference Include="ztools.other.MySql.Data" Version="6.9.8" />
     <PackageReference Include="Antlr4" Version="4.6.6" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.9" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.9" />
     <PackageReference Include="MySql.Data.EntityFramework" Version="8.0.29" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
   </ItemGroup>

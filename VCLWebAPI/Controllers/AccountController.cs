@@ -361,7 +361,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="error">The error<see cref="string"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
         [System.Web.Mvc.OverrideAuthentication]
-        [System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalCookie)]
+        //[System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [HttpGet]
         [Route("ExternalLogin", Name = "ExternalLogin")]
@@ -524,7 +524,7 @@ namespace VCLWebAPI.Controllers
         /// The GetUserInfo.
         /// </summary>
         /// <returns>The <see cref="UserInfoViewModel"/>.</returns>
-        [System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalBearer)]
+        //[System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalBearer)]
         [HttpGet]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
@@ -638,7 +638,7 @@ namespace VCLWebAPI.Controllers
         /// <param name="model">The model<see cref="RegisterExternalBindingModel"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>.</returns>
         [System.Web.Mvc.OverrideAuthentication]
-        [System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalBearer)]
+        //[System.Web.Http.HostAuthentication(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalBearer)]
         [HttpPost]
         [Route("RegisterExternal")]
         public async Task<IActionResult> RegisterExternal(RegisterExternalBindingModel model)
