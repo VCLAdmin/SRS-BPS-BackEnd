@@ -10,7 +10,7 @@ using VCLWebAPI.Models.Edmx;
 using VCLWebAPI.Models.SRS;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Owin;
+//using Microsoft.AspNetCore.Owin;
 //using System.Web.Security;
 using System.Threading.Tasks;
 
