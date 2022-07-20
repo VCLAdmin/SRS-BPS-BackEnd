@@ -478,9 +478,13 @@ namespace VCLWebAPI.Services
                 } else
                 {
                     //needs to Gabriela's mailId for Production server
-                    tos.Add(new EmailAddress("gprescott@schuco-usa.com", "Gabriela"));
+                    // tos.Add(new EmailAddress("gprescott@schuco-usa.com", "Gabriela"));
+                    tos.Add(new EmailAddress("jlazar@schuco-usa.com", "Jessica Lazar"));
+                    tos.Add(new EmailAddress("jdelacalle@schuco-usa.com", "Javier Delacalle"));
+                    await IMailService.SendMultipleEmailAsync(tos, confirmFundSubject, confirmFundContent, confirmFundHeader, orderNumbers);
                 }
-                
+               
+
                 #endregion
             }
             else
