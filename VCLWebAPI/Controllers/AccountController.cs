@@ -306,7 +306,7 @@ namespace VCLWebAPI.Controllers
             {
                 throw new InvalidModelException();
             }
-            return _accountService.CreateContact(model);
+            return await _accountService.CreateContact(model);
         }
 
         [HttpGet]

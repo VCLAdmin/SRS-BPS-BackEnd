@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 //using System.Web.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using VCLWebAPI.Models;
 using VCLWebAPI.Services;
@@ -20,13 +21,15 @@ namespace VCLWebAPI.Controllers
         /// Defines the _srsuserService.
         /// </summary>
         private readonly SRSUserService _srsuserService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SRSUsersController"/> class.
         /// </summary>
-        public SRSUsersController()
+        public SRSUsersController(UserManager<ApplicationUser> userManager)
         {
-            _srsuserService = new SRSUserService();
+            _userManager = userManager;
+            _srsuserService = new SRSUserService(_userManager);
         }
 
         /// <summary>
@@ -62,7 +65,7 @@ namespace VCLWebAPI.Controllers
         public async Task<List<SRSUserApiModel>> Delete(Guid id)
         {
             //Guid extId = Guid.Parse(guid);
-            _srsuserService.Delete(id);
+            await _srsuserService.Delete(id);
             return await _srsuserService.GetAll();
         }
 
@@ -117,7 +120,7 @@ namespace VCLWebAPI.Controllers
         [Route("Post")]
         public async Task<List<SRSUserApiModel>> Post([FromBody] SRSUserApiModel usr)
         {
-            _srsuserService.Create(usr);
+            await _srsuserService.Create(usr);
             return await _srsuserService.GetAll();
         }
 
@@ -131,7 +134,7 @@ namespace VCLWebAPI.Controllers
         [Route("Put/{id}")]
         public async Task<List<SRSUserApiModel>> Put(Guid id, [FromBody] SRSUserApiModel fab)
         {
-            _srsuserService.Update(id, fab);
+            await _srsuserService.Update(id, fab);
             return await _srsuserService.GetAll();
         }
     }

@@ -27,6 +27,10 @@ namespace VCLWebAPI.Models.Edmx
         public bool EmailConfirmed { get; set; }
         public string PasswordHash { get; set; }
         public string SecurityStamp { get; set; }
+        public string ConcurrencyStamp { get; set; }
+        public string NormalizedEmail { get; set; }
+        public string NormalizedUserName { get; set; }
+        public Nullable<System.DateTime> LockoutEnd { get; set; }
         public string PhoneNumber { get; set; }
         public bool PhoneNumberConfirmed { get; set; }
         public bool TwoFactorEnabled { get; set; }

@@ -190,6 +190,8 @@
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="256" Nullable="false" />
+		  <Property Name="ConcurrencyStamp" Type="longtext" />
+		  <Property Name="NormalizedName" Type="varchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="AspNetUserClaims">
           <Key>
@@ -227,6 +229,10 @@
           <Property Name="EmailConfirmed" Type="bool" Nullable="false" />
           <Property Name="PasswordHash" Type="longtext" />
           <Property Name="SecurityStamp" Type="longtext" />
+		  <Property Name="ConcurrencyStamp" Type="longtext" />
+		  <Property Name="NormalizedUserName" Type="varchar" MaxLength="256" />
+		  <Property Name="NormalizedEmail" Type="varchar" MaxLength="256" />
+	      <Property Name="LockoutEnd" Type="datetime" Precision="0" />
           <Property Name="PhoneNumber" Type="longtext" />
           <Property Name="PhoneNumberConfirmed" Type="bool" Nullable="false" />
           <Property Name="TwoFactorEnabled" Type="bool" Nullable="false" />
@@ -2017,6 +2023,8 @@
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+		  <Property Name="ConcurrencyStamp" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+		  <Property Name="NormalizedName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Permission_Role" Relationship="VCLDesignDBModel.UserRoleId" FromRole="AspNetRoles" ToRole="Permission_Role" />
           <NavigationProperty Name="AspNetUsers" Relationship="VCLDesignDBModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
         </EntityType>
@@ -2050,6 +2058,10 @@
           <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="PasswordHash" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="SecurityStamp" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+		  <Property Name="ConcurrencyStamp" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+		  <Property Name="NormalizedEmail" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+		  <Property Name="NormalizedUserName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+		  <Property Name="LockoutEnd" Type="DateTime" />
           <Property Name="PhoneNumber" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
@@ -3314,6 +3326,8 @@
               <MappingFragment StoreEntitySet="AspNetRoles">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+				<ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
+				  <ScalarProperty Name="NormalizedName" ColumnName="NormalizedName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3355,6 +3369,10 @@
                 <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+				<ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
+				<ScalarProperty Name="NormalizedEmail" ColumnName="NormalizedEmail" />
+				<ScalarProperty Name="NormalizedUserName" ColumnName="NormalizedUserName" />
+				<ScalarProperty Name="LockoutEnd" ColumnName="LockoutEnd" />
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

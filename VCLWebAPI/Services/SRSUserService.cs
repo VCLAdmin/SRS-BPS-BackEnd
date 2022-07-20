@@ -21,17 +21,19 @@ namespace VCLWebAPI.Services
         private readonly VCLDesignDBEntities _db;
         private readonly BpsProjectService _bpSPS;
         private AccountService _accountService;
+        private UserManager<ApplicationUser> _userManager;
 
-        public SRSUserService()
+        public SRSUserService(UserManager<ApplicationUser> userManager)
         {
             _db = new VCLDesignDBEntities();
             _bpSPS = new BpsProjectService();
             _accountService = new AccountService();
+            _userManager = userManager;
         }
 
         public async Task<List<SRSUserApiModel>> GetAll()
         {
-           var dealers =  _db.Dealer.ToList();
+            var dealers =  _db.Dealer.ToList();
             List<SRSUserApiModel> response = new List<SRSUserApiModel>();
             var projectMApper = new ProjectMapper();
             foreach (var dealer in dealers)
@@ -51,7 +53,7 @@ namespace VCLWebAPI.Services
             }
             return response;
         }
-        public void Create(SRSUserApiModel model)
+        public async Task Create(SRSUserApiModel model)
         {
 
             try
@@ -101,7 +103,7 @@ namespace VCLWebAPI.Services
                         role = "Dealer-" + model.UserRole;
                     }
                     _db.SaveChanges();
-                    AddUsersToAspNet(user.Email, role, password);
+                    await AddUsersToAspNet(user.Email, role, password);
                 }
                
 
@@ -151,7 +153,7 @@ namespace VCLWebAPI.Services
             //    return "User not found";
         }
 
-        public void Update(Guid guid, SRSUserApiModel model)
+        public async Task Update(Guid guid, SRSUserApiModel model)
         {
             //string language = model.Language == null || model.Language == string.Empty ? "en-US" : model.Language;
             //string company = model.Company == null || model.Company == string.Empty ? "Schuco" : model.Company;
@@ -196,75 +198,83 @@ namespace VCLWebAPI.Services
                     var dealer = _db.Dealer.First(u => u.DealerId == model.DealerId);
                     updateUser.Dealer.Add(dealer);
                     string role = "Dealer-" + model.UserRole;
-                    ChangeRolesAspTable(updateUser.Email, role);
+                    await ChangeRolesAspTable(updateUser.Email, role);
 
                 }
                 _db.SaveChanges();
             }
         }
 
-        public void ChangeRolesAspTable(string email, string role)
+        public async Task ChangeRolesAspTable(string email, string role)
         {
-            //// User existingUser = _db.User.First(x => x.Email == email);
+            // User existingUser = _db.User.First(x => x.Email == email);
             //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            
-            //var aspUser =  userManager.FindByEmail(email);
-            //var rolesForUser = userManager.GetRoles(aspUser.Id);
-            
-            //if (!rolesForUser.Contains(role))
-            //{
-            //    userManager.RemoveFromRoles(aspUser.Id, rolesForUser.ToArray());
-            //    userManager.AddToRole(aspUser.Id, role);
-            //}
 
-            //try
-            //{
-            //    _db.SaveChanges();
-            //}
-            //catch (Exception e)
-            //{
-            //    throw;
-            //}
+            var aspUser = await _userManager.FindByEmailAsync(email);
+            var rolesForUser = await _userManager.GetRolesAsync(aspUser);
+
+            if (!rolesForUser.Contains(role))
+            {
+                await _userManager.RemoveFromRolesAsync(aspUser, rolesForUser.ToArray());
+                await _userManager.AddToRoleAsync(aspUser, role);
+            }
+
+            try
+            {
+                _db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
-        public void AddUsersToAspNet(string email, string role, string password = "bps2019!")
+        public async Task AddUsersToAspNet(string email, string role, string password = "bps2019!")
         {
-            //User newUser = _db.User.First(x => x.Email == email);
-            //    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            //    userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
-            //    {
-            //        AllowOnlyAlphanumericUserNames = false
-            //    };
-            //    var user = new ApplicationUser { UserName = newUser.Email, Email = newUser.Email };
-            //    var result = userManager.Create(user, password);
-            //    result = userManager.SetLockoutEnabled(user.Id, false);
-            //    // Add user admin to Role Admin if not already added
-            //    var rolesForUser = userManager.GetRoles(user.Id);
-            //    if (!rolesForUser.Contains(newUser.Email))
-            //    {
-            //        result = userManager.AddToRole(user.Id, role);
-            //    }
-            
-            //try
+            User newUser = _db.User.First(x => x.Email == email);
+            //userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
             //{
-            //    _db.SaveChanges();
-            //}
-            //catch (Exception e)
-            //{
-            //    throw;
-            //}
+            //    AllowOnlyAlphanumericUserNames = false
+            //};
+            var user = new ApplicationUser { UserName = newUser.Email, Email = newUser.Email };
+            var result = await _userManager.CreateAsync(user, password);
+            var result2 = await _userManager.SetLockoutEnabledAsync(user, false);
+            // Add user admin to Role Admin if not already added
+            try
+            {
+                _db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            var rolesForUser = await _userManager.GetRolesAsync(user);
+            if (!rolesForUser.Contains(newUser.Email))
+            {
+                var result3 = await _userManager.AddToRoleAsync(user, role);
+            }
+
+            try
+            {
+                _db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
-        public void DeleteUsersFromAspNet(string email)
+        public async Task DeleteUsersFromAspNet(string email)
         {
-            //try
-            //{
-            //    Models.ApplicationDbContext context = new Models.ApplicationDbContext();
-            //    var userMgr = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            //    userMgr.Delete(userMgr.FindByName(email));
-            //}
-            //catch (Exception e)
-            //{
-            //    throw;
-            //}
+            try
+            {
+                //Models.ApplicationDbContext context = new Models.ApplicationDbContext();
+                //var userMgr = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                //userMgr.Delete(userMgr.FindByName(email));
+                await _userManager.DeleteAsync(await _userManager.FindByEmailAsync(email));
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         //public DealerApiModel Get(Guid guid)
@@ -293,7 +303,7 @@ namespace VCLWebAPI.Services
                 return true;
             }
         }
-        public void Delete(Guid guid)
+        public async Task Delete(Guid guid)
         {
             try
             {
@@ -307,7 +317,7 @@ namespace VCLWebAPI.Services
                 usr.Address1.Clear();
                 _db.User.Remove(usr);
                 _db.SaveChanges();
-                DeleteUsersFromAspNet(usr.Email);
+                await DeleteUsersFromAspNet(usr.Email);
             }
             catch (Exception ex)
             {
