@@ -49,11 +49,12 @@ namespace VCLWebAPI.Controllers
         /// </summary>
         /// <param name="usr">The usr<see cref="SRSUserApiModel"/>.</param>
         /// <returns>The <see cref="Task{bool}"/>.</returns>
-        //[HttpPost]
-        //public async Task<string> ChangePassword([FromBody] SRSUserApiModel usr)
-        //{
-        //    return await _srsuserService.ChangePassword(usr);
-        //}
+        [HttpPost]
+        [Route("ChangePassword")]
+        public async Task<string> ChangePassword([FromBody] SRSUserApiModel usr)
+        {
+            return await _srsuserService.ChangePassword(usr);
+        }
 
         /// <summary>
         /// The Delete.

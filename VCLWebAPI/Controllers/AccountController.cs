@@ -52,9 +52,9 @@ namespace VCLWebAPI.Controllers
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
-            _accountService = new AccountService();
             _userManager = userManager;
             _roleManager = roleManager;
+            _accountService = new AccountService(_userManager, _roleManager);
             _configuration = configuration;
         }
 
@@ -72,38 +72,9 @@ namespace VCLWebAPI.Controllers
                 var user = dbContext.User
                     .SingleOrDefault(x => x.Email.Equals(model.UserName, StringComparison.CurrentCultureIgnoreCase));
                 //
-                // var loggedInUser = null;
-                Boolean valid = true;
-                if (user != null)
+                var userMan = await _userManager.FindByEmailAsync(model.UserName);
+                if (userMan != null && await _userManager.CheckPasswordAsync(userMan, model.Password)) 
                 {
-                    //byte[] salt = new byte[16];
-                    //string hashedPassword = string.Empty;
-                    //byte[] hashBytes = new byte[] { };
-                    //byte[] hash = new byte[] { };
-
-                    //Rfc2898DeriveBytes pbkdf2;
-                    //salt = user.Salt;
-                    //hashedPassword = user.Hash;
-                    //hashBytes = Convert.FromBase64String(hashedPassword);
-                    //Array.Copy(hashBytes, 0, salt, 0, 16);
-                    //pbkdf2 = new Rfc2898DeriveBytes(model.Password, salt, 10000);
-                    //hash = pbkdf2.GetBytes(20);
-
-                    //for (int i = 0; i < 20; i++)
-                    //{
-                    //    if (hashBytes[i + 16] != hash[i])
-                    //    {
-                    //        valid = false;
-                    //        break;
-                    //    }
-                    //}
-
-                    if (!ValidateHash(user, model.Password))
-                    {
-                        // password verification failed so we throw unauthorized error
-                        return Unauthorized();
-                    }
-
                     var authClaims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, user.UserName),

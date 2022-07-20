@@ -21,10 +21,18 @@ namespace VCLWebAPI.Services
     {
         private readonly VCLDesignDBEntities _db;
         private UserManager<ApplicationUser> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
         //private ApplicationUserManager _userManager;
         public AccountService()
         {
             _db = new VCLDesignDBEntities();
+        }
+
+        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            _db = new VCLDesignDBEntities();
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public AccountService(VCLDesignDBEntities dbContext)
@@ -655,8 +663,8 @@ namespace VCLWebAPI.Services
 
         public async Task AddAspNetUsers()
         {
-            //Seed Database here for now
-            // var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+            ////Seed Database here for now
+            //// var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
             //var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
             //var RoleExist = await RoleManager.RoleExistsAsync("SRSAdministrator");
             //if (!RoleExist)
@@ -672,67 +680,67 @@ namespace VCLWebAPI.Services
             //        }
             //    }
 
-                //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                //userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
-                //{
-                //    AllowOnlyAlphanumericUserNames = false
-                //};
-                //AWSUtils awsUtil = new AWSUtils();
-                string[] userNames = { "SRSAdministrator", "Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator" };
-                //var userManager = GetUserManager<ApplicationUserManager>();
-                foreach (var userName in userNames)
-                {
-                    string name = userName + "@vcldesign.com";
-                    var user = await _userManager.FindByNameAsync(name);
+            //    //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            //    //userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
+            //    //{
+            //    //    AllowOnlyAlphanumericUserNames = false
+            //    //};
+            //    //AWSUtils awsUtil = new AWSUtils();
+            //    string[] userNames = { "SRSAdministrator", "Administrator", "Internal", "Designer", "DigitalProposal", "Acoustics", "ProductConfigurator" };
+            //    //var userManager = GetUserManager<ApplicationUserManager>();
+            //    foreach (var userName in userNames)
+            //    {
+            //        string name = userName + "@vcldesign.com";
+            //        var user = await _userManager.FindByNameAsync(name);
 
-                    if (user == null)
-                    {
-                        user = new ApplicationUser { UserName = name, Email = name };
-                        var result = await _userManager.CreateAsync(user, "bps2019!");
-                        result = await _userManager.SetLockoutEnabledAsync(user, false);
-                        try
-                        {
-                            User appUser = new User
-                            {
-                                UserName = userName,
-                                UserGuid = Guid.NewGuid(),
-                                NameFirst = userName,
-                                NameLast = userName,
-                                Email = name,
-                                Language = "en-US",
-                                Company = "Schuco"
-                            };
-                            if (_db.User.Where(x => x.UserName == userName).SingleOrDefault() == null)
-                            {
-                                _db.User.Add(appUser);
-                                _db.SaveChanges();
-                            }
-                            SaltAndHashNewUsers();
-                        }
-                        catch (Exception ex)
-                        {
-                            var ex1 = ex;
-                        }
-                    }
+            //        if (user == null)
+            //        {
+            //            user = new ApplicationUser { UserName = name, Email = name };
+            //            var result = await _userManager.CreateAsync(user, "bps2019!");
+            //            result = await _userManager.SetLockoutEnabledAsync(user, false);
+            //            try
+            //            {
+            //                User appUser = new User
+            //                {
+            //                    UserName = userName,
+            //                    UserGuid = Guid.NewGuid(),
+            //                    NameFirst = userName,
+            //                    NameLast = userName,
+            //                    Email = name,
+            //                    Language = "en-US",
+            //                    Company = "Schuco"
+            //                };
+            //                if (_db.User.Where(x => x.UserName == userName).SingleOrDefault() == null)
+            //                {
+            //                    _db.User.Add(appUser);
+            //                    _db.SaveChanges();
+            //                }
+            //                SaltAndHashNewUsers();
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                var ex1 = ex;
+            //            }
+            //        }
 
-                    // Add user admin to Role Admin if not already added
-                    var rolesForUser = await _userManager.GetRolesAsync(user);
-                    if (!rolesForUser.Contains(userName))
-                    {
-                        var result = await _userManager.AddToRoleAsync(user, userName);
-                    }
-                }
+            //        // Add user admin to Role Admin if not already added
+            //        var rolesForUser = await _userManager.GetRolesAsync(user);
+            //        if (!rolesForUser.Contains(userName))
+            //        {
+            //            var result = await _userManager.AddToRoleAsync(user, userName);
+            //        }
+            //    }
 
-                try
-                {
-                    _db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-            }
-            await AddUsersToAspNet();
+            //    try
+            //    {
+            //        _db.SaveChanges();
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        throw;
+            //    }
+            //}
+            //await AddUsersToAspNet();
         }
         public async Task AddSRSData() {
             await AddFabricator();
