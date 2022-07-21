@@ -27,6 +27,7 @@ using VCLWebAPI.Models.Edmx;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Services.Filters;
 using Services.Loggers;
+using DBUp.Services;
 
 namespace VCLWebAPI
 {
@@ -36,6 +37,7 @@ namespace VCLWebAPI
         {
             Configuration = configuration;
             SetGlobal();
+            ExecuteDBMigration();
         }
 
         public IConfiguration Configuration { get; }
@@ -270,6 +272,37 @@ namespace VCLWebAPI
             Globals.service_url = Configuration.GetSection(@"DES3ServiceUrl").Value;
             Globals.bucket_name = Configuration.GetSection(@"DEAWSBucket").Value;
             Globals.SENDGRID_API_KEY = Configuration.GetSection(@"SENDGRID_API_KEY").Value;
+        }
+
+        private void ExecuteDBMigration()
+        {
+            //var logger = new Logger();
+            //logger.WriteError(DateTime.Now.ToLongDateString() + ": Application Started: Checking if DB maintenance is required");
+
+            var dBMigration = new DBMigration();
+
+            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            string path = Uri.UnescapeDataString(uri.Path);
+            var currentDirectory = System.IO.Path.GetDirectoryName(path);
+            //var solutionPath = currentDirectory.Replace("VCLWebAPI\\bin", "");
+            var scriptFolderPath = currentDirectory + @"\SQLScripts";
+
+            var connectionString = Configuration.GetConnectionString("LocalIdentConnection");
+
+            // we verify if there is an script pending to be executed in the default database, is so then we execute the migration for each customer database 
+            if (Directory.Exists(scriptFolderPath) && DBMigration.CheckIfUpgradeRequired(scriptFolderPath, connectionString))
+            {
+
+
+                //foreach (var id in customerList)
+                //{
+                // the script folder exists and we need to execute the DB migration for each customer database
+                DBMigration migrationService = new DBMigration();
+                string result = migrationService.ExecuteMigration(scriptFolderPath, connectionString);
+                // logger.LogToTextFile(result);
+                //}
+            }
         }
     }
 }

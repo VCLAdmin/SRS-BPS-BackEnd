@@ -180,6 +180,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\Edmx2\" />
     <Folder Include="Models\Structural\" />
     <Folder Include="Models\Thermal\" />
     <Folder Include="Views\AccountOld\" />
@@ -202,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BpsUnifiedModel\BpsUnifiedModelLib.csproj" />
+    <ProjectReference Include="..\DbUp\DBUp.csproj" />
     <ProjectReference Include="..\SRS_Solver\SRS_Solver.csproj" />
     <ProjectReference Include="..\StrucutralSolver_SBA\StructuralSolver_SBA.csproj" />
     <ProjectReference Include="..\VCLMigration\VCLMigration.csproj" />
@@ -225,9 +227,19 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.12" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
     <PackageReference Include="Modernizr" Version="2.8.3" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
     <PackageReference Include="popper.js" Version="1.16.1" />

@@ -1,0 +1,5 @@
+USE `vcldesigndb`;
+
+ALTER TABLE `aspnetroles` 
+ADD COLUMN `NormalizedName` VARCHAR(256) NULL DEFAULT NULL,
+ADD COLUMN `ConcurrencyStamp` LONGTEXT NULL DEFAULT NULL;
