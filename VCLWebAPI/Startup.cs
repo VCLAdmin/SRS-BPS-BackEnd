@@ -37,7 +37,9 @@ namespace VCLWebAPI
         {
             Configuration = configuration;
             SetGlobal();
+#if RELEASE
             ExecuteDBMigration();
+#endif
         }
 
         public IConfiguration Configuration { get; }
